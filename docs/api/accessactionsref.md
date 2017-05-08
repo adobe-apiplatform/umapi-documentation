@@ -14,14 +14,14 @@ You can manage access for individual users through the **action/{orgId}** endpoi
 
 You can manage memberships and user roles for individual users or user groups in a POST request to the **action/{orgId}** resource. The JSON payload specifies actions to take for a **"user"** or a **"usergroup"**. There are two kinds of actions, those that control memberships, and those that control administrative roles within a group.
 
-* [Membership Actions](#actions): You can add or remove membership in user groups and product configurations for a given **"user"**. You can modify the list of member users for a given **"usergroup"**, as well as the group's memberships in product configurations.
-* [Role Management Actions](#adminrole): To change a user's administrative role within a product configuration, use **"addRoles"** or **"removeRoles"** actions for a given "user" and "product".
+* [Membership Actions](#membership-actions): You can add or remove membership in user groups and product configurations for a given **"user"**. You can modify the list of member users for a given **"usergroup"**, as well as the group's memberships in product configurations.
+* [Role Management Actions](#role-management-actions): To change a user's administrative role within a product configuration, use **"addRoles"** or **"removeRoles"** actions for a given "user" and "product".
 
 ***
 
 ### **Managing access through product endpoints**
 
-You can manage membership and administrative rights for specific products and product configurations in a POST request to the **.../{productId}/admins** or **.../{configId}** resource. The JSON payload specifies lists of users and user groups to add or remove. See full details below at [Manage Access through Product Endpoints](#productendpoints)
+You can manage membership and administrative rights for specific products and product configurations in a POST request to the **.../{productId}/admins** or **.../{configId}** resource. The JSON payload specifies lists of users and user groups to add or remove. See full details below at [Manage Access through Product Endpoints](#manage-access-through-product-endpoints)
 
 * You can obtain a list of product IDs defined for your organization with a call to the **product**resource for your organization.
 
@@ -30,7 +30,7 @@ GET [UM_Server]/{orgId}/products
 ```
 
 
-For full reference details, see **[List and Query Products](queryproducts.md)**.
+For full reference details, see **[List and Query Products](QueryProducts.md)**.
 * You can obtain a list of product configuration IDs defined for a product with a call to the **configurations** resource for that product.
 
 ```
@@ -38,7 +38,7 @@ GET [UM_Server]/{orgId}/products/{productId}/configurations
 ```
 
 
-For full reference details, see **[List and Query Product Configurations](queryproductconfigs.md)**.
+For full reference details, see **[List and Query Product Configurations](QueryProductConfigs.md)**.
 
 ***
 
@@ -46,8 +46,8 @@ For full reference details, see **[List and Query Product Configurations](queryp
 
 Membership actions, like other user-management actions, are addressed in a POST request to the **actions/{orgId}** endpoint.
 
-* [Per-user membership operations](#peruser)
-* [Per-group membership operations](#pergroup)
+* [Per-user membership operations](#per-user-membership-operations)
+* [Per-group membership operations](#per-group-membership-operations)
 
 ### Per-user membership operations
 

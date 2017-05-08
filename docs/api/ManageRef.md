@@ -34,8 +34,8 @@ POST [UM_Server]/action/{orgId}
 
 This JSON structure specifies a sequence of commands. Each command entry specifies a user and a sequence of steps to be performed for that user. For a given command entry, steps are performed in the order they appear. The order of execution of commands is not guaranteed. If the same user is listed in more than one command, results could differ depending on the order of command execution.
 
-* For details of the **commands** structure and user management steps, see **[User Management Actions](actionsref.md)**
-* For examples of different types of management action requests, see the samples in the **[User Management Walkthrough](../samples)**.
+* For details of the **commands** structure and user management steps, see **[User Management Actions](ActionsRef.md)**
+* For examples of different types of management action requests, see the samples in the **[User Management Walkthrough](../samples/index.md)**.
 
 ## Responses
 
@@ -53,7 +53,7 @@ A failed request can result in a response with one of these HTTP status values a
 | --- | ---- |
 | **400 Bad Request** | Some parameters of the request were not understood by the server. |
 | **401 Unauthorized** | Invalid or expired token. |
-| **429 Too Many Requests** | The server only accepts a certain number of requests per interval, as configured for your organization. This response indicates that you have exceeded this limit. For an example of how to retry a request with exponential back-off, see the [User Management Walkthrough](../samples). |
+| **429 Too Many Requests** | The server only accepts a certain number of requests per interval, as configured for your organization. This response indicates that you have exceeded this limit. For an example of how to retry a request with exponential back-off, see the [User Management Walkthrough](../samples/index.md). |
 
 ### Failed action responses
 
@@ -121,4 +121,4 @@ This example shows a response to a test-only request.
   }
 ```
 
-All error codes are constant strings in the format **"error.*.*"**. For more information about the possible error codes and messages, see [Error Conditions](errorref.md).
+All error codes are constant strings in the format **"error.*.*"**. For more information about the possible error codes and messages, see [Error Conditions](ErrorRef.md).

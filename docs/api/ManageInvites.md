@@ -2,7 +2,7 @@
 
 When you add a user with an Adobe ID to your organization, the user receives an email invitation. The user is not added to your organization until the user clicks the link in the email and accepts the invitation. An invite is pending until the user accepts it, an admin revokes it, or the invite expires.
 
-You can send GET requests to the **{orgId}/invites** resource to retrieve a list of pending invites and to get information about pending invites for a specific user. For details, see [Query Users](queryusers.md)
+You can send GET requests to the **{orgId}/invites** resource to retrieve a list of pending invites and to get information about pending invites for a specific user. For details, see [Query Users](QueryUsers.md)
 
 You can send POST and DELETE requests to the **{orgId}/invites** resource to resend or revoke a pending invite for a specific user, identified by their Adobe ID email.
 
@@ -32,4 +32,4 @@ A failed request can result in a response with one of these HTTP status values:
 * **404 Not Found** : No pending invites exist for user.
 * **500 Internal Server Error** : A server-side error occurred when resending or revoking an invite.
 
-The response body contains the status (an error code) and a status message. For more information about the possible error codes and messages, see [Error Conditions](errorref.md).
+The response body contains the status (an error code) and a status message. For more information about the possible error codes and messages, see [Error Conditions](ErrorRef.md).

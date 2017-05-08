@@ -2,7 +2,7 @@
 
 You can query the Adobe database for users who are members of your oganization, and access information about user-groups, products, and product configurations that are defined for your organization. Membership in user groups and in product configurations controls a user's access to Adobe products in your organization.
 
-* [Access User Information](#Access-user-information)
+* [Access User Information](#access-user-information)
 * [Access User Group Information](#access-user-group-information)
 * [Access Product Information](#access-product-information)
 * [Access Product Configuration Information](#access-product-configuration-information)

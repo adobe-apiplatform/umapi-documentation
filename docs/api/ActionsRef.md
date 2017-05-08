@@ -4,7 +4,7 @@ The body of a user-management request must contain a **commands** list, a JSON s
 
 ## Command structure
 
-The JSON **commands** structure contains an array of individual command entries, where each command names a user and applies a series of actions on that user. Each requested action is a step in the command. For each step, information relevant to the requested action is included in the step. For details of the syntax for each action, see [Action data formats](#action-data).
+The JSON **commands** structure contains an array of individual command entries, where each command names a user and applies a series of actions on that user. Each requested action is a step in the command. For each step, information relevant to the requested action is included in the step. For details of the syntax for each action, see [Action data formats](#action-data-formats).
 
 ```json
 [ {"user" : "uid1@domain",
@@ -73,11 +73,11 @@ The following limits apply to the "commands" structure and components:
 
 The "do" element of a command specifies a set of action steps to perform on a user record. The following sections describe the specific action values and their parameters.
 
-* [Create and add user operations](#create)
-* [User update operations](#update)
-* [Product access operations](#product)
-* [Remove user operations](#removeuser)
-* [Reset password operations](#reset)
+* [Create and add user operations](#create-and-add-user-operations)
+* [User update operations](#user-update-operations)
+* [Product access operations](#product-access-operations)
+* [Remove user operations](#remove-user-operations)
+* [Reset password operations](#reset-password-operations)
 
 ***
 

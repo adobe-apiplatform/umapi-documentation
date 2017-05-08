@@ -9,7 +9,7 @@ GET [UM_Server]/groups/{orgId}/{page}
 ```
 
 
-See [List All Configurations for Organization](#allconfig)
+See [List All Configurations for Organization](#list-all-configurations-for-organization)
 * Retrieve a paged list of all product configurations for a product:
 
 ```
@@ -17,7 +17,7 @@ GET [UM_Server]/{orgId}/products/{productId}/configurations
 ```
 
 
-See [List Configurations for Products](#allconfigprod)
+See [List Configurations for Products](#list-configurations-for-products)
 * Access information for individual product configurations by their identifying nickname:
 
 ```
@@ -26,7 +26,7 @@ GET [UM_Server]/{orgId}/products/{productId}/
 ```
 
 
-See [Query Individual Product Configurations](#oneconfig)
+See [Query Individual Product Configurations](#query-individual-product-configurations)
 * List all members or members with admin rights in a configuration:
 
 ```
@@ -37,7 +37,7 @@ See [Query Individual Product Configurations](#oneconfig)
 ```
 
 
-See [List Member Users](#configmembers)
+See [List Member Users](#list-member-users)
 
 ***
 
@@ -151,21 +151,18 @@ A successful request returns the requested data with **HTTP status 200**. The re
 A GET request to the **users** or **admins** resource under a specific product  configuration returns a list of all members or members with admin rights in that configuration.
 
 ```
-   GET [UM_Server]/{orgId}/products/{productId}/
-             configurations/{configId}/users
-   GET [UM_Server]/{orgId}/products/{productId}/
-        configurations/{configId}/admins
+   GET [UM_Server]/{orgId}/products/{productId}/configurations/{configId}/users
+   GET [UM_Server]/{orgId}/products/{productId}/configurations/{configId}/admins
 ```
 
 ```json
-GET [UM_Server]/{orgId}/products/{productId}/configurations/{configId}/users[?page={n}&xxx={yyy}]
 GET [UM_Server]/{orgId}/products/{productId}/configurations/{configId}/admins[?page={n}]
 ```
 
 * **orgId** : Required. The unique ID of your organization.
 * **page** : Optional zero-based index for the start entry of the paged response. Default is 0.
 The number of users returned in each call is subject to change, but never exceeds 200 entries. You can make multiple paginated calls to retrieve the full list.
-* **xxx** : Optional query parameter retrieves a flattened list that includes users within member user groups, or lists member user groups without including group members separately. **SCOTT - HOW DOES THIS ACTUALLY WORK?*
+
 
 ### Responses
 

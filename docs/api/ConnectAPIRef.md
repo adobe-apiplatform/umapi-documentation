@@ -10,7 +10,7 @@ Every call to the User Management API endpoints must be authorized with this acc
 
 Exchange your JWT for a User Management API access token by making a POST request to the Adobe identity service.
 
-| **Endpoint** | https://ims-na1.adobelogin.com/ims/exchange/jwt  |
+**Endpoint**: https://ims-na1.adobelogin.com/ims/exchange/jwt
 
 ## Request parameters
 
@@ -26,33 +26,34 @@ Pass URL-encoded parameters in the body of your POST request:
 
 When a request has been understood and at least partially completed, it returns with HTTP status 200:
 
-| **200 OK** | On success, the response contains a valid access token. Pass this token in the **Authorization** header in all subsequent requests to the User Managment API. |
+* **200 OK** 
+	* On success, the response contains a valid access token. Pass this token in the **Authorization** header in all subsequent requests to the User Managment API. |
 
 A failed request can result in a response with an HTTP status of 400 or 401 and one of the following error messages in the response body:
 
 * **400** `invalid_client` 
     *  Client ID does not exist. This applies both to the `client_id`parameter and the `aud`in the JWT.
     * The `aud`field in the JWT points to a different IMS environment.
-    * The `client_id`parameter and the `aud`field in the JWT do not match. |
+    * The `client_id`parameter and the `aud`field in the JWT do not match.
 * **401**  `invalid_client` 
     * Client ID does not have the `exchange_jwt`scope. This indicates an improper client configuration. Contact support to resolve it.
-    * The client ID and client secret combination is invalid. |
+    * The client ID and client secret combination is invalid.
 * **400**  `invalid_token`
     * JWT is missing or cannot be decoded.
     * JWT has expired.  In this case, the `error_description`contains more details.
-    * The `exp`or `jti`field of the JWT is not an integer. |
+    * The `exp`or `jti`field of the JWT is not an integer.
 * **400** `invalid_signature` 
     * The JWT signature does not match any certificate on record for given `iss`/`sub`combination
-    * The signature does not match the algorithm specified in the JWT header. |
+    * The signature does not match the algorithm specified in the JWT header.
 * **400**  `invalid_jti`
     * The binding requires a JTI, but the `jti`field is missing or was previously used. |
 * **400**  `invalid_scope` Indicates a problem with the requested scope for the token. The JWT must include `"https://ims-na1.adobelogin.com/s/ent_user_sdk": true`. Specific scope problems can be:
     * Metascopes in the JWT do not match metascopes in the binding.
     * Metascopes in the JWT do not match target client scopes.
     * Metascopes in the JWT contain a scope or scopes that do not exist.
-    * The JWT has no metascopes. |
+    * The JWT has no metascopes.
 * **400** `bad_request`
-    * JWT payload can be decoded and decrypted but contents are incorrect. Can occur when values for fields such as `sub`, `iss`, `exp`, or `jti`are not in the proper format. |
+    * JWT payload can be decoded and decrypted but contents are incorrect. Can occur when values for fields such as `sub`, `iss`, `exp`, or `jti`are not in the proper format.
 
 ## Example
 
@@ -66,4 +67,4 @@ Content-Type: application/x-www-form-urlencoded
 Cache-Control: no-cache
 ```
 
-For an example of a Python script that creates and sends this type of request, see the [User Management Walkthrough](samples/index.md).
+For an example of a Python script that creates and sends this type of request, see the [User Management Walkthrough](../samples/index.md).

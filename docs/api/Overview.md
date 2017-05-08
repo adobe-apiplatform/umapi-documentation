@@ -28,7 +28,7 @@ Resource endpoints allow you to create users, request changes to user records an
 
 Access to your own organization's users is available through the organization ID that you are assigned on registration. In syntax statements, this is represented as **{orgId**}. Replace this element with with your organization's unique ID, which looks like this: "12345@AdobeOrg".
 
-### [Write operations](manageref.md)
+### [Write operations](ManageRef.md)
 
 To request most user-management actions, send POST requests to the **action** endpoint for your organization.
 
@@ -50,7 +50,7 @@ In addition, you can update administrative rights for user groups, products, and
 * Replace **{orgId}** with your organization's unique ID, which looks like this: "12345@AdobeOrg".
 * Replace the **{...Id}** elements with the unique IDs assigned to user groups, products, and product configurations that are defined for your organization.
 
-### [Read operations](queryref.md)
+### [Read operations](QueryRef.md)
 
 To retrieve user and product configuration information for your organization, send GET requests to endpoints for your organization. There are endpoints for users, user-groups, products, and product configurations under your own organization's endpoint. For example, **[UM_Server]/{orgId}/users**.
 
