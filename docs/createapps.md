@@ -1,0 +1,162 @@
+# Creating User Management Applications
+
+To obtain the credentials you need to log in, you must create an API key using the Adobe Developer Portal. For complete details of the setup process, see [Setting up API Access](gettingstarted.md). To log in, you exchange a JSON Web Token (JWT) that encapsulates your credentials for an access token that authorizes all further calls in a session.
+
+Address all user-management requests to the UM API server:
+
+```
+https://usermanagement.adobe.io/v2/usermanagement/...
+```
+
+**NOTE:** In syntax statements, this address is shortened to **[UM_Server]**.
+
+There are separate endpoints under the user-management server for write operations (managing the enterprise user base), and read operations (retrieving information from the enterprise user base). The API defines a set of specific write actions that you can use to create, update, and delete user accounts, and manage Adobe product access for users. The read operations retrieve information about users and product configurations in your organization.
+
+***
+
+* [Authorization](#auth)
+* [Manage your Adobe Users](#manage)
+* [Query your Adobe Users and Product Access](#query)
+
+For a Python code walkthrough and samples of actual API calls, see the [User Management Walkthrough](samples).
+
+***
+
+## Authorization
+
+All requests to the User Management API must be made using the HTTPS secure protocol and authorized with a current access token and your API key. Include these headers in all requests:
+
+* **Authorization** : A current access token obtained from the login request.
+* **x-api-key** : The API key for your organization, obtained from the Developer Portal.
+
+To gain access to the API, you must create a JSON Web Token (JWT) that encapsulates your API client credentials, and sign the JWT with the private key for your certificate. We recommend that you store your API client credentials and private key with strong protection, but that you do NOT store a JWT or access token. You should create a new JWT for each user-management session, and use it to obtain an access token for that session.
+
+Initiate a user-management session with a log-in call, in which you exchange your technical-account credentials for an access token. All further user-management calls in the session must be authorized with the access token.
+
+### Log in to gain API access
+
+To initiate each user-management session, create and send a JWT to Adobe in an access request. The response contains an OAuth access token that is valid for 24 hours. You must pass a valid access token to each subsequent request that you make to the User Management API.
+
+1. Create a JWT, using the API client credentials assigned you when you created your API key.
+2. Sign the JWT using the private key for a certificate associated with your API key.
+3. Initiate a user-management session with a POST request to:
+```
+        https://ims-na1.adobelogin.com/ims/exchange/jwt/
+```
+4. Pass the signed, base-64 encoded JWT as the value of the URL-encoded **jwt_token** parameter in the body of the POST request.
+
+The response contains a valid access token. Pass this token in the **Authorization** header in all subsequent requests to the User Management API.
+
+* For details of the log-in call, see [Access API for User Management](api/connectapiref.md).
+* For details of how to create a JWT, see [Creating A JWT](createjwt.md).
+* For an example of a script that creates a JWT and log-in call, see [User Management Walkthrough.](samples)
+
+***
+
+## Manage your Adobe Users
+
+Call the user-management API to request changes to your Adobe user accounts.
+
+* You can create new accounts for account types Enterprise ID and Federated ID, and you can invite users to join your organization with account type Adobe ID.<br>
+For the Adobe ID account type, the user is identified by email and an email invite is sent. The Adobe ID can already exist or be created after the invite is accepted.
+* You can manage pending new-user invites.
+* You can update the user information associated with an Enterprise ID or Federated ID account that is managed by your organization.
+* You can manage product access and user-group membership for users.
+* You can delete accounts from your organization.
+* You can initiate password reset for Enterprise ID users.
+
+### Making user-management requests
+
+To make most user-management requests, connect to this URL:
+
+```
+[UM_Server]/action/{orgId}
+```
+
+* **[UM_Server]** is the UM API server: **https://usermanagement.adobe.io/v2/usermanagement/**
+* Replace **{orgId}** with your organization's unique ID, which looks like this: "12345@AdobeOrg".
+
+Send POST requests whose body contains a JSON structure that specifies a set of commands. Each command names a user, and specifies one or more actions to take on that user's account. A single request can include commands for multiple users.
+
+**Available operations**
+| Operation | Function |
+| --- | --- |
+| **createEnterpriseID** | Create an Adobe-hosted Enterprise ID for your organization. |
+| **createFederatedID** | Create a Federated ID in a domain owned by your organization. |
+| **addAdobeID** | Issue an invitation to a user with a general Adobe ID to join your organization.The user receives an email with a link for accepting the invitation. Users do not become members of your organization until they accept. You cannot perform any other steps for a user with a pending invitation, such as adding product accesss. |
+| **update** | Update personal information for a user who has an Enterprise or Federated ID that is managed by your organization. |
+| **add**, **remove** | Manage product access.You must create Product Configurations in the [Admin Console](https://adminconsole.adobe.com/enterprise/), and assign each one a unique identifing nickname. You can then use the User Management API to manage product access for user by adding and removing users to and from your existing product configurations. |
+| **addRoles**, **removeRoles** | Add or remove a user's admin rights for specific user-groups, products, and defined Product Configurations. |
+| **removeFromOrg removeFromDomain** | Remove the user from the organization, or from a Trusted Domain.-- **removeFromOrg**removes the user from the organization and from any product configurations in the organization.-- **removeFromDomain**removes the user from all product configurations for that domain.For user accounts of type Enterprise and Federated ID, if the caller is from the owning organization and has delete access, **removeFromDomain**also deletes the user account.If the user is specified by email address, then the domain of the email address specifies the domain of the account. If the user is specified by Username, the domain must be provided. |
+| **resetPassword** | For Enterprise IDs only, initiates the password-reset process for the user.Sends a password-reset email, and prevents login to the account until the password is reset. |
+
+### Managing User Invites
+
+When you add a user with the Adobe ID type to join your organization, they get an email invitation. To manage pending invites, send a POST or DELETE request to this URL:
+
+```
+[UM_Server]/{orgId}/invites/{email}
+```
+
+***
+
+### Managing Administrative Access
+
+To manage administrative rights for user groups, products, or product configurations, send the POST request to one of these URLs:
+
+```
+   [UM_Server]/{orgId}/user-groups/{userGroupId}
+   [UM_Server]/{orgId}/products/{productId}
+   [UM_Server]/{orgId}/products/{productId}/configurations/{configId}
+```
+
+* **[UM_Server]** is the UM API server: **https://usermanagement.adobe.io/v2/usermanagement/**
+* Replace **{orgId}** with your organization's unique ID, which looks like this: "12345@AdobeOrg".
+* Replace the **{...Id}** elements with the unique IDs assigned to user groups, products, and product configurations that are defined for you organization.
+
+***
+
+### For More Information
+
+For detailed descriptions and examples of specific user-management operations, see the following pages.
+
+* For specific request and response syntax, see [Managing Users](api/manageref.md).
+* For detailed syntax of the JSON commands structure and user account operations, see [User Management Actions](api/manageref/actionsref.md).
+* For examples of user-management requests, see:
+  - [Create users](samples/samplecreate.md)
+  - [Manage pending invites](samples/sampleInvites.md)
+  - [Update user information](samples/sampleupdate.md)
+  - [Add and remove membership and admin rights in user groups](samples/samplegroups.md)<br>
+  - [Add and remove entitlements through product configuration membership](samples/samplegroups.md)
+  - [Remove users](samples/sampleremove.md)
+  - [Perform multiple actions for one user](samples/samplemultiaction.md)
+  - [Perform actions for multiple users](/samples/samplemultiuser.md)
+
+***
+
+## Query your Adobe Users and Product Access
+
+You can retrieve paged lists of all users and products for the organization, and of user groups and product configurations that you have defined in the [Admin Console](https://adminconsole.adobe.com/enterprise/). Product configurations are identified by the nickname you have assigned to them in the Admin Console. You can then examine an individual user, user group, product, or product configuration using its unique ID.
+
+There are API endpoints for each resource type under your organization's unique ID. For example, to list users in your existing user base and get the information for a particular user, send GET requests to these URLs:
+
+```
+   GET [UM_Server]/{orgId}/users/
+   GET [UM_Server]/{orgId}/users/{userId}
+```
+
+For compatability with previous releases, you can also access information through endpoints that use the _resource_type/orgID_ structure. For example:
+
+```
+   GET [UM_Server]/users/{orgId}/
+```
+
+When you invite users with the Adobe ID type to join your organization, they are not added to the list of users until they accept the email invite. To list and get information about pending new-user invites, send a GET request to the _invites_ resource:
+
+```
+   GET [UM_Server]/{orgId}/invites/
+   GET [UM_Server]/{orgId}/invites/{email}
+```
+
+* For specific endpoints and request/response syntax, see [Query API Reference](api/queryref.md)
+* For examples of user-base query requests, see [Query user information](samples/samplequery.md)
