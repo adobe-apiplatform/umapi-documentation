@@ -1,6 +1,6 @@
 # Creating User Management Applications
 
-To obtain the credentials you need to log in, you must create an API key using the Adobe Developer Portal. For complete details of the setup process, see [Setting up API Access](gettingstarted.md). To log in, you exchange a JSON Web Token (JWT) that encapsulates your credentials for an access token that authorizes all further calls in a session.
+To obtain the credentials you need to log in, you must create an API key using the Adobe Developer Portal. For complete details of the setup process, see [Setting up API Access](getstarted.md). To log in, you exchange a JSON Web Token (JWT) that encapsulates your credentials for an access token that authorizes all further calls in a session.
 
 Address all user-management requests to the UM API server:
 
@@ -14,11 +14,11 @@ There are separate endpoints under the user-management server for write operatio
 
 ***
 
-* [Authorization](#auth)
-* [Manage your Adobe Users](#manage)
-* [Query your Adobe Users and Product Access](#query)
+* [Authorization](#authorization)
+* [Manage your Adobe Users](#manage-your-adobe-users)
+* [Query your Adobe Users and Product Access](#query-your-adobe-users-and-product-access)
 
-For a Python code walkthrough and samples of actual API calls, see the [User Management Walkthrough](samples).
+For a Python code walkthrough and samples of actual API calls, see the [User Management Walkthrough](samples/index.md).
 
 ***
 
@@ -47,9 +47,9 @@ To initiate each user-management session, create and send a JWT to Adobe in an a
 
 The response contains a valid access token. Pass this token in the **Authorization** header in all subsequent requests to the User Management API.
 
-* For details of the log-in call, see [Access API for User Management](api/connectapiref.md).
+* For details of the log-in call, see [Access API for User Management](api/ConnectAPIRef.md).
 * For details of how to create a JWT, see [Creating A JWT](createjwt.md).
-* For an example of a script that creates a JWT and log-in call, see [User Management Walkthrough.](samples)
+* For an example of a script that creates a JWT and log-in call, see [User Management Walkthrough.](samples/index.md)
 
 ***
 
@@ -120,17 +120,17 @@ To manage administrative rights for user groups, products, or product configurat
 
 For detailed descriptions and examples of specific user-management operations, see the following pages.
 
-* For specific request and response syntax, see [Managing Users](api/manageref.md).
-* For detailed syntax of the JSON commands structure and user account operations, see [User Management Actions](api/manageref/actionsref.md).
+* For specific request and response syntax, see [Managing Users](api/ManageRef.md).
+* For detailed syntax of the JSON commands structure and user account operations, see [User Management Actions](api/manageref/ActionsRef.md).
 * For examples of user-management requests, see:
   - [Create users](samples/samplecreate.md)
-  - [Manage pending invites](samples/sampleInvites.md)
-  - [Update user information](samples/sampleupdate.md)
-  - [Add and remove membership and admin rights in user groups](samples/samplegroups.md)<br>
-  - [Add and remove entitlements through product configuration membership](samples/samplegroups.md)
-  - [Remove users](samples/sampleremove.md)
-  - [Perform multiple actions for one user](samples/samplemultiaction.md)
-  - [Perform actions for multiple users](/samples/samplemultiuser.md)
+  - [Manage pending invites](samples/SampleInvites.md)
+  - [Update user information](samples/SampleUpdate.md)
+  - [Add and remove membership and admin rights in user groups](samples/SampleGroups.md)<br>
+  - [Add and remove entitlements through product configuration membership](samples/SampleGroups.md)
+  - [Remove users](samples/SampleRemove.md)
+  - [Perform multiple actions for one user](samples/SampleMultiAction.md)
+  - [Perform actions for multiple users](/samples/SampleMultiUser.md)
 
 ***
 

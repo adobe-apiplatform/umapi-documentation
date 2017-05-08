@@ -19,7 +19,7 @@ _Note: You cannot create or manage product configurations themselves through the
 
 ## Automating User Management with User Sync
 
-If your enterprise uses Microsoft Active Directory or another LDAP directory service to manage and provision Adobe products, and has a large user base or high churn of users, the [User Sync tool](user-sync-tool.html) can automate many of your user management tasks. User Sync is an open-source Python application provided and supported by Adobe. The tool can be built into your existing user-management scripts, without the need for extensive programming.
+If your enterprise uses Microsoft Active Directory or another LDAP directory service to manage and provision Adobe products, and has a large user base or high churn of users, the [User Sync tool](https://adobe-apiplatform.github.io/user-sync.py/) can automate many of your user management tasks. User Sync is an open-source Python application provided and supported by Adobe. The tool can be built into your existing user-management scripts, without the need for extensive programming.
 
 User Sync is a client of the User Management API; it uses the API to automatically synchronize user data that you keep in your enterprise LDAP directory with your user data in the Adobe User Management system. You run User Sync on the command line or from a script. Each time you run the tool it looks for differences between the user information in the two systems, and updates the Adobe system to match the enterprise directory.
 
@@ -33,7 +33,7 @@ To create an API key, go to the [Adobe I/O Console](https://www.adobe.io/console
 
 ## What's Next?
 
-* If you think your enterprise can use the ready-made API client, User Sync, read more about the tool:[Synchronize User Data with UserSync](user-sync-tool.md).
+* If you think your enterprise can use the ready-made API client, User Sync, read more about the tool:[Synchronize User Data with UserSync](https://adobe-apiplatform.github.io/user-sync.py/).
 * If you plan to build your own API client, learn about the specific operations that are available through the User Management Web API:[Integrate User Management into an Admin Application](createapps.md)
-* Get complete reference details for all API calls:[User Management API Reference](api/overview.md)
-* See a sample Python script and examples of representative requests:[Examples and Samples](samples.md)
+* Get complete reference details for all API calls:[User Management API Reference](api/Overview.md)
+* See a sample Python script and examples of representative requests:[Examples and Samples](samples/index.md)
