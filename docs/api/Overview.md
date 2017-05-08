@@ -12,7 +12,7 @@ To access the user-management service, you must exchange your API key and creden
 https://ims-na1.adobelogin.com/ims/exchange/jwt
 ```
 
-See [Access API Reference](connectapiref.md) for complete syntax details.
+See [Access API Reference](ConnectAPIRef.md) for complete syntax details.
 
 ## User Management Resources
 
@@ -36,7 +36,7 @@ To request most user-management actions, send POST requests to the **action** en
 [UM_Server]/action/{orgId}
 ```
 
-The requested action is contained in a **commands** structure in the JSON body of the request. See [User Management Resource Reference](manageref.md) for complete syntax details.
+The requested action is contained in a **commands** structure in the JSON body of the request. See [User Management Resource Reference](ManageRef.md) for complete syntax details.
 
 In addition, you can update administrative rights for user groups, products, and product configurations with POST requests to these endpoints:
 
@@ -56,4 +56,4 @@ To retrieve user and product configuration information for your organization, se
 
 NOTE: There are also endpoints for your organization under **users/**, **groups/**, and **organizations/**; for example, **[UM_Server]/users/{orgId}/{page}**. This usage is supported for compatability, but may be deprecated in future.
 
-See [User Query Resource Reference](queryref.md) for complete syntax details.
+See [User Query Resource Reference](QueryRef.md) for complete syntax details.

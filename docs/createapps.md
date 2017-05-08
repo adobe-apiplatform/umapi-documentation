@@ -79,6 +79,7 @@ To make most user-management requests, connect to this URL:
 Send POST requests whose body contains a JSON structure that specifies a set of commands. Each command names a user, and specifies one or more actions to take on that user's account. A single request can include commands for multiple users.
 
 **Available operations**
+
 | Operation | Function |
 | --- | --- |
 | **createEnterpriseID** | Create an Adobe-hosted Enterprise ID for your organization. |
@@ -121,16 +122,16 @@ To manage administrative rights for user groups, products, or product configurat
 For detailed descriptions and examples of specific user-management operations, see the following pages.
 
 * For specific request and response syntax, see [Managing Users](api/ManageRef.md).
-* For detailed syntax of the JSON commands structure and user account operations, see [User Management Actions](api/manageref/ActionsRef.md).
+* For detailed syntax of the JSON commands structure and user account operations, see [User Management Actions](api/ActionsRef.md).
 * For examples of user-management requests, see:
-  - [Create users](samples/samplecreate.md)
+  - [Create users](samples/SampleCreate.md)
   - [Manage pending invites](samples/SampleInvites.md)
   - [Update user information](samples/SampleUpdate.md)
   - [Add and remove membership and admin rights in user groups](samples/SampleGroups.md)<br>
   - [Add and remove entitlements through product configuration membership](samples/SampleGroups.md)
   - [Remove users](samples/SampleRemove.md)
-  - [Perform multiple actions for one user](samples/SampleMultiAction.md)
-  - [Perform actions for multiple users](/samples/SampleMultiUser.md)
+  - [Perform multiple actions for one user](samples/SampleMultiActions.md)
+  - [Perform actions for multiple users](samples/SampleMultiUser.md)
 
 ***
 
@@ -158,5 +159,5 @@ When you invite users with the Adobe ID type to join your organization, they are
    GET [UM_Server]/{orgId}/invites/{email}
 ```
 
-* For specific endpoints and request/response syntax, see [Query API Reference](api/queryref.md)
-* For examples of user-base query requests, see [Query user information](samples/samplequery.md)
+* For specific endpoints and request/response syntax, see [Query API Reference](api/QueryRef.md)
+* For examples of user-base query requests, see [Query user information](samples/SampleQuery.md)
