@@ -25,4 +25,4 @@ To implement an exponential backoff method, you increase the retry interval with
 
 A small random delay, known as "jitter," prevents the "herd effect" that can occur if many clients attempt to reconnect to a recovering system at the same time. Without jitter, all of the retries could occur after 20 seconds, then 40 seconds, and so on. With the jitter, different retries occur at slightly different intervals. This allows the system to recover without further overloading it.
 
-For an example of how to implement this error-handling method, see "Retrying Requests" in the [User Management Walkthrough](../samples/index.html).
+For an example of how to implement this error-handling method, see "Retrying Requests" in the [User Management Walkthrough](samples/index.html).

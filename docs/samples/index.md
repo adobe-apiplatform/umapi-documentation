@@ -4,11 +4,11 @@ This walkthrough goes through sample Python scripts that demonstrate how to cons
 
 ## Sections
 
-* [Setting Up the Environment](#setup)
-* [Constructing a JSON Web Token](#jwt)
-* [Constructing an Access Request](#access)
-* [Constructing User-Management Requests](#manage)
-* [Retrying Requests](#retry)
+* [Setting Up the Environment](#setting-up-the-environment)
+* [Constructing a JSON Web Token](#constructing-a-json-web-token)
+* [Constructing an Access Request](#constructing-an-access-request)
+* [Constructing User-Management Requests](#making-a-request)
+* [Retrying Requests](#retrying-requests)
 
 ## Using the sample scripts
 
@@ -244,7 +244,7 @@ Finally, we connect to the server, send the request we have created, and receive
 res = requests.post(url, headers=headers, data=body)
 ```
 
-This very simple call is an illustration of the basic technique. In a real application, you would make a more robust call that includes error handling and recovery. The sample provides a retry function to handle the case where calls fail because you have sent too many in too short a time. See [Retrying requests](#retry) below for the function definition. To use this technique, make the request by calling this function:
+This very simple call is an illustration of the basic technique. In a real application, you would make a more robust call that includes error handling and recovery. The sample provides a retry function to handle the case where calls fail because you have sent too many in too short a time. See [Retrying requests](#retrying-requests) below for the function definition. To use this technique, make the request by calling this function:
 
 ```json
 # send request with retrying
@@ -345,10 +345,10 @@ The following samples show the request format and JSON command structures for a 
 
 For better readability, the samples show the unprocessed JSON array for each request body, and use placeholder values for enterprise-specific variables, which you would replace in your own scripts: {myDomain}, {myOrgId}, {myApiKey}, {myAccessToken}
 
-* [Create users](samplecreate.md)
-* [Update user information](sampleupdate.md)
-* [Add and remove product access for a user](samplegroups.md)
-* [Query user and product configuration information](samplequery.md)
-* [Remove users](sampleremove.md)
-* [Perform multiple actions for one user](samplemultiaction.md)
-* [Perform actions for multiple users](samplemultiuser.md)
+* [Create users](SampleCreate.md)
+* [Update user information](SampleUpdate.md)
+* [Add and remove product access for a user](SampleGroups.md)
+* [Query user and product configuration information](SampleQuery.md)
+* [Remove users](SampleRemove.md)
+* [Perform multiple actions for one user](SampleMultiActions.md)
+* [Perform actions for multiple users](SampleMultiUser.md)

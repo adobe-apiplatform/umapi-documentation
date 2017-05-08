@@ -2,10 +2,10 @@
 
 You can use the User Management API to control product access by managing the membership of User Groups and Product Configurations that you have created and named in the [Admin Console](https://adminconsole.adobe.com/enterprise/).
 
-* To manage [memberships](#memberships) for users and User Groups, use the **add** and **remove** actions for an individual **user** or **usergroup**.
-* To manage product [Admin roles](#adminroles) for a _user_, use the **addRoles** and **removeRoles** actions for the individual **user** and **product** configuration.
+* To manage [memberships](#user-membership-actions) for users and User Groups, use the **add** and **remove** actions for an individual **user** or **usergroup**.
+* To manage product [Admin roles](#manage-admin-roles) for a _user_, use the **addRoles** and **removeRoles** actions for the individual **user** and **product** configuration.
 * To manage product Admin roles for a _product_, use the **addProductAdmin** and **removeProductAdmin** actions in a POST request to the product-specific endpoint.
-* To manage [both membership and Admin roles for Product Configurations](#configroles), send a POST request to the configuration-specific endpoint.
+* To manage [both membership and Admin roles for Product Configurations](#manage-membership-and-roles-for-a-product-configuration), send a POST request to the configuration-specific endpoint.
 
 ***
 

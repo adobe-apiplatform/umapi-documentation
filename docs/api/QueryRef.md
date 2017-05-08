@@ -2,10 +2,10 @@
 
 You can query the Adobe database for users who are members of your oganization, and access information about user-groups, products, and product configurations that are defined for your organization. Membership in user groups and in product configurations controls a user's access to Adobe products in your organization.
 
-* [Access User Information](#users)
-* [Access User Group Information](#usergroups)
-* [Access Product Information](#product)
-* [Access Product Configuration Information](#productconfig)
+* [Access User Information](#Access-user-information)
+* [Access User Group Information](#access-user-group-information)
+* [Access Product Information](#access-product-information)
+* [Access Product Configuration Information](#access-product-configuration-information)
 
 ***
 
@@ -170,12 +170,12 @@ GET [UM_Server]/{orgId}/products/{productId}/
           configurations/{configId}/admins
 ```
 
-NOTE: For compatability with previous releases, product configuration information can also be accessed through the **groups/{orgId}** resource.
+NOTE: For compatibility with previous releases, product configuration information can also be accessed through the **groups/{orgId}** resource.
 
 ```
 GET [UM_Server]/groups/{orgId}/{page}
 ```
 
-For full reference details, see **[List and Query Product Configurations](queryproductconfigs.md)**.
+For full reference details, see **[List and Query Product Configurations](QueryProductConfigs.md)**.
 
-* Send a **POST** request to a product-configuration endpoint to manage the access rights of members. For syntax details, see **[Manage Product Access Rights](accessActionsRef.md)**.
+* Send a **POST** request to a product-configuration endpoint to manage the access rights of members. For syntax details, see **[Manage Product Access Rights](accessactionsref.md)**.
