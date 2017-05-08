@@ -1,16 +1,17 @@
 # Access API Reference
 
 To establish a secure user-management session, you create a JWT that encapsulates your identity information and exchange it for an access token.
-Every call to the User Management API endpoints must be authorized with this access token in the **Authorization** header, along with the API key you created when you set up your API client in the Developer Portal.
+Every call to the User Management API endpoints must be authorized with this access token in the **Authorization** header, along with the API key you created when you created the integration in the Adobe I/O Console (https://console.adobe.io/).
 
-* The access token is valid for 24 hours after it is created in response to the exchange request.
-* You can request multiple access tokens. Previous tokens are not invalidated when a new one is issued. You can authorize requests with any valid  access token.
+* A typical access token is valid for 24 hours after it is issued.
+* You can request multiple access tokens. Previous tokens are not invalidated when a new one is issued. You can authorize requests with any valid  access token. This allows you to overlap access tokens to ensure your integration is always able to connect to Adobe.
 
 ## Access request syntax
 
-Exchange your JWT for a User Management API access token by making a POST request to the Adobe identity service.
-
-**Endpoint**: https://ims-na1.adobelogin.com/ims/exchange/jwt
+To initiate an API session, use the JWT to obtain an access token from Adobe by making a POST request to Adobe's Identity Management Service (IMS).
+* Send a POST request to:  https://ims-na1.adobelogin.com/ims/exchange/jwt
+* The body of the request should contain URL-encoded parameters with your Client ID (API Key), Client Secret, and JWT:
+  `client_id={api_key_value}&client_secret={client_secret_value}&jwt_token={base64_encoded_JWT}`
 
 ## Request parameters
 
