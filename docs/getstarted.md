@@ -11,10 +11,17 @@ You can use the API directly to create applications and scripts to manage your o
 The User Management API gives you direct access to the functionality you need to manage your Adobe user accounts and control user access to Adobe products.
 
 * **Create and Manage User Accounts**
-Creative Cloud, Marketing Cloud, and Document Cloud apps and services use an identity management system to determine an end user's entitlements. A user is recognized based on their ID. You can use the User Management API to create and manage Adobe user identities of all types. User types include the independent Adobe ID, the Enterprise ID that is managed by your enterprise but hosted by Adobe, and the Federated ID that is both managed and hosted by your enterprise. For details of supported types, see [Manage Identity Types](https://helpx.adobe.com/enterprise/help/identity.html) in the Enterprise help hub.
+
+Creative Cloud, Marketing Cloud, and Document Cloud apps and services use an identity management system to determine an end user's entitlements. A user is recognized based on their ID. You can use the User Management API to create and manage Adobe user identities of all types. User types include the independent Adobe ID, the Enterprise ID that is managed by your enterprise but hosted by Adobe, and the Federated ID that is both managed and hosted by your enterprise. 
+
+For details of supported types, see [Manage Identity Types](https://helpx.adobe.com/enterprise/help/identity.html) in the Enterprise help hub.
+
 * **Manage Product Entitlements for your Users**
+
 Users are granted access to Adobe products by adding them as members of a _product configuration_ that has been created in the [Admin Console](https://adminconsole.adobe.com/enterprise/). A product configuration identifies an Adobe product or set of products, and is associated with a list of users who are entitled to access. You can use the API to add individual users to and remove individual users from specific product configurations.
+
 You can also create User Groups in the Admin Console. You can use the API to add and remove users to and from the user group, and to add and remove user groups to and from product configurations. This allows you to group users according to your own criteria, and then grant or deny product access to an entire group.
+
 _Note: You cannot create or manage product configurations themselves through the User Management API. For more information about creating and managing product configurations, see [Manage Product Configurations](https://helpx.adobe.com/enterprise/help/admin-roles.html#Create_product_configurations) in the Enterprise help hub._
 
 ## Automating User Management with User Sync
@@ -25,11 +32,11 @@ User Sync is a client of the User Management API; it uses the API to automatical
 
 ## Prerequisites
 
-Before you can use the User Management service, you must use the [Adobe I/O Console](https://console.adobe.io/) to create a *Service Account integration*. The integration registers your application as a client of User Management service, and gives you the credentials you need to authorize calls to the API. If you plan to use the User Sync automation tool, you must create an integration to give the tool access to the API.
+Before you can use the User Management service, you must use the [Adobe I/O Console](https://console.adobe.io/) to create a **Service Account integration**. The integration registers your application as a client of User Management service, and gives you the credentials you need to authorize calls to the API. If you plan to use the User Sync automation tool, you must create an integration to give the tool access to the API.
 
-To create an integration of this type, sign in to the <a href=" https://console.adobe.io">Adobe I/O Console</a> with your Enterprise ID. Your Enterprise ID must have  administrative privileges for your organization to be able to create a new Service Account integration. If you do not have the required permissions, contact an IT Administrator at your company for help. This is typically the person who distributes Creative Cloud, Acrobat or Marketing Cloud licenses within your company.  When you have completed the one-time set-up process, you can use your credentials to obtain the access token you need to begin a user management session.
+To create an integration of this type, sign in to the <a href=" https://console.adobe.io">Adobe I/O Console</a> with your Enterprise ID. Your Enterprise ID must have  administrative privileges for your organization to be able to create a new Service Account integration. If you do not have the required permissions, contact an IT Administrator at your company for help. This is typically the person who distributes Creative Cloud, Acrobat or Marketing Cloud licenses within your company.  When you have completed the one-time set-up process, you can use your credentials to obtain the access token you need to begin a user-management session.
 
-* For complete details of how to integrate your application with the User Management service , see [Service Account Authentication](https://www.adobe.io/apis/cloudplatform/console/authentication/jwt_workflow.html).
+* For complete details of how to integrate your application with the User Management service, see [Service Account Authentication](https://www.adobe.io/apis/cloudplatform/console/authentication/jwt_workflow.html).
 
 ## What's Next?
 
