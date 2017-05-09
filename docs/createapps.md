@@ -1,6 +1,8 @@
 # Creating User Management Applications
 
-To obtain the credentials you need to log in, you must create an API key using the Adobe Developer Portal. For complete details of the setup process, see [Setting up API Access](getstarted.md). To log in, you exchange a JSON Web Token (JWT) that encapsulates your credentials for an access token that authorizes all further calls in a session.
+To obtain the credentials you need to access the User Management service, create a **Service Account Integration** using the [Adobe I/O Console](https://console.adobe.io/). To establish a secure service-to-service API session, you will create a JSON Web Token (JWT) that encapsulates your integration credentials, and exchange it for an access token. Every request to an Adobe service must include the access token in the **Authorization** HTTP header, along with the API Key (client  ID) that was generated when you created the integration.
+
+For complete details of the entire integration process, see [Service Account Authentication](https://www.adobe.io/apis/cloudplatform/console/authentication/jwt_workflow.html).
 
 Address all user-management requests to the UM API server:
 
@@ -24,32 +26,29 @@ For a Python code walkthrough and samples of actual API calls, see the [User Man
 
 ## Authorization
 
-All requests to the User Management API must be made using the HTTPS secure protocol and authorized with a current access token and your API key. Include these headers in all requests:
+All requests to the User Management service must be made using the HTTPS secure protocol and authorized with a current access token and your API key. Include these headers in all requests:
 
 * **Authorization** : A current access token obtained from the login request.
-* **x-api-key** : The API key for your organization, obtained from the Developer Portal.
+* **x-api-key** : The API key for your integration.
 
-To gain access to the API, you must create a JSON Web Token (JWT) that encapsulates your API client credentials, and sign the JWT with the private key for your certificate. We recommend that you store your API client credentials and private key with strong protection, but that you do NOT store a JWT or access token. You should create a new JWT for each user-management session, and use it to obtain an access token for that session.
+To gain access to the service, you must create a JSON Web Token (JWT) that encapsulates your client credentials, and sign the JWT with the private key for a public-key certificate associated with the integration. For complete details, see [Creating a JSON Web Token](https://www.adobe.io/apis/cloudplatform/console/authentication/createjwt.html). 
 
-Initiate a user-management session with a log-in call, in which you exchange your technical-account credentials for an access token. All further user-management calls in the session must be authorized with the access token.
+We recommend that you store your API client credentials and private key with strong protection, but that you do NOT store a JWT or access token. You should create a new JWT for each user-management session, and use it to obtain an access token for that session.
 
 ### Log in to gain API access
 
-To initiate each user-management session, create and send a JWT to Adobe in an access request. The response contains an OAuth access token that is valid for 24 hours. You must pass a valid access token to each subsequent request that you make to the User Management API.
-
-1. Create a JWT, using the API client credentials assigned you when you created your API key.
-2. Sign the JWT using the private key for a certificate associated with your API key.
-3. Initiate a user-management session with a POST request to:
+To initiate each user-management session, create and send a JSON Web Token to Adobe in an access request. Include your JWT in a POST request to the Adobe Identity Management Service (IMS):
 ```
         https://ims-na1.adobelogin.com/ims/exchange/jwt/
 ```
-4. Pass the signed, base-64 encoded JWT as the value of the URL-encoded **jwt_token** parameter in the body of the POST request.
+Pass the signed, base-64 encoded JWT as the value of the URL-encoded **jwt_token** parameter in the body of the POST request.
 
-The response contains a valid access token. Pass this token in the **Authorization** header in all subsequent requests to the User Management API.
+The response contains an access token that is valid for 24 hours after it is issued. Pass this token in the **Authorization** header in all subsequent requests to the User Management API.
 
-* For details of the log-in call, see [Access API for User Management](api/ConnectAPIRef.md).
-* For details of how to create a JWT, see [Creating A JWT](createjwt.md).
-* For an example of a script that creates a JWT and log-in call, see [User Management Walkthrough.](samples/index.md)
+You can request multiple access tokens. Previous tokens are not invalidated when a new one is issued. You can authorize requests with any valid access token. This allows you to overlap access tokens to ensure your integration is always able to connect to Adobe.
+
+* For details of the log-in call, see [JWT Authentication Reference](https://www.adobe.io/apis/cloudplatform/console/authentication/connect.html).
+* For an example of a script that creates a JWT and makes a log-in call, see [User Management Walkthrough.](samples/index.md)
 
 ***
 
