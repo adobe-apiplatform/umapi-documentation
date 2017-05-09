@@ -25,11 +25,11 @@ User Sync is a client of the User Management API; it uses the API to automatical
 
 ## Prerequisites
 
-Before you can use the User Management API, you must use Adobe's Developer Portal to create an API key that you will use to authorize calls. If you use the User Sync automation tool, you must create an API key to give the tool access to the API.
+Before you can use the User Management API, you must use the [Adobe I/O Console](https://console.adobe.io/) to create a *Service Account integration*. The integration registers your application as a client of User Management API, and gives you the credentials you need to authorize calls. If you plan to use the User Sync automation tool, you must create an integration to give the tool access to the API.
 
-To create an API key, go to the [Adobe I/O Console](https://www.adobe.io/console/) and click the blue **+ New Integration** button. (If you are an administrator for more than one organization, be sure the correct organization is selected before pressing the New Integration button). When you have completed the one-time set-up process, you can use your credentials to obtain the access token you need to begin a user management session.
+To create an integration of this type, sign in to the <a href=" https://console.adobe.io">Adobe I/O Console</a> with your Enterprise ID. Your Enterprise ID must have  administrative privileges for your organization to be able to create a new Service Account integration. If you do not have the required permissions, contact an IT Administrator at your company for help. This is typically the person who distributes Creative Cloud, Acrobat or Marketing Cloud licenses within your company.  When you have completed the one-time set-up process, you can use your credentials to obtain the access token you need to begin a user management session.
 
-* For complete details of how to set up your API access through the Developer Portal, see [Setting up API Access](setup.md).
+* For complete details of how to set up your API access through the Developer Portal, see [Service Account Authentication](https://www.adobe.io/apis/cloudplatform/console/authentication/jwt_workflow.html).
 
 ## What's Next?
 
