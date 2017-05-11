@@ -8,11 +8,21 @@
     {% include header.html %}
 
     <main class="page-content" aria-label="Content">
-      <div class="wrapper">
-        {{ content }}
+      
+      <div>
+          <div class="nav-area">
+            <ul>
+             {% for my_page in site.pages %}
+                <li><a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a></li>
+             {% endfor %}
+            </ul>
+          </div>
+          <div class="wrapper">
+            {{ content }}
+          </div>
       </div>
     </main>
-Does this show up?
+
     {% include footer.html %}
 
   </body>
