@@ -18,7 +18,7 @@ email: dbrotsky@adobe.com
 description: > # this means to ignore newlines until "baseurl:"
   The User Management API allows clients to manage their users
   and product entitlements.
-  **This is a draft development area. Production documentation is [here](https://www.adobe.io/apis/cloudplatform/usermanagement/docs/gettingstarted.html)**
+  <b>This is a draft development area. Production documentation is <a href="https://www.adobe.io/apis/cloudplatform/usermanagement/docs/gettingstarted.html">here</a></b>
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  adobe-apiplatform
