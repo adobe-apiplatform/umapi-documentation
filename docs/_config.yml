@@ -13,7 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: User Sync
+title: User Management API
 email: dbrotsky@adobe.com
 description: > # this means to ignore newlines until "baseurl:"
   The User Management API allows clients to manage their users
