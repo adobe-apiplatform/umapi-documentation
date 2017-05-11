@@ -16,8 +16,8 @@
 title: User Sync
 email: dbrotsky@adobe.com
 description: > # this means to ignore newlines until "baseurl:"
-  User Sync is a tool for synchronizing Adobe customer directories
-  with their Adobe Admin Consoles via the User Management API.
+  The User Management API allows clients to manage their users
+  and product entitlements.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  adobe-apiplatform
