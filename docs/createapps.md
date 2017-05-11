@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Creating User Management Applications
-Advertise: Create Apps
+advertise: Create Apps
 ---
 
 # Creating User Management Applications
