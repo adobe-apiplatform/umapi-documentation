@@ -1,3 +1,9 @@
+---
+layout: page
+title: Creating User Management Applications
+Advertise: Create Apps
+---
+
 # Creating User Management Applications
 
 To obtain the credentials you need to access the User Management service, create a **Service Account Integration** using the [Adobe I/O Console](https://console.adobe.io/). To establish a secure service-to-service API session, you will create a JSON Web Token (JWT) that encapsulates your integration credentials, and exchange it for an access token. Every request to an Adobe service must include the access token in the **Authorization** HTTP header, along with the API Key (client  ID) that was generated when you created the integration.
