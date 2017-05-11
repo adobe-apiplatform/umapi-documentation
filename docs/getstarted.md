@@ -1,3 +1,9 @@
+---
+layout: page
+title: Getting Started with User Management
+advertise: Getting Started
+---
+
 # Getting Started with User Management
 
 The User Management API provides programmatic access to the Adobe user accounts that are associated with your organization. You can integrate this API into your organization's administrative applications and processes. You can use the API in scripts or programs to allow authorized administrators to create, update, and delete user accounts for your enterprise, and retrieve information about your Adobe users and their access to Adobe products.
