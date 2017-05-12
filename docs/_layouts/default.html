@@ -14,7 +14,7 @@
             <ul>
              {% assign current_level = 1 %}
              {% for my_page in (site.pages | sort: 'nav-order') %}
-                {% if page.nav-link %}
+                {% if page.nav-link and page.nav-link != blank %}
                    {% if page.nav-level > current_level %}
                        <ul>
                        {% assign current_level = page.nav-level %}
