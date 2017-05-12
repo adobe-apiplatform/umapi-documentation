@@ -18,7 +18,7 @@
                    {% if page.nav-level > current_level %}
                        <ul>
                        {% assign current_level = page.nav-level %}
-                   {% elseif page.nav-level < current_level %}
+                   {% elsif page.nav-level < current_level %}
                                                            </ul>
                          {% assign current_level = page.nav-level %}
                    {% endif %}
