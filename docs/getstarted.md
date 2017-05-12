@@ -1,7 +1,9 @@
 ---
 layout: page
 title: Getting Started with User Management
-advertise: Getting Started
+nav-link: Getting Started
+nav-level: 1
+nav-order: 10
 ---
 
 # Getting Started with User Management
