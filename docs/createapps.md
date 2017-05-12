@@ -1,7 +1,9 @@
 ---
 layout: page
 title: Creating User Management Applications
-advertise: Create Apps
+nav-link: Create Apps
+nav-level: 1
+nav-order: 30
 ---
 
 # Creating User Management Applications
