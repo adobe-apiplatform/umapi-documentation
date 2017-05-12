@@ -13,7 +13,9 @@
           <div class="nav-area">
             <ul>
              {% for my_page in site.pages %}
-                <li><a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a></li>
+                {% if page.nav-link %}
+                  <li><a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.nav-link | escape }}</a></li>
+                <% endif %}
              {% endfor %}
             </ul>
           </div>
