@@ -1,3 +1,10 @@
+---
+layout: page
+nav-link:Samples
+nav-level:1
+nav-order:40
+title:UMAPI Samples
+---
 # User Management Walkthrough
 
 This walkthrough goes through sample Python scripts that demonstrate how to construct and send a request for an access token, and then use it to construct and send a user-management request and receive the response. Individual samples show the format of requests for representative user-management actions.
