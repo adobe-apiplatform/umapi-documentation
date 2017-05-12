@@ -15,7 +15,7 @@
              {% for my_page in site.pages %}
                 {% if page.nav-link %}
                   <li><a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.nav-link | escape }}</a></li>
-                <% endif %}
+                {% endif %}
              {% endfor %}
             </ul>
           </div>
