@@ -1,3 +1,11 @@
+---
+title: Throttling
+layout: page
+nav_link: Throttling
+nav_order: 35
+nav_level: 2
+---
+
 # Data Access Limits
 
 To protect the availability of the Adobe back-end user identity systems, the User Management API imposes limits on client access to the data. Limits apply to the number of calls that an individual client can make within a time interval, and global limits apply to access by all clients within the time period.
