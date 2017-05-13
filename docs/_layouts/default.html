@@ -13,16 +13,16 @@
           <div class="nav-area">
             <ul>
              {% assign current_level = 1 %}
-             {% for my_page in (site.pages | sort: 'nav-order' | reverse) %}
-                {% if my_page.nav-link and my_page.nav-link != blank %}
-                   {% if my_page.nav-level > current_level %}
+             {% for my_page in (site.pages | sort: 'nav_order' | reverse) %}
+                {% if my_page.nav_link and my_page.nav_link != blank %}
+                   {% if my_page.nav_level > current_level %}
                        <ul>
-                       {% assign current_level = my_page.nav-level %}
-                   {% elsif my_page.nav-level < current_level %}
+                       {% assign current_level = my_page.nav_level %}
+                   {% elsif my_page.nav_level < current_level %}
                                                            </ul>
-                         {% assign current_level = my_page.nav-level %}
+                         {% assign current_level = my_page.nav_level %}
                    {% endif %}
-                   <li><a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.nav-link | escape }}</a></li>
+                   <li><a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.nav_link | escape }} {{my_page.nav_order}}</a></li>
                 {% endif %}
              {% endfor %}
             </ul>
