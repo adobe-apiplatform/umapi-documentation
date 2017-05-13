@@ -1,3 +1,11 @@
+---
+title: User Management Actions
+layout: page
+nav_link: User Management Actions
+nav_order: 54
+nav_level: 2
+---
+
 # User Management Actions
 
 The body of a user-management request must contain a **commands** list, a JSON structure that specifies users to act upon, and the actions to take.
