@@ -33,3 +33,5 @@ exclude:
   - Gemfile.lock
   - art
 relative_permalinks: false
+include: ['api']
+include: ['samples']
