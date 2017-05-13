@@ -13,7 +13,7 @@
           <div class="nav-area">
             <ul>
              {% assign current_level = 1 %}
-             {% for my_page in (site.pages | sort: 'nav_order' | reverse) %}
+             {% for my_page in (site.pages | sort: 'nav_order') %}
                 {% if my_page.nav_link and my_page.nav_link != blank %}
                    {% if my_page.nav_level > current_level %}
                        <ul>
