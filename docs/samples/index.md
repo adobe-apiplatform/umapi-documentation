@@ -1,8 +1,8 @@
 ---
 layout: page
-nav-link:Samples
-nav-level:1
-nav-order:40
+nav_link:Samples
+nav_level:1
+nav_order:40
 title:UMAPI Samples
 ---
 
