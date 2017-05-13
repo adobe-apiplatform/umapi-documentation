@@ -15,7 +15,7 @@
              {% assign current_level = 1 %}
              {% assign page_list = (site.pages | sort: 'nav_order') %}
              {% for my_page in page_list %}
-                |{{my_page.url}}|{{my_page.nav_list}}|{{my_page.nav_order}}|{{my_page}}|<br/>
+                |{{my_page.url}}|{{my_page.nav_list}}|{{my_page.nav_order}}|<br/>
                 {% if my_page.nav_link and my_page.nav_link != blank %}
                    {% if my_page.nav_level > current_level %}
                        <ul>
