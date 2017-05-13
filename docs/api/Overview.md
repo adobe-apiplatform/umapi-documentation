@@ -1,9 +1,9 @@
 ---
- title:API Reference
- layout:page
- nav_link:API Reference
- nav_order:50
- nav_level:1
+ title: API Reference
+ layout: page
+ nav_link :API Reference
+ nav_order: 50
+ nav_level: 1
  ---
 
 # User Management API Reference
