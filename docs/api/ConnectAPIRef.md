@@ -1,3 +1,11 @@
+---
+title: Access to the API
+layout: page
+nav_link: Access to the API
+nav_order: 52
+nav_level: 2
+---
+
 # Access API Reference
 
 To establish a secure user-management session, you create a JWT that encapsulates your identity information and exchange it for an access token.
