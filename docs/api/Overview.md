@@ -1,3 +1,11 @@
+---
+title:API Reference
+layout:page
+nav_link:API Reference
+nav_order:50
+nav_level:1
+---
+
 # User Management API Reference
 
 An application can use the User Management API to access Adobe users and manage their identities. You can create and remove user accounts for your organization, modify a user's personal information (depending on the account type), and modify users' access rights to Adobe applications within your organization.
