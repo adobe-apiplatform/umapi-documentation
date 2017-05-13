@@ -1,3 +1,11 @@
+---
+title: Test Mode
+layout: page
+nav_link: Test Mode
+nav_order: 33
+nav_level: 2
+---
+
 # Testing Behavior
 
 During development of user-management applications, you can pass the **testOnly** parameter in the URL of a user-management POST request, in order to test the behavior of the command set.
