@@ -1,9 +1,9 @@
 ---
 layout: page
-nav_link:Samples
-nav_level:1
-nav_order:40
-title:UMAPI Samples
+nav_link: Samples
+nav_level: 1
+nav_order: 40
+title: UMAPI Samples
 ---
 
 # User Management Walkthrough
