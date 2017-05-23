@@ -1,3 +1,10 @@
+---
+layout: default
+nav_link: Pending User Invites
+nav_level: 2
+nav_order: 220
+---
+
 # Manage Pending User Invites
 
 When you use the **addAdobeID** command to add a user to your organization, the user gets an email invite, and is not added to your list of users until the invite is accepted. The following samples show how to  view and manage pending invites that have been sent, and have not yet been accepted.

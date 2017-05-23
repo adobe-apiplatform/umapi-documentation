@@ -1,3 +1,10 @@
+---
+layout: default
+nav_link: Create Users
+nav_level: 2
+nav_order: 210
+---
+
 # Create Users
 
 The following samples show how to create each type of user; an independent Adobe ID, an Enterprise ID, and a Federated ID.

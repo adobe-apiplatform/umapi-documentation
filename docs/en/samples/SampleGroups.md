@@ -1,3 +1,10 @@
+---
+layout: default
+nav_link: Manage Product Access
+nav_level: 2
+nav_order: 250
+---
+
 # Add and Remove Product Access
 
 You can use the User Management API to control product access by managing the membership of User Groups and Product Configurations that you have created and named in the [Admin Console](https://adminconsole.adobe.com/enterprise/).

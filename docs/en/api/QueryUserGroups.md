@@ -1,8 +1,8 @@
 ---
 layout: default
 nav_link: Accessing User Group Information
-nav_order: 700
-nav_level: 2
+nav_order: 520
+nav_level: 3
 lang: en
 ---
 

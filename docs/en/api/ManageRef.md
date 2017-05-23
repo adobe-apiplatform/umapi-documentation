@@ -1,8 +1,8 @@
 ---
 layout: default
 nav_link: User Management Resource Reference
-nav_order: 50
-nav_level: 1
+nav_order: 430
+nav_level: 2
 lang: en
 ---
 

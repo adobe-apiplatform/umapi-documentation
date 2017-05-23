@@ -1,8 +1,8 @@
 ---
 layout: default
 nav_link: Query Products
-nav_order: 500
-nav_level: 2
+nav_order: 530
+nav_level: 3
 lang: en
 ---
 

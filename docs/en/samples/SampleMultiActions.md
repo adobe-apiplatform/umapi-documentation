@@ -1,3 +1,10 @@
+---
+layout: default
+nav_link: Multi-Action Requests
+nav_level: 2
+nav_order: 270
+---
+
 # Perform Multiple Actions for One User
 
 This creates a user with an Enterprise ID, then performs a series of actions for that user. It adds the user to a product configuration, adds two product entitlements for the user, and then removes one of the product entitlements.

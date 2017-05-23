@@ -1,3 +1,10 @@
+---
+layout: default
+nav_link: Update User Information
+nav_level: 2
+nav_order: 230
+---
+
 # Update User Information
 
 This example replaces the First Name and Last Name values for an existing user with the user's initials. All other user-information properties remain unchanged.

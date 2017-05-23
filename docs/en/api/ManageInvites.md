@@ -1,8 +1,8 @@
 ---
 layout: default
 nav_link: Manage Pending User Invitations
-nav_order: 200
-nav_level: 2
+nav_order: 460
+nav_level: 3
 lang: en
 ---
 

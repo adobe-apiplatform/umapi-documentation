@@ -1,8 +1,8 @@
 ---
 layout: page
 nav_link: Error Conditions
-nav_order: 50
-nav_level: 1
+nav_order: 600
+nav_level: 2
 lang: en
 ---
 

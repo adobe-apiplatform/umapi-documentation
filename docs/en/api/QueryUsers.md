@@ -1,8 +1,8 @@
 ---
 layout: default
 nav_link: List and Query Users
-nav_order: 800
-nav_level: 2
+nav_order: 510
+nav_level: 3
 lang: en
 ---
 

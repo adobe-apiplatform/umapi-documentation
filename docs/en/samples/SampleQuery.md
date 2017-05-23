@@ -1,3 +1,10 @@
+---
+layout: default
+nav_link: Query User and Product Configuration
+nav_level: 2
+nav_order: 240
+---
+
 # Query User and Product Configuration Information
 
 These samples show how to use GET requests to retrieve information about users and product configurations that are defined for your organization. In API requests and responses, a product configuration is identified by the unique nickname you assign to it in the [Admin Console](https://adminconsole.adobe.com/enterprise/). The 0 at the end of each URL sets the page index to 0, causing the call to retrieve the first 200-entry page of users.

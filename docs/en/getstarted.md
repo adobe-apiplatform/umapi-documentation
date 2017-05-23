@@ -3,7 +3,7 @@ layout: page
 title: Getting Started with User Management
 nav_link: Getting Started
 nav_level: 1
-nav_order: 11
+nav_order: 100
 lang: en
 ---
 

@@ -1,3 +1,11 @@
+---
+layout: default
+nav_link: Remove User
+nav_level: 2
+nav_order: 260
+title: UMAPI Samples
+---
+
 # Remove a User from your Organization
 
 The following examples show how to remove a user from membership in your organization, and from membership in a Trusted Domain.

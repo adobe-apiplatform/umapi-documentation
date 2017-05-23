@@ -2,7 +2,7 @@
 title: Throttling
 layout: page
 nav_link: Throttling
-nav_order: 35
+nav_order: 150
 nav_level: 2
 lang: en
 ---

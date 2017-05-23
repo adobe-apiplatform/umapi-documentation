@@ -1,3 +1,10 @@
+---
+layout: default
+nav_link: Multi-User Requests
+nav_level: 2
+nav_order: 280
+---
+
 # Perform Actions for Multiple Users
 
 It is more efficient to bundle actions for many users into single requests, especially when multiple users are added to the same product configurations. These samples show how to bundle actions for multiple users by creating two users with Enterprise IDs, and then, in another call, removing both users from the organization.

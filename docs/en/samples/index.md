@@ -1,8 +1,8 @@
 ---
-layout: page
+layout: default
 nav_link: Samples
 nav_level: 1
-nav_order: 40
+nav_order: 200
 title: UMAPI Samples
 ---
 

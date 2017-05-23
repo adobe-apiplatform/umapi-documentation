@@ -1,7 +1,7 @@
 ---
 layout: default
 nav_link: User and Product Query Resource Reference
-nav_order: 600
+nav_order: 500
 nav_level: 2
 lang: en
 ---
