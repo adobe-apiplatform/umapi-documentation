@@ -1,3 +1,11 @@
+---
+layout: page
+nav_link: Error Conditions
+nav_order: 50
+nav_level: 1
+lang: en
+---
+
 # Error Conditions
 
 The possible error codes and messages are listed with their context and descriptions.

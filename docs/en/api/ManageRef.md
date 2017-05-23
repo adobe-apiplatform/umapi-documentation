@@ -1,3 +1,11 @@
+---
+layout: default
+nav_link: User Management Resource Reference
+nav_order: 50
+nav_level: 1
+lang: en
+---
+
 # User Management Resource Reference
 
 Call the user-management API to request changes to your Adobe user accounts.

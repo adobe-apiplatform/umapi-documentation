@@ -1,3 +1,11 @@
+---
+layout: default
+nav_link: Accessing User Group Information
+nav_order: 700
+nav_level: 2
+lang: en
+---
+
 # Accessing User Group Information
 
 User group information defined for your organization in the [Admin Console](https://adminconsole.adobe.com/enterprise/) is available through the **{orgId}/user-groups** resource.

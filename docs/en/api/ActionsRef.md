@@ -4,6 +4,7 @@ layout: page
 nav_link: User Management Actions
 nav_order: 54
 nav_level: 2
+lang: en
 ---
 
 # User Management Actions

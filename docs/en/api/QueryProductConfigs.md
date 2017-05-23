@@ -1,3 +1,11 @@
+---
+layout: default
+nav_link: Query Product Configurations
+nav_order: 300
+nav_level: 2
+lang: en
+---
+
 # List and Query Product Configurations
 
 Each product is associated with license configurations that are defined for your organization in the [Admin Console](https://adminconsole.adobe.com/enterprise/), and associated with an identifying nickname. Information about defined product configurations is available through individual product resources within the organization.

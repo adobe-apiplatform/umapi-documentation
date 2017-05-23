@@ -1,3 +1,11 @@
+---
+layout: default
+nav_link: Query Products
+nav_order: 500
+nav_level: 2
+lang: en
+---
+
 # List and Query Products
 
 Information about Adobe products used in your organization is available through the **{orgId}/products/** resource.

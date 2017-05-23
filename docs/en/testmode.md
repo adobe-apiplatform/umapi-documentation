@@ -4,6 +4,7 @@ layout: page
 nav_link: Test Mode
 nav_order: 33
 nav_level: 2
+lang: en
 ---
 
 # Testing Behavior

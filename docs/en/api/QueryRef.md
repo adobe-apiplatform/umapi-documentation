@@ -1,3 +1,11 @@
+---
+layout: default
+nav_link: User and Product Query Resource Reference
+nav_order: 600
+nav_level: 2
+lang: en
+---
+
 # User and Product Query Resource Reference
 
 You can query the Adobe database for users who are members of your oganization, and access information about user-groups, products, and product configurations that are defined for your organization. Membership in user groups and in product configurations controls a user's access to Adobe products in your organization.

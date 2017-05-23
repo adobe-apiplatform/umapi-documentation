@@ -1,3 +1,12 @@
+---
+title: API Reference
+layout: page
+nav_link: Product Access
+nav_order: 69
+nav_level: 1
+lang: en
+---
+
 # Product Access and Role Management
 
 Product access for individual users is controlled through membership in user groups and product configurations. You cannot create these groups through the User Management API. Before you can manage product access for users, you must create and name user groups and product configurations using the [Admin Console](https://adminconsole.adobe.com/enterprise/).

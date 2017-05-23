@@ -4,6 +4,7 @@ layout: page
 nav_link: Throttling
 nav_order: 35
 nav_level: 2
+lang: en
 ---
 
 # Data Access Limits

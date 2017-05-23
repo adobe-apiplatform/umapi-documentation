@@ -1,3 +1,11 @@
+---
+layout: default
+nav_link: Manage Pending User Invitations
+nav_order: 200
+nav_level: 2
+lang: en
+---
+
 # Manage Pending User Invitations
 
 When you add a user with an Adobe ID to your organization, the user receives an email invitation. The user is not added to your organization until the user clicks the link in the email and accepts the invitation. An invite is pending until the user accepts it, an admin revokes it, or the invite expires.

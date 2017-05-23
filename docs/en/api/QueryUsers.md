@@ -1,3 +1,11 @@
+---
+layout: default
+nav_link: List and Query Users
+nav_order: 800
+nav_level: 2
+lang: en
+---
+
 # List and Query Users
 
 User information defined for your organization is available through the **{orgId}/users**. You can also get member lists through the user-group and product-configuration resources.

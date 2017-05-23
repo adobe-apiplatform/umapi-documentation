@@ -1,9 +1,10 @@
 ---
-title: Access to the API
+title: Access API Reference
 layout: page
-nav_link: Access to the API
+nav_link: Access API Reference
 nav_order: 52
 nav_level: 2
+lang: en
 ---
 
 # Access API Reference
