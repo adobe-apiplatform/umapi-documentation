@@ -1,6 +1,6 @@
 ---
 title: API Reference
-layout: page
+layout: default
 nav_link: Product Access
 nav_order: 450
 nav_level: 3

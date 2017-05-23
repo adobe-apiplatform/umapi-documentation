@@ -3,6 +3,7 @@ layout: default
 nav_link: Manage Product Access
 nav_level: 2
 nav_order: 250
+lang: en
 ---
 
 # Add and Remove Product Access

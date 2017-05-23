@@ -1,6 +1,6 @@
 ---
 title: User Management Actions
-layout: page
+layout: default
 nav_link: User Management Actions
 nav_order: 440
 nav_level: 3

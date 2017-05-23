@@ -1,6 +1,6 @@
 ---
 title: Access API Reference
-layout: page
+layout: default
 nav_link: Access API Reference
 nav_order: 420
 nav_level: 2

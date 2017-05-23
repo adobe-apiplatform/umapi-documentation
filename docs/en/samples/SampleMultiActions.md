@@ -3,6 +3,7 @@ layout: default
 nav_link: Multi-Action Requests
 nav_level: 2
 nav_order: 270
+lang: en
 ---
 
 # Perform Multiple Actions for One User

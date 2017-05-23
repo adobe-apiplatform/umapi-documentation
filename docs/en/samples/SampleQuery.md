@@ -3,6 +3,7 @@ layout: default
 nav_link: Query User and Product Configuration
 nav_level: 2
 nav_order: 240
+lang: en
 ---
 
 # Query User and Product Configuration Information

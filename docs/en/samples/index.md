@@ -4,6 +4,7 @@ nav_link: Samples
 nav_level: 1
 nav_order: 200
 title: UMAPI Samples
+lang: en
 ---
 
 # User Management Walkthrough

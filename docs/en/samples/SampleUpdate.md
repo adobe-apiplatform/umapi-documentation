@@ -3,6 +3,7 @@ layout: default
 nav_link: Update User Information
 nav_level: 2
 nav_order: 230
+lang: en
 ---
 
 # Update User Information

@@ -3,7 +3,7 @@ layout: default
 nav_link: Remove User
 nav_level: 2
 nav_order: 260
-title: UMAPI Samples
+lang: en
 ---
 
 # Remove a User from your Organization
