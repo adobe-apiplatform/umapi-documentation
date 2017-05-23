@@ -24,6 +24,11 @@
   }
 }
 
+.selected-page-link {
+    font-style: italic;
+    font-weight: 600;
+}
+
 .site-nav {
   float: right;
   line-height: 56px;
@@ -41,6 +46,7 @@
       margin-right: 20px;
     }
   }
+
 
   @include media-query($on-palm) {
     position: absolute;
@@ -84,6 +90,13 @@
       }
       margin-left: 20px;
     }
+    .selected-page-link {
+      font-style: italic;
+      font-weight: 600;
+      color: darkviolet;
+      font-size: 1.2em;
+    }
+
   }
 }
 
