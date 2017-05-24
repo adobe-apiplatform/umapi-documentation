@@ -210,6 +210,9 @@
     /* border: black 1px solid; */
     padding: 5px;
 }
+.dummy-nav-area {
+  width: 8000px;  /* just needs to exceed max-width in nav-area */
+}
 
 /**
  * Posts
