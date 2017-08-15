@@ -81,7 +81,7 @@ The response body contains the requested user data in JSON format including any 
 [Identity Types](glossary.html#identity) explains the different account types available.
 
 #### Examples
-Response for an Adobe ID (Type 1) with System Administrator role:
+<a name="getUserAdminRolesExample" class="api-ref-subtitle">Response for an Adobe ID (Type 1) with System Administrator role:</a>
 ```json
 {
   "result": "success",
@@ -100,7 +100,7 @@ Response for an Adobe ID (Type 1) with System Administrator role:
   }
 }
 ```
-Enterprise User (Type 2) with membership to 2 user-groups but no administrative roles. If the fields are not populated e.g. `firstname`/`lastname` in this example, then they will be excluded from the response.
+<a name="getUserGroupsExample" class="api-ref-subtitle">Enterprise User (Type 2) with membership</a> to 2 user-groups but no administrative roles. If the fields are not populated e.g. `firstname`/`lastname` in this example, then they will be excluded from the response.
 ```json
 {
   "result": "success",
@@ -152,17 +152,21 @@ The status of the request. This property can be used to manage error handling as
 __user:__  
 Represents a _User_ object. Properties that are not populated __will not__ be returned in the response. Some properties are not applicable for particular account types.
 
-* **adminRoles:** _string[]_; The list of groups that the user holds an administrative role.
-* __country:__ _string_; A valid ISO 2-character country code for a country in which Adobe does business.
-* __domain:__ _string_; The user's domain (applicable for enterprise and federated users).
+* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. For example if a user is an System Administrator then `org` will be returned. If the user is an administrator for a user-group or product, the name of the group will be returned. See [AdminRoles example](#getUserAdminRolesExample).
+* __country:__ _string_; A valid ISO 2-character country code.
+* __domain:__ _string_; The user's domain.
 * __email:__ _string_
 * __firstname:__ _string_
-* __groups:__ _string[]_; The list of groups that the user is a current member of including user-groups and product configurations.
+* __groups:__ _string[]_; The list of groups that the user is a current member of including user-groups and product configurations. See [Groups example](#getUserGroupsExample).
 * __id:__ _string_
 * __lastname:__ _string_
-* __status:__ _string_, possible values:`{ "active", "disabled", "locked", "removed" }`; The current status of the user.
+* __status:__ _string_, possible values:`{ "active", "disabled", "locked", "removed" }`; The current status of the user:
+  * active: Normal status for a user account in good standing.
+  * disabled: Disabled temporarily - not removed, but the user will not be allowed to login.
+  * locked: Disabled permanently - not removed, user will not be allowed to login.
+  * removed: The user account is being removed. 
 * __type:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.html#identity) for more information.
-* __username:__ _string_; The user's username (applicable for enterprise and federated users).
+* __username:__ _string_; The user's username (applicable for enterprise and federated users). For most Type 1 users, this value will be the same as the email address.
 
 #### Schema Model
 
