@@ -1,1 +1,1 @@
-The unique identifier for an organization. This is of the form `A495E53@AdobeOrg` where the prefix before the `@` is a 24-digit hexadecimal number. You can find this value as part of the URL path for the organization in the Admin Console.
+The unique identifier for an organization. This is of the form `A495E53@AdobeOrg` where the prefix before the `@` is a 24-digit hexadecimal number. You can find this value as part of the URL path for the organization in the Admin Console or in the [adobe.io console](https://console.adobe.io/) for your User Management integration.

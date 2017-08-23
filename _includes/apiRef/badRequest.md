@@ -1,2 +1,2 @@
-### 400 Bad Request
+### __400 Bad Request__
 Some parameters of the request were not understood by the server or the [Service Account Integration](https://adobe-apiplatform.github.io/umapi-documentation/en/getstarted.html) certificate has expired.

@@ -10,10 +10,10 @@ lang: en
 
 <a name="action" class="api-ref-title">POST /v2/usermanagement/action/{orgId}</a>
 
-Create, update, entitle, and remove users in an organization. The JSON structure allows a maximum of 10 users or [user-groups](glossary.html#usergroup) to be operated on per request.
+Create, update, entitle, and remove users or [user-groups](glossary.html#usergroup) in an organization. The JSON structure allows a maximum of 10 users or user-groups to be operated on per request.
 When a request has been understood and at least partially completed, it returns with HTTP status 200.
 
-This JSON request structure specifies a sequence of commands. Each command entry specifies a user and a sequence of steps to be performed for that user. For a given command entry, steps are performed in the order they appear but the order of execution of commands is not always guaranteed. If the same user is listed in more than one command, results could differ depending on the order of command execution.
+This JSON request structure specifies a sequence of commands. Each command entry specifies a user (or usergroup) and a sequence of steps to be performed for that user/user-group. For a given command entry, steps are performed in the order they appear but the order of execution of commands is **not** always guaranteed. If the same user/user-group is listed in more than one command, results could differ depending on the order of command execution.
 
 ## Parameters
 
@@ -22,7 +22,7 @@ This table summarizes the parameters and how they are provided:
 | Name | Description | Type | Data Type| Req? |
 | :--- | :------ | :---| :--- | --- |
 | orgId | {% include apiRef/orgIdDescription.md %} | path | string | true |
-| testOnly | A boolean value indicating whether to run the commands in _test mode_.  If true, parameter syntactic and (limited) semantic checking is done, but the specified operations are not performed, so no user accounts or group memberships are created, changed, or deleted.  The query parameter name is `testOnly` and this parameter is its value. | query | string | false |
+| <a name="testOnly" class="api-ref-subtitle">testOnly</a> | A boolean value indicating whether to run the commands in _test mode_.  If true, parameter syntactic and (limited) semantic checking is done, but the specified operations are not performed, so no user accounts or group memberships are created, changed, or deleted. | query | string | false |
 | x-api-key | {% include apiRef/apiKeyDescription.md %} | header | string | true |
 | Authorization | {% include apiRef/authorizationDescription.md %} | header | string | true |
 | Content-type | {% include apiRef/contentTypeDescription.md %} | header | string | false |
@@ -34,39 +34,39 @@ This table summarizes the parameters and how they are provided:
 The JSON request structure specifies a sequence of commands. Each _command_ entry specifies a user or a [user-group](glossary.html#usergroup) and a sequence of _steps_ to be performed for that user/user-group.  
 
 For a given command entry, steps are attempted to be performed in the order that they appear but the order of execution of commands is not always guaranteed. If the same user/user-group is listed in more than one command, results could differ depending on the order of command execution. Use the following order as guidance:
-* Creates (addAdobeId, createEnterpriseID, createFederatedID)
-* Updates
-* Remove entitlements and memberships
-* Remove administrative roles
-* Add entitlements and memberships
-* Add administrative roles
-* Remove users from an organization
+* Creates ([addAdobeId](#addAdobeID), [createEnterpriseID](#createEnterpriseID), [createFederatedID](#createFederatedID)).
+* [Updates](#update) of users' information.
+* [Removal](#remove) of entitlements and memberships.
+* [Removal](#removeRoles) of administrative roles
+* [Adding](#add) of entitlements and memberships
+* [Adding](#addRoles) of administrative roles
+* [Removal](#removeFromOrg) of users from an organization
 
-The following properties are applicable for each _command_ entry. 
+The following properties are available for each _command_ entry:
 
-__user:__ _string_  
+<a name="userRootCommand" class="api-ref-subtitle">__user:__</a> _string_  
 The user field is usually an email address with a UID and domain component `jdoe@example.com`. Organizations can be configured to accept usernames that are not email addresses. In these cases, the `domain` property must be provided in order to identify the user. [Identity Types](glossary.html#identity) explains the different account types available.
 
 __usergroup:__ _string_  
-To update the membership lists for a given [user-group](glossary.html#usergroup), specify `add` and `remove` actions in the `do` list for the `usergroup`. Up to 10 memberships can be added/removed in one command entry using the `users` and `productConfiguration` options.
+To update the membership lists for a given [user-group](glossary.html#usergroup), specify `add` and `remove` actions in the `do` list for the `usergroup`. Up to 10 memberships can be added/removed in one command entry using the `user` and `group` options.
 
-__domain:__ _string_  
+__domain:__ _string_ (_only available with the [user root command](#userRootCommand)_)  
 Federated IDs that are not email addresses, must supply the domain the user belongs to in order to identify the user. This is required for all operations; create, update, add, remove, and removeFromOrg.  
 The domain field must be at the same level as the user field. The domain field is ignored if the user has an Adobe or Enterprise ID. [Identity Types](glossary.html#identity) explains the different account types available.
 
 __requestID:__ _string_  
 Arbitrary string which will be returned in the response payload. This is to help assist in identifying the corresponding response to a command entry.
 
-__useAdobeID:__ _boolean_  
-When true the user id is interpreted to refer to an existing Type 1 Adobe ID even if a Type 2 or 3 ID exists with the same name.
+__useAdobeID:__ _boolean_ (_only available with the [user root command](#userRootCommand)_)  
+When true the user id is interpreted to refer to an existing AdobeID even if a Enterprise or Federated ID exists with the same name.
 
 __do:__  
-Lists the series of _steps_ to complete for this command entry. Please note that there can only be __one__ create user operation (createEnterpriseID|createFederatedID|addAdobeID) and __one__ delete user operation (removeFromOrg) in a single command entry.
+Lists the series of _steps_ to complete for this command entry. Please note when using the [user root command](#userRootCommand)) that there can only be __one__ create user operation ([createEnterpriseID](#createEnterpriseID), [createFederatedID](#createFederatedID) or [addAdobeID](#addAdobeID)) and __one__ delete user operation ([removeFromOrg](#removeFromOrg)) in a single command entry.
 
-__addAdobeID:__  
-Adds a Type 1 user who has an existing Adobe ID. [Identity Types](glossary.html#identity) explains the different account types available.  
-If the organization has not migrated to [OneConsole](glossary.html#oneconsole) then the user will receive an email inviting them to join the organization. The invited user is not available for other operations, such as product access management, until they have accepted the invitation. When you add an Adobe ID user, the command must not include further steps for that user.  
-For _migrated_ organizations, the client can include user-information fields such as `firstname` and `lastname`.  
+<a name="addAdobeID" class="api-ref-subtitle">__addAdobeID:__</a> (_only available with the [user root command](#userRootCommand)_)  
+Adds a user who has an existing Adobe ID. [Identity Types](glossary.html#identity) explains the different account types available.  
+If the organization has not migrated to [OneConsole](glossary.html#oneconsole) then the user will receive an email inviting them to join the organization.  
+For _[migrated](glossary.html#oneconsole)_ organizations, the client can include user-information fields such as `firstname` and `lastname`.  
 See [user-information](#user-information) for individual field descriptions.
 ```json
 {
@@ -80,8 +80,8 @@ See [user-information](#user-information) for individual field descriptions.
 }
 ```
 
-__createEnterpriseID:__  
-Creates a Type 2 (Enterprise) Adobe ID. [Identity Types](glossary.md#identity) explains the different account types available.  
+<a name="createEnterpriseID" class="api-ref-subtitle">__createEnterpriseID:__</a> (_only available with the [user root command](#userRootCommand)_)  
+Creates an Enterprise ID. [Identity Types](glossary.md#identity) explains the different account types available.  
 See [user-information](#user-information) for individual field descriptions.
 ```json
 {
@@ -95,8 +95,8 @@ See [user-information](#user-information) for individual field descriptions.
 }
 ```
 
-__createFederatedID:__  
-Creates a Type 3 (Federated) Adobe ID. [Identity Types](glossary.md#identity) explains the different account types available.  
+<a name="createFederatedID" class="api-ref-subtitle">__createFederatedID:__</a> (_only available with the [user root command](#userRootCommand)_)  
+Creates a Federated ID. [Identity Types](glossary.md#identity) explains the different account types available.  
 See [user-information](#user-information) for individual field descriptions.
 ```json
 {
@@ -110,15 +110,15 @@ See [user-information](#user-information) for individual field descriptions.
 }
 ```
 __<a name="user-information" class="api-ref-subtitle">User Information Fields</a>__  
-* __firstname:__ _string_; Limited to 250 characters. Required for `createEnterpriseID` and `createFederatedID`. Optional for `adobeAdobeID` when a migrated organization.
-* __lastname:__ _string_; Limited to 250 characters. Required for `createEnterpriseID` and `createFederatedID`. Optional for `adobeAdobeID` when a migrated organization.
-* __email:__ _string_; A valid email address. Required for `createEnterpriseID`, `addAdobeID` and `createFederatedID` and `adobeAdobeID` for migrated organizations.
-* __country:__ _string_; A valid ISO 2-character country code for a country in which Adobe does business. Optional for `createEnterpriseID` and `adobeAdobeID` for migrated organizations. Required for `createFederatedID`. The `country` value cannot be updated after it is set.
-* __option:__ _string_, possible values: `{ignoreIfAlreadyExists, updateIfAlreadyExists}`; In addition to the new user's field values, the parameters can include an _option_ flag that specifies how to perform the create operation when a user with the given ID already exists in the user database. Default behaviour is `ignoreIfAlreadyExists`. Optional property for `createEnterpriseID`, `createFederatedID`, `addAdobeID`
+* __firstname:__ _string_; Limited to 250 characters. Required for `createEnterpriseID` and `createFederatedID`. Optional for `addAdobeID` when a _[migrated](glossary.html#oneconsole)_ organization otherwise it is ignored for AdobeIDs.
+* __lastname:__ _string_; Limited to 250 characters. Required for `createEnterpriseID` and `createFederatedID`. Optional for `addAdobeID` when a _[migrated](glossary.html#oneconsole)_ organization otherwise it is ignored for AdobeIDs.
+* __email:__ _string_; A valid email address. Required for `createEnterpriseID`, `addAdobeID` and `createFederatedID`.
+* __country:__ _string_; A valid ISO 2-character country code. Optional for `createEnterpriseID` and `addAdobeID` for _[migrated](glossary.html#oneconsole)_ organizations. Required for `createFederatedID`. The `country` value cannot be updated after it is set.
+* __option:__ _string_, possible values: `{ignoreIfAlreadyExists, updateIfAlreadyExists}`; In addition to the new user's field values, the parameters can include an _option_ flag that specifies how to perform the create operation when a user with the given ID already exists in the user database. Default behaviour is `ignoreIfAlreadyExists`. Optional property for `createEnterpriseID`, `createFederatedID`, `addAdobeID`.
   - `ignoreIfAlreadyExists`: If the ID already exists, ignore the _create_ step but process any other steps in the command entry for this user.
   - `updateIfAlreadyExists`: If the ID already exists, perform an _update_ action using the parameters in the create step. After updating all fields present in the step, process any other steps in the command entry for this user.
 
-__update:__  
+<a name="update" class="api-ref-subtitle">__update:__</a> (_only available with the [user root command](#userRootCommand)_)  
 The `update` action writes new personal information to the user's account details. You can update Enterprise and Federated IDs that are managed by your organization.  
 Independent Adobe IDs are managed by the individual user and cannot be updated through the User Management API. Attempting to update information for a user who has an Adobe ID will result in error [error.update.adobeid.no](errorRef.html#adobeidno).  
 For Federated IDs, the `update` request can only change the information that is stored by Adobe. You cannot change information your organization stores outside of Adobe through the User Management API. You can, however, include a `username` field for users whose email address is in your domain. The `username` value must not include an at-sign character (@). The parameters of an update step specify the changed fields and their new values. If you do not specify a field, its value remains unchanged.  
@@ -130,13 +130,13 @@ For Federated IDs, the `update` request can only change the information that is 
     "email": "string",
     "firstname": "string",
     "lastname": "string",
-    "option": "string"
+    "option": "[ignoreIfAlreadyExists|updateIfAlreadyExists]"
   }
 }
 ```
 
-__add:__
-Enables the entitlement or membership of users to product configurations and [user-groups](glossary.md#user-group). Product configurations correspond to specific product access rights, so adding product access for a user is the same as adding that user to the corresponding product configuration.
+<a name="add" class="api-ref-subtitle">__add:__</a>  
+Enables the entitlement or membership of users to product configurations and [user-groups](glossary.md#user-group). {% include apiRef/plc.md plural=true capitalize=true %} correspond to specific product access rights, so adding product access for a user is the same as adding that user to the corresponding {% include apiRef/plc.md %}. See [Add attributes](#addRemoveAttr) section for full details of the following attributes:
 ```json
 {
   "add": {
@@ -153,32 +153,38 @@ Enables the entitlement or membership of users to product configurations and [us
 }
 ```
 
-__remove:__
-Removes the entitlement or membership of users from product configurations and [user-groups](glossary.md#user-group). Product configurations correspond to specific product access rights, so removing product access for a user is the same as removing that user from the corresponding product configuration.
+<a name="remove" class="api-ref-subtitle">__remove:__</a>  
+Removes the entitlement or membership of users from {% include apiRef/plc.md %}s and [user-groups](glossary.md#user-group). {% include apiRef/plc.md plural=true %} correspond to specific product access rights, so removing product access for a user is the same as removing that user from the corresponding {% include apiRef/plc.md %}. See [Remove attributes](#addRemoveAttr) section for full details of the following attributes:
 ```json
 {
   "remove" : {
-    "usergroup" : ["DevOps"]
+    "productConfiguration": [
+      "product_config_name"
+    ],
+    "user": [
+      "string"
+    ],
+    "usergroup": [
+      "usergroup_name"
+    ]
   }
 }
 ```
-Remove the user from all product configurations:
+Additionally you can pass the attribute `all` to remove the user from all groups including {% include apiRef/plc.md %} and user-groups:
 ```json
 {
   "remove" : "all"
 }
 ```
-__product:__
-A list of product configurations with a maximum of 10 entries. This can be used with the `user` or `usergroup` root commands and is applicable to the `add` and `remove` operations.
+__<a name="addRemoveAttr" class="api-ref-subtitle">Add/Remove Attributes</a>__
+* __group:__; A list of {% include apiRef/plc.md %} with a maximum of 10 entries. This can be used with the `user` or `usergroup` root commands and is available in the [add](#add) and [remove](#remove) operations.
 
-__usergroup:__
-A list of user-groups with a maximum of 10 entries. This can be used with the `user` root command and is applicable to the `add` and `remove` operations.
+* __usergroup:__ (_only available with the [user root command](#userRootCommand)_); A list of user-groups with a maximum of 10 entries. This can be used with the `user` root command and is available in the [add](#add) and [remove](#remove) operations.
 
-__user:__
-A list of users with a maximum of 10 entries. This can be used with the `usergroup` root command and is applicable to the `add` and `remove` operations.
+* __user:__ (_only available with the [user-group root command](#usergroupRootCommand)_); A list of users with a maximum of 10 entries. This can be used with the `usergroup` root command and is applicable to the [add](#add) and [remove](#remove) operations.
 
-__addRoles:__
-Grant administrative privileges to the product configuration or user-group for the specified user.
+<a name="addRoles" class="api-ref-subtitle">__addRoles:__</a> (_only available with the [user root command](#userRootCommand)_)  
+Grant administrative privileges to the {% include apiRef/plc.md %} or user-group for the specified user. See [Add Role attributes](#addRemoveRoleAttr) section for full details of the following attributes:
 ```json
 {
   "addRoles": {
@@ -192,8 +198,8 @@ Grant administrative privileges to the product configuration or user-group for t
 }
 ```
 
-__removeRoles:__
-When a user is a member of a product configuration, this command will revoke administrative privileges for that user in that product configuration or user-group.
+<a name="removeRoles" class="api-ref-subtitle">__removeRoles:__</a> (_only available with the [user root command](#userRootCommand)_)  
+When a user is a member of a {% include apiRef/plc.md %}, this command will revoke administrative privileges for that user in that {% include apiRef/plc.md %} or user-group. See [Remove Role attributes](#addRemoveRoleAttr) section for full details of the following attributes:
 ```json
 {
   "removeRoles": {
@@ -206,23 +212,27 @@ When a user is a member of a product configuration, this command will revoke adm
   }
 }
 ```
-__productAdmin:__
-A list of products with a maximum of 10 entries. This can only be used with the `user` root command and is applicable to the `addRoles` and `removeRoles` operations.
+__<a name="addRemoveRoleAttr" class="api-ref-subtitle">Add/Remove Role Attributes</a>__  
+* __productAdmin:__ (_only available with the [user root command](#userRootCommand)_); A list of products (with a maximum of 10 entries) to assign the user as a [Product Administrator](glossary.html#productAdmin). This can only be used with the `user` root command and is applicable to the `addRoles` and `removeRoles` operations. 
 
-__admin:__
-A list of product configurations and user-groups with a maximum of 10 entries. This can only be used with the `user` root command and is applicable to the `addRoles` and `removeRoles` operations. To manage organization administrators use the identifer "org":
+* __admin:__ (_only available with the [user root command](#userRootCommand)_); A list of product configurations and user-groups (with a maximum of 10 entries) to assign the user as an Administrator. This can only be used with the `user` root command and is applicable to the `addRoles` and `removeRoles` operations. Possible roles include:
+  * "org": Assign the user as a [System Administrator](glossary.html#orgAdmin).
+  * "deployment": Assign the user as a [Deployment Administrator](glossary.html#deployment).
+  * "support": Assign the user as a [Support Administator](glossary.html#supportAdmin).
+  * "{product-config-name}": Assign user as a [{% include apiRef/plc.md capitalize=true %} Administrator](glossary.html#productConfigAdmin).
+  * "{user-group-name}": Assign user as a [UserGroup Administrator](glossary.html#usergroupAdmin). 
 ```json
-{
-  "addRoles": {
-    "admin": [
-      "org"
-    ]
+  {
+      "addRoles": {
+        "admin": [
+          "org"
+        ]
+      }
   }
-}
 ```
 
-__removeFromOrg:__
-Removes the user's membership in the organization, and optionally from membership in a domain that is linked to the given organization through the trusted-domain relationship. There can only be a single `removeFromOrg` action in a command entry. If present, the removal action will be last step invoked.
+<a name="removeFromOrg" class="api-ref-subtitle">__removeFromOrg:__</a> (_only available with the [user root command](#userRootCommand)_)  
+Removes the user's membership in the organization, and optionally from membership in a domain that is linked to the given organization through the trusted-domain relationship. There can only be a single `removeFromOrg` action in a command entry. If present, the removal action will be the last step invoked.
 ```json
 {
   "removeFromOrg": {
@@ -231,13 +241,12 @@ Removes the user's membership in the organization, and optionally from membershi
 }
 ```
 
-__deleteAccount:__ _boolean_
-If true then if the account is owned by the organization, the account is also deleted. Note that Adobe IDs are never deleted because they are owned by the user, not the organization. The default value is false.
+* __deleteAccount:__ _boolean_; If true then if the account is owned by the organization, the account is also deleted. Note that Adobe IDs are never deleted because they are owned by the user, not the organization. The default value is false.
 
 
-### Examples
+### __Examples__
 
-Creates a Type 3 user and adds them to the [product configurations](glossary.md#plc) 'Photoshop' and 'Illustrator' and removes them from the user-group 'devOps'. The user is identified by passing the username and domain.
+Creates a Federated ID and adds them to the [{% include apiRef/plc.md plural=true %}](glossary.md#plc) 'Photoshop' and 'Illustrator' and removes them from the user-group 'devOps'. The user is identified by passing the username and domain.
 ```json
 {
   "user" : "jdoe",
@@ -254,17 +263,17 @@ Creates a Type 3 user and adds them to the [product configurations](glossary.md#
   },
   {
     "add" : {
-      "product" : [ "Photoshop", "Illustrator"]
+      "productConfiguration" : [ "Photoshop", "Illustrator"]
     }
   },
   {
     "remove" : {
-      "usergroup" : ["DevOps"]
+      "usergroup" : ["Photoshop"]
     }
   }]
 }
 ```
-Create a Type 2 user:
+Create a Enterprise ID:
 ```json
 {
   "user": "jane.doe@example.com",
@@ -287,18 +296,18 @@ Usergroup as the root command:
   "do": [
     {
       "add": {
-        "product": [
+        "productConfiguration": [
           "Config1_Nickname"
         ],
-        "users": [
+        "user": [
           "user1@myCompany.com"
         ]
       },
       "remove": {
-        "product": [
+        "productConfiguration": [
           "Config2_Nickname"
         ],
-        "users": [
+        "user": [
           "user2@myCompany.com"
         ]
       }
@@ -306,7 +315,7 @@ Usergroup as the root command:
   ]
 }
 ```
-Update a Type 2 user using the update command:
+Update a Enterprise ID using the update command:
 ```json
 [
   {
@@ -324,7 +333,7 @@ Update a Type 2 user using the update command:
   }
 ]
 ```
-Update a Type 2 user using the createEnterpriseID command and the option flag:
+Update a user using the createEnterpriseID command and the option flag:
 ```json
 [
   {
@@ -343,7 +352,7 @@ Update a Type 2 user using the createEnterpriseID command and the option flag:
   }
 ]
 ```
-Removing a user from all their product entitlements:
+Removing a user from all their product entitlements and user-group memberships:
 ```json
 [
   {
@@ -357,18 +366,16 @@ Removing a user from all their product entitlements:
 ]
 ```
 
-### Request Body Schema
+### __Request Body Schema__
 
+#### __User Command__
 ```json
 [
   {
     "do": [
       {
         "add": {
-          "product": [
-            "string"
-          ],
-          "user": [
+          "productConfiguration": [
             "string"
           ],
           "usergroup": [
@@ -428,7 +435,29 @@ Removing a user from all their product entitlements:
     "domain": "string",
     "requestID": "string",
     "useAdobeID": boolean,
-    "user": "string",
+    "user": "string"
+  }
+]
+
+```
+#### __Usergroup Command__
+```json
+[
+  {
+    "do": [
+      {
+        "add": {
+          "productConfiguration": [
+            "string"
+          ],
+          "user": [
+            "string"
+          ]
+        },
+        "remove": {}
+      }
+    ],
+    "requestID": "string",
     "usergroup": "string"
   }
 ]
@@ -440,7 +469,7 @@ ___
 
 __Content-Type:__ _application/json_
 
-### 200 OK
+### __200 OK__
 The request was understood and at least partially completed. The response body returns a more complete description of the result in JSON format.
 If the result status is:
 * __success__: All the actions were completed. `completed` field will equal the total of commands processed.
@@ -449,7 +478,9 @@ If the result status is:
 
 When the result is partial or error, the errors field lists will include the specific actions that failed with corresponding error information. Warnings can also be returned with details of deprecated commands. Warnings will not cause the command to fail.
 
-#### Examples
+When using the [testOnly](#testOnly) parameter, the field `completedInTestMode` will be populated with the number of successful commands processed. In this scenario the `completed` field will be 0 as no commands will have been fully processed.
+
+#### __Examples__
 Error status:
 ```json
 {
@@ -477,7 +508,7 @@ Partial status:
     {
       "index": 1,
       "step": 0,
-      "requestID": "Tow 2 Two 2 Two 2 Two 2 !@#$%^&*()_",
+      "requestID": "Two2_123456",
       "message": "User Id does not exist: test@test_fake.us",
       "user": "test@test_fake.us",
       "errorCode": "error.user.nonexistent"
@@ -485,7 +516,7 @@ Partial status:
     {
       "index": 3,
       "step": 0,
-      "requestID": "Four 4 Four 4 Four 4 !@#$%^&*()_",
+      "requestID": "Four4_123456",
       "message": "Group NON_EXISTING_GROUP was not found",
       "user": "user4@example.com",
       "errorCode": "error.group.not_found"
@@ -493,7 +524,7 @@ Partial status:
     {
       "index": 5,
       "step": 0,
-      "requestID": "Six 6 Six 6 Six 6 !@#$%^&*()_",
+      "requestID": "Six6_123456",
       "message": "User Id does not exist: test@test_fake.fake",
       "user": "test6@test_fake.fake",
       "errorCode": "error.user.nonexistent"
@@ -501,7 +532,7 @@ Partial status:
     {
       "index": 7,
       "step": 0,
-      "requestID": "Eight 8Eight 8 Eight 8 !@#$%^&*()_",
+      "requestID": "Eight8_123456",
       "message": "Changes to users are only allowed in claimed domains.",
       "user": "fake8@faketest.com",
       "errorCode": "error.domain.trust.nonexistent"
@@ -509,7 +540,7 @@ Partial status:
     {
       "index": 9,
       "step": 0,
-      "requestID": "Ten 10 Ten 10 Ten 10 !@#$%^&*()_",
+      "requestID": "Ten10_123456",
       "message": "Group NON_EXISTING_GROUP was not found",
       "user": "user10@example.com",
       "errorCode": "error.group.not_found"
@@ -519,7 +550,7 @@ Partial status:
   "warnings": [
     {
       "warningCode": "warning.command.deprecated",
-      "requestID": "Four 4 Four 4 Four 4 !@#$%^&*()_",
+      "requestID": "Four4_123456",
       "index": 3,
       "step": 0,
       "message": "'product' command is deprecated. Please use productConfiguration.",
@@ -527,7 +558,7 @@ Partial status:
     },
     {
       "warningCode": "warning.command.deprecated",
-      "requestID": "Ten 10 Ten 10 Ten 10 !@#$%^&*()_",
+      "requestID": "Ten10_123456",
       "index": 9,
       "step": 0,
       "message": "'product' command is deprecated. Please use productConfiguration.",
@@ -545,7 +576,7 @@ Success status:
   "result": "success"
 }
 ```
-#### Schema Properties
+#### __Schema Properties__
 
 __message:__ _string_  
 Only returned if initial validation of the request fails. It is not populated when a 200 status is returned.
