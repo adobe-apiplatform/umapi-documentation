@@ -1,2 +1,2 @@
-### __400 Bad Request__
+### <a name="{{ include.anchor }}" class="api-ref-subtitle">__400 Bad Request__</a>
 Some parameters of the request were not understood by the server or the [Service Account Integration](https://adobe-apiplatform.github.io/umapi-documentation/en/getstarted.html) certificate has expired.

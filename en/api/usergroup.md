@@ -57,6 +57,10 @@ This table summarizes the parameters and how they are provided:
 | X-Request-Id | {% include apiRef/requestIdDescription.md %} | header | string | false |
 {:.bordertablestyle}
 
+## Throttling
+
+{% include apiRef/throttling.md client=5 global=50 %}
+
 ## Responses
 
 __Content-Type:__ _application/json_
@@ -175,6 +179,10 @@ This table summarizes the parameters and how they are provided:
 | Content-type | {% include apiRef/contentTypeDescription.md %} | header | string | false |
 | X-Request-Id | {% include apiRef/requestIdDescription.md %} | header | string | false |
 {:.bordertablestyle}
+
+## Throttling
+
+{% include apiRef/throttling.md client=5 global=50 %}
 
 ## Responses
 
@@ -299,6 +307,10 @@ This table summarizes the request body parameters:
 }
 ```
 
+## Throttling
+
+{% include apiRef/throttling.md client=5 global=50 %}
+
 ## Responses
 
 __Content-Type:__ _application/json_
@@ -392,6 +404,10 @@ This table summarizes the request body parameters:
 }
 ```
 
+## Throttling
+
+{% include apiRef/throttling.md client=5 global=50 %}
+
 ## Responses
 
 __Content-Type:__ _application/json_
@@ -448,7 +464,6 @@ Permanently delete a [user-group](glossary.html#user-group) identified by the `g
    -H 'x-request-id: user-assigned-request-id' \
    -H 'x-api-key: jilservice_admin1'
 ```
-___
 ## Parameters
 
 This table summarizes the parameters and how they are provided:
@@ -463,7 +478,10 @@ This table summarizes the parameters and how they are provided:
 | X-Request-Id | {% include apiRef/requestIdDescription.md %} | header | string | false |
 {:.bordertablestyle}
 
-___
+## Throttling
+
+{% include apiRef/throttling.md client=5 global=50 %}
+
 ## Responses
 
 __Content-Type:__ _application/json_

@@ -8,28 +8,36 @@ lang: en
 ---   
 # User Management Actions
 
-<a name="action" class="api-ref-title">POST /v2/usermanagement/action/{orgId}</a>
+<a name="action" class="api-ref-title">__POST /v2/usermanagement/action/{orgId}__</a>
 
 Create, update, entitle, and remove users or [user-groups](glossary.html#usergroup) in an organization. The JSON structure allows a maximum of 10 users or user-groups to be operated on per request.
 When a request has been understood and at least partially completed, it returns with HTTP status 200.
 
 This JSON request structure specifies a sequence of commands. Each command entry specifies a user (or usergroup) and a sequence of steps to be performed for that user/user-group. For a given command entry, steps are performed in the order they appear but the order of execution of commands is **not** always guaranteed. If the same user/user-group is listed in more than one command, results could differ depending on the order of command execution.
 
-## Parameters
+__Throttle Limits__: Maximum 10 requests per minute per a client. See [Throttling Limits](#actionThrottle) for full details.
 
-This table summarizes the parameters and how they are provided:
+## __Parameters__
 
-| Name | Description | Type | Data Type| Req? |
-| :--- | :------ | :---| :--- | --- |
-| orgId | {% include apiRef/orgIdDescription.md %} | path | string | true |
-| <a name="testOnly" class="api-ref-subtitle">testOnly</a> | A boolean value indicating whether to run the commands in _test mode_.  If true, parameter syntactic and (limited) semantic checking is done, but the specified operations are not performed, so no user accounts or group memberships are created, changed, or deleted. | query | string | false |
-| x-api-key | {% include apiRef/apiKeyDescription.md %} | header | string | true |
-| Authorization | {% include apiRef/authorizationDescription.md %} | header | string | true |
-| Content-type | {% include apiRef/contentTypeDescription.md %} | header | string | false |
-| X-Request-Id | {% include apiRef/requestIdDescription.md %} | header | string | false |
+| Name | Type | Req? | Description |
+| :--- | :---| :---: | :---------- |
+| orgId | path | true | {% include apiRef/orgIdDescription.md %} |
+| <a name="testOnly" class="api-ref-subtitle">testOnly</a> | query | false | A boolean value indicating whether to run the commands in _test mode_.  If true, parameter syntactic and (limited) semantic checking is done, but the specified operations are not performed, so no user accounts or group memberships are created, changed, or deleted. |
+| X-Api-Key | header | true | {% include apiRef/apiKeyDescription.md %} |
+| Authorization | header | true | {% include apiRef/authorizationDescription.md %} |
+| Content-type | header | false | {% include apiRef/contentTypeDescription.md %} |
+| X-Request-Id | header | false | {% include apiRef/requestIdDescription.md %} |
+| request | body | true | JSON payload containing a series of commands. See [Request Body](#actionRequestBody) section for full details. |
 {:.bordertablestyle}
 
-## Request Body
+## __Responses__
+- [200: OK](#200)
+- [400: Bad Request](#400)
+- [401: Unauthorized](#401)
+- [403: Forbidden](#403)
+- [429: Too Many Requests](#actionThrottle)
+
+## <a name="actionRequestBody" class="api-ref-subtitle">__Request Body__</a>
 
 The JSON request structure specifies a sequence of commands. Each _command_ entry specifies a user or a [user-group](glossary.html#usergroup) and a sequence of _steps_ to be performed for that user/user-group.  
 
@@ -42,6 +50,8 @@ For a given command entry, steps are attempted to be performed in the order that
 * [Adding](#addRoles) of administrative roles
 * [Removal](#removeFromOrg) of users from an organization
 
+### <a name="actionRequestBodyProperties" class="api-ref-subtitle">__Properties__</a>
+
 The following properties are available for each _command_ entry:
 
 <a name="userRootCommand" class="api-ref-subtitle">__user:__</a> _string_  
@@ -51,21 +61,20 @@ __usergroup:__ _string_
 To update the membership lists for a given [user-group](glossary.html#usergroup), specify `add` and `remove` actions in the `do` list for the `usergroup`. Up to 10 memberships can be added/removed in one command entry using the `user` and `group` options.
 
 __domain:__ _string_ (_only available with the [user root command](#userRootCommand)_)  
-Federated IDs that are not email addresses, must supply the domain the user belongs to in order to identify the user. This is required for all operations; create, update, add, remove, and removeFromOrg.  
-The domain field must be at the same level as the user field. The domain field is ignored if the user has an Adobe or Enterprise ID. [Identity Types](glossary.html#identity) explains the different account types available.
+[Federated IDs](glossary.html#federatedId) that are not email addresses, must supply the domain the user belongs to in order to identify the user. This is required for all operations; create, update, add, remove, and removeFromOrg.  
+The domain field must be at the same level as the user field. The domain field is ignored if the user has an [Adobe](glossary.html#adobeId) or [Enterprise](glossary.html#enterpriseId) ID. [Identity Types](glossary.html#identity) explains the different account types available.
 
 __requestID:__ _string_  
 Arbitrary string which will be returned in the response payload. This is to help assist in identifying the corresponding response to a command entry.
 
 __useAdobeID:__ _boolean_ (_only available with the [user root command](#userRootCommand)_)  
-When true the user id is interpreted to refer to an existing AdobeID even if a Enterprise or Federated ID exists with the same name.
+When true the user id is interpreted to refer to an existing [Adobe ID](glossary.html#adobeId) even if a [Enterprise](glossary.html#enterpriseId) or [Federated ID](glossary.html#federatedId) exists with the same name.
 
 __do:__  
 Lists the series of _steps_ to complete for this command entry. Please note when using the [user root command](#userRootCommand)) that there can only be __one__ create user operation ([createEnterpriseID](#createEnterpriseID), [createFederatedID](#createFederatedID) or [addAdobeID](#addAdobeID)) and __one__ delete user operation ([removeFromOrg](#removeFromOrg)) in a single command entry.
 
 <a name="addAdobeID" class="api-ref-subtitle">__addAdobeID:__</a> (_only available with the [user root command](#userRootCommand)_)  
-Adds a user who has an existing Adobe ID. [Identity Types](glossary.html#identity) explains the different account types available.  
-If the organization has not migrated to [OneConsole](glossary.html#oneconsole) then the user will receive an email inviting them to join the organization.  
+Adds a user who has an existing [Adobe ID](glossary.html#adobeId).  If the organization has not migrated to [OneConsole](glossary.html#oneconsole) then the user will receive an email inviting them to join the organization.  
 For _[migrated](glossary.html#oneconsole)_ organizations, the client can include user-information fields such as `firstname` and `lastname`.  
 See [user-information](#user-information) for individual field descriptions.
 ```json
@@ -81,8 +90,7 @@ See [user-information](#user-information) for individual field descriptions.
 ```
 
 <a name="createEnterpriseID" class="api-ref-subtitle">__createEnterpriseID:__</a> (_only available with the [user root command](#userRootCommand)_)  
-Creates an Enterprise ID. [Identity Types](glossary.md#identity) explains the different account types available.  
-See [user-information](#user-information) for individual field descriptions.
+Creates an [Enterprise ID](glossary.html#enterpriseId). See [user-information](#user-information) for individual field descriptions.
 ```json
 {
   "createEnterpriseID": {
@@ -96,8 +104,7 @@ See [user-information](#user-information) for individual field descriptions.
 ```
 
 <a name="createFederatedID" class="api-ref-subtitle">__createFederatedID:__</a> (_only available with the [user root command](#userRootCommand)_)  
-Creates a Federated ID. [Identity Types](glossary.md#identity) explains the different account types available.  
-See [user-information](#user-information) for individual field descriptions.
+Creates a [Federated ID](glossary.html#federatedId). See [user-information](#user-information) for individual field descriptions.
 ```json
 {
   "createFederatedID": {
@@ -110,8 +117,8 @@ See [user-information](#user-information) for individual field descriptions.
 }
 ```
 __<a name="user-information" class="api-ref-subtitle">User Information Fields</a>__  
-* __firstname:__ _string_; Limited to 250 characters. Required for `createEnterpriseID` and `createFederatedID`. Optional for `addAdobeID` when a _[migrated](glossary.html#oneconsole)_ organization otherwise it is ignored for AdobeIDs.
-* __lastname:__ _string_; Limited to 250 characters. Required for `createEnterpriseID` and `createFederatedID`. Optional for `addAdobeID` when a _[migrated](glossary.html#oneconsole)_ organization otherwise it is ignored for AdobeIDs.
+* __firstname:__ _string_; Limited to 250 characters. Required for `createEnterpriseID` and `createFederatedID`. Optional for `addAdobeID` when a _[migrated](glossary.html#oneconsole)_ organization otherwise it is ignored for [Adobe IDs](glossary.html#adobeId).
+* __lastname:__ _string_; Limited to 250 characters. Required for `createEnterpriseID` and `createFederatedID`. Optional for `addAdobeID` when a _[migrated](glossary.html#oneconsole)_ organization otherwise it is ignored for [Adobe IDs](glossary.html#adobeId).
 * __email:__ _string_; A valid email address. Required for `createEnterpriseID`, `addAdobeID` and `createFederatedID`.
 * __country:__ _string_; A valid ISO 2-character country code. Optional for `createEnterpriseID` and `addAdobeID` for _[migrated](glossary.html#oneconsole)_ organizations. Required for `createFederatedID`. The `country` value cannot be updated after it is set.
 * __option:__ _string_, possible values: `{ignoreIfAlreadyExists, updateIfAlreadyExists}`; In addition to the new user's field values, the parameters can include an _option_ flag that specifies how to perform the create operation when a user with the given ID already exists in the user database. Default behaviour is `ignoreIfAlreadyExists`. Optional property for `createEnterpriseID`, `createFederatedID`, `addAdobeID`.
@@ -119,9 +126,9 @@ __<a name="user-information" class="api-ref-subtitle">User Information Fields</a
   - `updateIfAlreadyExists`: If the ID already exists, perform an _update_ action using the parameters in the create step. After updating all fields present in the step, process any other steps in the command entry for this user.
 
 <a name="update" class="api-ref-subtitle">__update:__</a> (_only available with the [user root command](#userRootCommand)_)  
-The `update` action writes new personal information to the user's account details. You can update Enterprise and Federated IDs that are managed by your organization.  
-Independent Adobe IDs are managed by the individual user and cannot be updated through the User Management API. Attempting to update information for a user who has an Adobe ID will result in error [error.update.adobeid.no](errorRef.html#adobeidno).  
-For Federated IDs, the `update` request can only change the information that is stored by Adobe. You cannot change information your organization stores outside of Adobe through the User Management API. You can, however, include a `username` field for users whose email address is in your domain. The `username` value must not include an at-sign character (@). The parameters of an update step specify the changed fields and their new values. If you do not specify a field, its value remains unchanged.  
+The `update` action writes new personal information to the user's account details. You can update [Enterprise](glossary.html#enterpriseId) and [Federated IDs](glossary.html#federatedId) that are managed by your organization.  
+Independent [Adobe IDs](glossary.html#adobeId) are managed by the individual user and cannot be updated through the User Management API. Attempting to update information for a user who has an [Adobe ID](glossary.html#adobeId) will result in error [error.update.adobeid.no](errorRef.html#adobeidno).  
+For [Federated IDs](glossary.html#federatedId), the `update` request can only change the information that is stored by Adobe. You cannot change information your organization stores outside of Adobe through the User Management API. You can, however, include a `username` field for users whose email address is in your domain. The `username` value must not include an at-sign character (@). The parameters of an update step specify the changed fields and their new values. If you do not specify a field, its value remains unchanged.  
 [Identity Types](glossary.md#identity) explains the different account types available. See [user-information](#user-information) for individual field descriptions.  
 ```json
 {
@@ -241,12 +248,12 @@ Removes the user's membership in the organization, and optionally from membershi
 }
 ```
 
-* __deleteAccount:__ _boolean_; If true then if the account is owned by the organization, the account is also deleted. Note that Adobe IDs are never deleted because they are owned by the user, not the organization. The default value is false.
+* __deleteAccount:__ _boolean_; If true then if the account is owned by the organization, the account is also deleted. Note that [Adobe IDs](glossary.html#adobeId) are never deleted because they are owned by the user, not the organization. The default value is false.
 
 
-### __Examples__
+### <a name="actionRequestBodyExamples" class="api-ref-subtitle">__Examples__</a>
 
-Creates a Federated ID and adds them to the [{% include apiRef/plc.md plural=true %}](glossary.md#plc) 'Photoshop' and 'Illustrator' and removes them from the user-group 'devOps'. The user is identified by passing the username and domain.
+Creates a [Federated ID](glossary.html#federatedId) and adds them to the [{% include apiRef/plc.md plural=true %}](glossary.md#plc) 'Photoshop' and 'Illustrator' and removes them from the user-group 'devOps'. The user is identified by passing the username and domain.
 ```json
 {
   "user" : "jdoe",
@@ -273,7 +280,7 @@ Creates a Federated ID and adds them to the [{% include apiRef/plc.md plural=tru
   }]
 }
 ```
-Create a Enterprise ID:
+Create an [Enterprise ID](glossary.html#enterpriseId):
 ```json
 {
   "user": "jane.doe@example.com",
@@ -315,7 +322,7 @@ Usergroup as the root command:
   ]
 }
 ```
-Update a Enterprise ID using the update command:
+Update an [Enterprise ID](glossary.html#enterpriseId) using the update command:
 ```json
 [
   {
@@ -333,7 +340,7 @@ Update a Enterprise ID using the update command:
   }
 ]
 ```
-Update a user using the createEnterpriseID command and the option flag:
+Update a user using the [createEnterpriseID](#createEnterpriseID) command and the option flag:
 ```json
 [
   {
@@ -366,7 +373,7 @@ Removing a user from all their product entitlements and user-group memberships:
 ]
 ```
 
-### __Request Body Schema__
+### <a name="actionRequestBodySchema" class="api-ref-subtitle">__Request Body Schema__</a>
 
 #### __User Command__
 ```json
@@ -463,13 +470,16 @@ Removing a user from all their product entitlements and user-group memberships:
 ]
 
 ```
-___
 
-## Responses
+## __Throttling__
+
+{% include apiRef/throttling.md client=10 global=100 %}
+
+## <a name="actionResponses" class="api-ref-subtitle">__Responses__</a>
 
 __Content-Type:__ _application/json_
 
-### __200 OK__
+### <a name="200" class="api-ref-subtitle">__200 OK__</a>
 The request was understood and at least partially completed. The response body returns a more complete description of the result in JSON format.
 If the result status is:
 * __success__: All the actions were completed. `completed` field will equal the total of commands processed.
@@ -623,7 +633,7 @@ An array of warnings. Each warning entry is an object with the attributes below.
 * __requestID:__ _string_; A developer-defined ID passed into the request which you can use to match this response to a specific request.
 * __user:__ _string_; The user defined in the root of the command entry.
 
-## Schema Model
+## __Schema Model__
 
 ```json
 {
@@ -654,12 +664,12 @@ An array of warnings. Each warning entry is an object with the attributes below.
   ]
 }
 ```
-## Responses with Error Status
+## __Responses with Error Status__
 
 If the response has a status other than 200, the request was not processed.  The status code indicates the reason type of error; this section provides some common causes for these errors.
 
-{% include apiRef/badRequest.md %}
+{% include apiRef/badRequest.md anchor="400" %}
 
-{% include apiRef/unauthorized.md %}
+{% include apiRef/unauthorized.md anchor="401" %}
 
-{% include apiRef/forbidden.md %}
+{% include apiRef/forbidden.md anchor="403" %}

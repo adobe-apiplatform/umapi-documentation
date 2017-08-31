@@ -21,30 +21,52 @@ An application can use the User Management API to access Adobe users and manage 
 
 <hr class="api-ref-rule">
 
-<a name="getUserByEmailOrUsername" class="api-ref-title">GET /v2/usermanagement/organizations/{orgId}/users/{userString}</a>
+<a name="getUserByEmailOrUsername" class="api-ref-title">__GET /v2/usermanagement/organizations/{orgId}/users/{userString}__</a>
 
-This API retrieves the details of a single user within a specified organization by searching for them using their email address or a username and domain combo. Successful queries will return a 200 response whose body is a single JSON response representing the user information.  
+This API retrieves the details of a single user within a specified organization by searching for them using their email address or a username and domain combo. Successful queries will return a 200 response whose body is a single JSON response representing the user information.
+
+__Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#getUserThrottle) for full details.  
+
+## __Parameters__
+
+| Name | Type | Req? | Description |
+| :---- | :--- | :---: | :------ |
+| orgId | path | true | {% include apiRef/orgIdDescription.md %} |
+| userString | path | true | For [AdobeID](glossary.html#adobeId), [Enterprise](glossary.html#enterpriseId) and _[email-federated](glossary.html#federatedId)_ users this should be the full email address including domain. For _[username-Federated](glossary.html#federatedId)_ users, this should be the username. In both cases the parameter is case-insensitive. [Identity Types](glossary.html#identity) explains the different account types available. |
+| X-Api-Key | header | true | {% include apiRef/apiKeyDescription.md %} |
+| Authorization | header | true | {% include apiRef/authorizationDescription.md %} |
+| domain | query | false | Optional parameter but highly recommended including for all user types. For [AdobeID](glossary.html#adobeId) users this would be `AdobeID`. For [Enterprise](glossary.html#enterpriseId) and _[email-federated](glossary.html#federatedId)_ users the domain will either match the email domain or, in the case of multi-domain federations, have any other domain for that directory. For _[username-federated](glossary.html#federatedId)_ users the value must be a claimed domain which contains the user's account |
+| content-type | header | false | {% include apiRef/contentTypeDescription.md %} |
+| X-Request-Id | header | false | {% include apiRef/requestIdDescription.md %} |
+{:.bordertablestyle}
+
+## Responses
+- [200: OK](#200getUser)
+- [400: Bad Request](#400getUser)
+- [401: Unauthorized](#401getUser)
+- [403: Forbidden](#403getUser)
+- [429: Too Many Requests](#getUserThrottle)
 
 ### __Example Requests__
-Searching by email for AdobeID, Enterprise or email-Federated users:
+Searching by email for [AdobeID](glossary.html#adobeId), [Enterprise](glossary.html#enterpriseId) or [email-federated](glossary.html#federatedId) users:
 ```
 curl -X GET https://usermanagement.adobe.io/v2/usermanagement/organizations/12345@AdobeOrg/users/jdoe@example.com \
   --header 'Authorization: Bearer ey...' \
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
  ```
- Searching by username for username-federated users:
+ Searching by username for [username-federated](glossary.html#federatedId) users:
  ```
  curl -X GET https://usermanagement.adobe.io/v2/usermanagement/organizations/12345@AdobeOrg/users/jdoe?domain=example.com \
   --header 'Authorization: Bearer ey...' \
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
  ```
- Searching for AdobeID user with domain:
+ Searching for [AdobeID](glossary.html#adobeId) user with domain:
  ```
  curl -X GET https://usermanagement.adobe.io/v2/usermanagement/organizations/12345@AdobeOrg/users/jdoe@example.com?domain=AdobeID \
   --header 'Authorization: Bearer ey...' \
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
  ```
- Searching for Enterprise or email-federated users with domain parameter included:
+ Searching for [Enterprise](glossary.html#enterpriseId) or [email-federated](glossary.html#federatedId) users with domain parameter included:
  ```
  curl -X GET https://usermanagement.adobe.io/v2/usermanagement/organizations/12345@AdobeOrg/users/jdoe@example.com?domain=example.com \
   --header 'Authorization: Bearer ey...' \
@@ -57,26 +79,15 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/organizations/1234
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
  ```
 
-## __Parameters__
+## <a name="getUserThrottle" class="api-ref-subtitle">__Throttling__</a>
 
-This table summarizes the parameters and how they are provided:
-
-| Name | Description | Type | Data Type | Req? |
-| :---- | :------ | :--- | :--- | ---: |
-| orgId | {% include apiRef/orgIdDescription.md %} | path | string | true |
-| userString | For AdobeID, Enterprise and _email-federated_ users this should be the full email address including domain. For _username-federated_ users, this should be the username. In both cases the parameter is case-insensitive. | path | string | true |
-| x-api-key | {% include apiRef/apiKeyDescription.md %} | header | string | true |
-| domain | Optional parameter but highly recommended including for all user types. For AdobeID users this would be `AdobeID`. For Enterprise and _email-federated_ users the domain will either match the email domain or, in the case of multi-domain federations, have any other domain for that directory. For _username-federated_ users the value must be a claimed domain which contains the user's account | query | string | false |
-| Authorization | {% include apiRef/authorizationDescription.md %} | header | string | true |
-| Content-type | {% include apiRef/contentTypeDescription.md %} | header | string | false |
-| X-Request-Id | {% include apiRef/requestIdDescription.md %} | header | string | false |
-{:.bordertablestyle}
+{% include apiRef/throttling.md client=25 global=100 %}
 
 ## __Responses__
 
 __Content-Type:__ _application/json_
 
-### __200 OK__
+### <a name="200getUser" class="api-ref-subtitle">__200 OK__</a>
 The response body contains the requested user data in JSON format including any of the user's group membership and admin roles. Fields can be missing if values were never supplied or are not applicable for a particular account type.
 
 [Identity Types](glossary.html#identity) explains the different account types available.
@@ -101,7 +112,7 @@ The response body contains the requested user data in JSON format including any 
   }
 }
 ```
-<a name="getUserGroupsExample" class="api-ref-subtitle">Enterprise User with membership</a> to 2 user-groups but no administrative roles. If the fields are not populated e.g. `firstname`/`lastname` in this example, then they will be excluded from the response.
+<a name="getUserGroupsExample" class="api-ref-subtitle">[Enterprise](glossary.html#enterpriseId) User with membership</a> to 2 user-groups but no administrative roles. If the fields are not populated e.g. `firstname`/`lastname` in this example, then they will be excluded from the response.
 ```json
 {
   "result": "success",
@@ -119,7 +130,7 @@ The response body contains the requested user data in JSON format including any 
   }
 }
 ```
-Federated User with no memberships or administrative roles:
+[Federated](glossary.html#federatedId) User with no memberships or administrative roles:
 ```json
 {
   "result": "success",
@@ -163,7 +174,7 @@ Represents a _User_ object. Properties that are not populated __will not__ be re
 * __lastname:__ _string_
 {% include apiRef/statusDescription.md %}
 * __type:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.html#identity) for more information.
-* __username:__ _string_; The user's username (applicable for Enterprise and Federated users). For most AdobeID users, this value will be the same as the email address.
+* __username:__ _string_; The user's username (applicable for [Enterprise](glossary.html#enterpriseId) and [Federated](glossary.html#federatedId) users). For most [AdobeID](glossary.html#adobeId) users, this value will be the same as the email address.
 
 #### __Schema Model__
 
@@ -191,13 +202,13 @@ Represents a _User_ object. Properties that are not populated __will not__ be re
 }
 ```
 
-{% include apiRef/badRequest.md %}
+{% include apiRef/badRequest.md anchor="400getUser" %}
 
-{% include apiRef/unauthorized.md %}
+{% include apiRef/unauthorized.md anchor="401getUser" %}
 
-{% include apiRef/forbidden.md %}
+{% include apiRef/forbidden.md anchor="403getUser" %}
 
-{% include apiRef/notFound.md object="user" %}
+{% include apiRef/notFound.md object="user" anchor="404getUser" %}
 
 <hr class="api-ref-rule">
 ## <a name="getUsers" class="api-ref-title">Get Users</a>
@@ -213,9 +224,32 @@ UMAPI has two APIs for retrieving a list of users. The selection of which API to
   * Return a list of all the _indirect_ memberships for each user.
 
 <hr class="api-ref-rule">
-<a name="getUsersWithPage" class="api-ref-title">GET /v2/usermanagement/users/{orgId}/{page}</a>
+<a name="getUsersWithPage" class="api-ref-title">__GET /v2/usermanagement/users/{orgId}/{page}__</a>
 
 Retrieve a paged list of all users in your organization along with information about them. The number of users returned in each call is subject to change but never exceeds 200 entries. You can make multiple paginated calls to retrieve the full list of users. The `domain` query parameter filters the results to only return users within a specified domain.  
+
+__Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#getUsersWithPageThrottle) for full details.
+
+## __Parameters__
+
+| Name | Type | Req? | Description |
+| :--- | :------ | :--- | :--- | --- |
+| orgId | path | true | {% include apiRef/orgIdDescription.md %} |
+| X-Api-Key | header | true | {% include apiRef/apiKeyDescription.md %} |
+| page | path | true | The page number being requested. Page numbers greater than what exist will return the last page of users. |
+| Authorization | header | true | {% include apiRef/authorizationDescription.md %} |
+| content-type | header | false | {% include apiRef/contentTypeDescription.md %} |
+| X-Request-Id | header | false | {% include apiRef/requestIdDescription.md %} |
+| domain | query | false | Retrieves users from a domain linked to an organization through the Trusted Domain relationship. |
+| directOnly | query | false | {% include apiRef/directOnlyDescription.md %} |
+{:.bordertablestyle}
+
+## __Responses__
+- [200: OK](#200getUsersWithPage)
+- [400: Bad Request](#400getUsersWithPage)
+- [401: Unauthorized](#401getUsersWithPage)
+- [403: Forbidden](#403getUsersWithPage)
+- [429: Too Many Requests](#getUsersWithPageThrottle)
 
 ### __Example Requests__
 Retrieve the first page of users:
@@ -243,27 +277,15 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeO
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
  ```
 
-## __Parameters__
+## <a name="getUsersWithPageThrottle" class="api-ref-subtitle">__Throttling__</a>
 
-This table summarizes the parameters and how they are provided:
-
-| Name | Description | Type | Data Type | Req? |
-| :--- | :------ | :--- | :--- | --- |
-| orgId | {% include apiRef/orgIdDescription.md %} | path | string | true |
-| x-api-key | {% include apiRef/apiKeyDescription.md %} | header | string | true |
-| page | The page number being requested. Page numbers greater than what exist will return the last page of users. | path | string | false |
-| Authorization | {% include apiRef/authorizationDescription.md %} | header | string | true |
-| Content-type | {% include apiRef/contentTypeDescription.md %} | header | string | false |
-| X-Request-Id | {% include apiRef/requestIdDescription.md %} | header | string | false |
-| domain | Retrieves users from a domain linked to an organization through the Trusted Domain relationship. | query | string | false |
-| directOnly | {% include apiRef/directOnlyDescription.md %} | query | string | false |
-{:.bordertablestyle}
+{% include apiRef/throttling.md client=25 global=100 %}
 
 ## __Responses__
 
 __Content-Type:__ _application/json_
 
-### __200 OK__
+### <a name="200getUsersWithPage" class="api-ref-subtitle">__200 OK__</a>
 A successful request returns a response body with the requested user data in JSON format. When the response contains the last paged entry, the response includes the field `lastPage : true`. If the returned page is not the last page, make additional paginated calls to retrieve the full list.
 
 [Identity Types](glossary.html#identity) explains the different account types available.
@@ -389,7 +411,7 @@ Represents a list of _User_ objects. Properties that are not populated __will no
 * __lastname:__ _string_
 {% include apiRef/statusDescription.md %}
 * __type:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.html#identity) for more information.
-* __username:__ _string_; The user's username (applicable for Enterprise and Federated users). For most AdobeID users, this value will be the same as the email address.
+* __username:__ _string_; The user's username (applicable for [Enterprise](glossary.html#enterpriseId) and [Federated](glossary.html#federatedId) users). For most [AdobeID](glossary.html#adobeId) users, this value will be the same as the email address.
 
 #### __Schema Model__
 
@@ -420,20 +442,42 @@ Represents a list of _User_ objects. Properties that are not populated __will no
 }
 ```
 
-{% include apiRef/badRequest.md %}
+{% include apiRef/badRequest.md anchor="400getUsersWithPage" %}
 
-{% include apiRef/unauthorized.md %}
+{% include apiRef/unauthorized.md anchor="401getUsersWithPage" %}
 
-{% include apiRef/forbidden.md %}
+{% include apiRef/forbidden.md anchor="403getUsersWithPage" %}
 
-{% include apiRef/notFound.md object="domain" %}
+{% include apiRef/notFound.md object="domain" anchor="404getUsersWithPage" %}
 
 <hr class="api-ref-rule">
-<a name="getUsersREST" class="api-ref-title">GET /v2/usermanagement/{orgId}/users</a>
+<a name="getUsersREST" class="api-ref-title">__GET /v2/usermanagement/{orgId}/users__</a>
 
 Retrieve a paged list of all users in your organization along with information about them. The number of users returned in each call is subject to change but never exceeds 200 entries. You can make multiple paginated calls to retrieve the full list of users.  
 
-### __Example Requests__
+__Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#getUsersRESTThrottle) for full details.
+
+## __Parameters__
+
+| Name | Description | Type | DataType | Req? |
+| :--- | :------ | :--- | :--- | --- |
+| orgId | {% include apiRef/orgIdDescription.md %} | path | string | true |
+| X-Api-Key | {% include apiRef/apiKeyDescription.md %} | header | string | true |
+| Authorization | {% include apiRef/authorizationDescription.md %} | header | string | true |
+| page | The page number being requested. Page numbers greater than what exist will return the last page of users. | query | string | false |
+| content-type | {% include apiRef/contentTypeDescription.md %} | header | string | false |
+| X-Request-Id | {% include apiRef/requestIdDescription.md %} | header | string | false |
+| directOnly | {% include apiRef/directOnlyDescription.md %} | query | string | false |
+{:.bordertablestyle}
+
+## __Responses__
+- [200: OK](#200getUsersREST)
+- [400: Bad Request](#400getUsersREST)
+- [401: Unauthorized](#401getUsersREST)
+- [403: Forbidden](#403getUsersREST)
+- [429: Too Many Requests](#getUsersRESTThrottle)
+
+## __Example Requests__
 Retrieve the first page of users:
 ```
 curl -X GET https://usermanagement.adobe.io/v2/usermanagement/12345@AdobeOrg/users?page=0 \
@@ -447,26 +491,15 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/12345@AdobeOrg/use
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
  ```
 
-## __Parameters__
+## <a name="getUsersRESTThrottle" class="api-ref-subtitle">__Throttling__</a>
 
-This table summarizes the parameters and how they are provided:
-
-| Name | Description | Type | DataType | Req? |
-| :--- | :------ | :--- | :--- | --- |
-| orgId | {% include apiRef/orgIdDescription.md %} | path | string | true |
-| x-api-key | {% include apiRef/apiKeyDescription.md %} | header | string | true |
-| page | The page number being requested. Page numbers greater than what exist will return the last page of users. | query | string | false |
-| Authorization | {% include apiRef/authorizationDescription.md %} | header | string | true |
-| Content-type | {% include apiRef/contentTypeDescription.md %} | header | string | false |
-| X-Request-Id | {% include apiRef/requestIdDescription.md %} | header | string | false |
-| directOnly | {% include apiRef/directOnlyDescription.md %} | query | string | false |
-{:.bordertablestyle}
+{% include apiRef/throttling.md client=25 global=100 %}
 
 ## __Responses__
 
 __Content-Type:__ _application/json_
 
-### __200 OK__
+### <a name="200getUsersREST" class="api-ref-subtitle">__200 OK__</a>
 The response body contains a list of users in JSON format including the email, firstName and lastName. Please note that fields can be missing if there are no values, i.e. if the user is not a member of any groups then `groups` will not be returned. Use the response headers `X-Total-Count` and `X-Page-Count` to determine total number of users and total page count.
 
 #### __Headers__
@@ -484,7 +517,7 @@ This table summarizes the headers that are returned:
 _please note that all of the above headers are strings_
 
 #### __Examples__
-<a name="getUsersExample" class="api-ref-subtitle">Response returning three users with different group membership and administrative rights:</a>
+<a name="getUsersRESTExample" class="api-ref-subtitle">Response returning three users with different group membership and administrative rights:</a>
 ```json
 [
     {
@@ -548,7 +581,7 @@ Represents a _User_ object. Properties that are not populated __will not__ be re
 * __phoneNumber:__ _string_
 {% include apiRef/statusDescription.md %}
 * __userType:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.html#identity) for more information.
-* __username:__ _string_; The user's username (applicable for Enterprise and Federated users). For most AdobeID users, this value will be the same as the email address.
+* __username:__ _string_; The user's username (applicable for [Enterprise](glossary.html#enterpriseId) and [Federated](glossary.html#federatedId) users). For most [AdobeID](glossary.html#adobeId) users, this value will be the same as the email address.
 
 #### __Schema Model__
 
@@ -575,17 +608,40 @@ Represents a _User_ object. Properties that are not populated __will not__ be re
 ]
 ```
 
-{% include apiRef/badRequest.md %}
+{% include apiRef/badRequest.md anchor="400getUsersREST" %}
 
-{% include apiRef/unauthorized.md %}
+{% include apiRef/unauthorized.md anchor="401getUsersREST" %}
 
-{% include apiRef/forbidden.md %}
+{% include apiRef/forbidden.md anchor="403getUsersREST" %}
 
 <hr class="api-ref-rule">
 
-<a name="getUsersByGroup" class="api-ref-title">GET /v2/usermanagement/users/{orgId}/{page}/{groupName}</a>
+<a name="getUsersByGroup" class="api-ref-title">__GET /v2/usermanagement/users/{orgId}/{page}/{groupName}__</a>
 
 Get a paged list of users in a specific group of an organization along with information about them. If you pass the `directOnly` flag then only users that have a direct membership to the group will be returned.  
+
+__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#getUsersByGroupThrottle) for full details.
+
+## __Parameters__
+
+| Name | Type | Req? | Description |
+| :--- | :------ | :---: | :------ |
+| orgId | path | true | {% include apiRef/orgIdDescription.md %} |
+| groupName | path | true | The user group or product configuration name. |
+| X-Api-Key | header | true | {% include apiRef/apiKeyDescription.md %} |
+| Authorization | header | true | {% include apiRef/authorizationDescription.md %} |
+| page | path | false | The page number being requested. Page numbers greater than what exist will return the last page of users. |
+| content-type | header | false | {% include apiRef/contentTypeDescription.md %} |
+| X-Request-Id | header | false | {% include apiRef/requestIdDescription.md %} |
+| directOnly | query | false | {% include apiRef/directOnlyDescription.md %} |
+{:.bordertablestyle}
+
+## __Responses__
+- [200: OK](#200getUsersByGroup)
+- [400: Bad Request](#400getUsersByGroup)
+- [401: Unauthorized](#401getUsersByGroup)
+- [403: Forbidden](#403getUsersByGroup)
+- [429: Too Many Requests](#getUsersByGroupThrottle)
 
 ### __Example Requests__
 Retrieve the first page of users for group Photoshop:
@@ -601,27 +657,15 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeO
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
  ```
 
-## __Parameters__
+## <a name="getUsersByGroupThrottle" class="api-ref-subtitle">__Throttling__</a>
 
-This table summarizes the parameters and how they are provided:
-
-| Name | Description | Type | DataType | Req? |
-| :--- | :------ | :--- | :--- | --- |
-| orgId | {% include apiRef/orgIdDescription.md %} | path | string | true |
-| x-api-key | {% include apiRef/apiKeyDescription.md %} | header | string | true |
-| page | The page number being requested. Page numbers greater than what exist will return the last page of users. | path | string | false |
-| Authorization | {% include apiRef/authorizationDescription.md %} | header | string | true |
-| Content-type | {% include apiRef/contentTypeDescription.md %} | header | string | false |
-| X-Request-Id | {% include apiRef/requestIdDescription.md %} | header | string | false |
-| groupName | The user group or product configuration name. | path | string | true |
-| directOnly | {% include apiRef/directOnlyDescription.md %} | query | string | false |
-{:.bordertablestyle}
+{% include apiRef/throttling.md client=25 global=100 %}
 
 ## __Responses__
 
 __Content-Type:__ _application/json_
 
-### __200 OK__
+### <a name="200getUsersByGroup" class="api-ref-subtitle">__200 OK__</a>
 A successful request returns a response body with the requested user data in JSON format. When the response contains the last paged entry, the response includes the field `lastPage : true`. If the returned page is not the last page, make additional paginated calls to retrieve the full list.
 
 [Identity Types](glossary.html#identity) explains the different account types available.
@@ -741,7 +785,7 @@ Represents a _User_ object. Properties that are not populated __will not__ be re
 * __lastname:__ _string_
 {% include apiRef/statusDescription.md %}
 * __type:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.html#identity) for more information.
-* __username:__ _string_; The user's username (applicable for Enterprise and Federated users). For most Adobe ID users, this value will be the same as the email address.
+* __username:__ _string_; The user's username (applicable for [Enterprise](glossary.html#enterpriseId) and [Federated](glossary.html#federatedId) users). For most Adobe ID users, this value will be the same as the email address.
 
 #### __Schema Model__
 
@@ -773,10 +817,10 @@ Represents a _User_ object. Properties that are not populated __will not__ be re
 }
 ```
 
-{% include apiRef/badRequest.md %}
+{% include apiRef/badRequest.md anchor="400getUsersByGroup" %}
 
-{% include apiRef/unauthorized.md %}
+{% include apiRef/unauthorized.md anchor="401getUsersByGroup" %}
 
-{% include apiRef/forbidden.md %}
+{% include apiRef/forbidden.md anchor="403getUsersByGroup" %}
 
-{% include apiRef/notFound.md object="group" %}
+{% include apiRef/notFound.md object="group" anchor="404getUsersByGroup" %}

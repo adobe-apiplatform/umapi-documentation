@@ -1,4 +1,4 @@
-### 404 Not Found
+### <a name="{{ include.anchor }}" class="api-ref-subtitle">__404 Not Found__</a>
 The {{ include.object }} was not found in the given organization.
 
 {% if include.object == "user" %}
