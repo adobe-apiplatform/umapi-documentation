@@ -3,7 +3,7 @@
 
   {% include head.html %}
 
-  <body>
+  <body class="Site">
 
     {% include header.html %}
 
@@ -25,14 +25,21 @@
              {% for my_page in final_list %}
                 {% if my_page.nav_link and my_page.nav_link != blank and my_page.lang and my_page.lang != blank and my_page.url contains lang %}
                    {% if my_page.nav_level > current_level %}
-                       <ul>
+                       <ul class="list-nav">
                        {% assign current_level = my_page.nav_level %}
                    {% elsif my_page.nav_level < current_level %}
-                                                           </ul>
+                       </ul>
                          {% assign current_level = my_page.nav_level %}
                    {% endif %}
                    {% if my_page.url == page.url %}
                      <li><a class="page-link selected-page-link" href="{{ my_page.url | relative_url }}">{{ my_page.nav_link | escape }}</a></li>
+                     {% if my_page.subnav.size > 0 %}
+                       <ul class="list-nav">
+                       {% for item in my_page.subnav %}
+                          <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+                       {% endfor %}
+                       </ul>
+                      {% endif %}
                    {% else %}
                      <li><a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.nav_link | escape }}</a></li>
                    {% endif %}

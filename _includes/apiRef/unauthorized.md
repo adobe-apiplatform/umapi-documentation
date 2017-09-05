@@ -1,4 +1,4 @@
-### <a name="{{ include.anchor }}" class="api-ref-subtitle">__401 Unauthorized__</a>
+### <a name="{{ include.anchor }}" class="api-ref-subtitle">401 Unauthorized</a>
 Possible causes are:
 - Invalid or expired token.
 - Invalid Organization.

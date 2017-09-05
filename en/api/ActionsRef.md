@@ -2,14 +2,25 @@
 title: User Management Actions    
 layout: default   
 nav_link: User Management Actions   
-nav_order: 440    
-nav_level: 3    
+nav_order: 420    
+nav_level: 2    
 lang: en    
 ---   
 # User Management Actions
 
-<a name="action" class="api-ref-title">__POST /v2/usermanagement/action/{orgId}__</a>
+```
+POST /v2/usermanagement/action/{orgId}
+```
 
+* [Overview](#intro)
+* [Parameters](#parameters)
+* [Responses](#responses)
+* [Request Body](#actionRequestBody)
+  - [Schema](actionRequestBodySchema)
+  - [Examples](actionRequestBodyExamples)
+* [Throttling Limits](#getUsersRESTThrottle)
+
+<a name="intro" class="api-ref-subtitle"></a>
 Create, update, entitle, and remove users or [user-groups](glossary.html#usergroup) in an organization. The JSON structure allows a maximum of 10 users or user-groups to be operated on per request.
 When a request has been understood and at least partially completed, it returns with HTTP status 200.
 
@@ -17,7 +28,7 @@ This JSON request structure specifies a sequence of commands. Each command entry
 
 __Throttle Limits__: Maximum 10 requests per minute per a client. See [Throttling Limits](#actionThrottle) for full details.
 
-## __Parameters__
+## <a name="parameters" class="api-ref-subtitle">Parameters</a>
 
 | Name | Type | Req? | Description |
 | :--- | :---| :---: | :---------- |
@@ -30,14 +41,213 @@ __Throttle Limits__: Maximum 10 requests per minute per a client. See [Throttlin
 | request | body | true | JSON payload containing a series of commands. See [Request Body](#actionRequestBody) section for full details. |
 {:.bordertablestyle}
 
-## __Responses__
+## <a name="responses" class="api-ref-subtitle">Responses</a>
+
 - [200: OK](#200)
 - [400: Bad Request](#400)
 - [401: Unauthorized](#401)
 - [403: Forbidden](#403)
 - [429: Too Many Requests](#actionThrottle)
 
-## <a name="actionRequestBody" class="api-ref-subtitle">__Request Body__</a>
+__Content-Type:__ _application/json_
+
+### <a name="200" class="api-ref-subtitle">200 OK</a>
+The request was understood and at least partially completed. The response body returns a more complete description of the result in JSON format.
+If the result status is:
+* __success__: All the actions were completed. `completed` field will equal the total of commands processed.
+* __partial__: Some of the actions failed. `completed` and `notCompleted` fields with identify the number of commands that succeeded and failed.
+* __error__: All the requested actions failed. `completed` will be 0 and `notCompleted` will show the number of requests that failed.
+
+When the result is partial or error, the errors field lists will include the specific actions that failed with corresponding error information. Warnings can also be returned with details of deprecated commands. Warnings will not cause the command to fail.
+
+When using the [testOnly](#testOnly) parameter, the field `completedInTestMode` will be populated with the number of successful commands processed. In this scenario the `completed` field will be 0 as no commands will have been fully processed.
+
+#### Examples
+Error status:
+```json
+{
+  "completed": 0,
+  "notCompleted": 1,
+  "completedInTestMode": 0,
+  "errors": [
+    {
+      "index": 0,
+      "step": 0,
+      "message": "String too long in command for field: country, max length 2",
+      "errorCode": "error.command.string.too_long"
+    }
+  ],
+  "result": "error"
+}
+```
+Partial status:
+```json
+{
+  "completed": 5,
+  "notCompleted": 5,
+  "completedInTestMode": 0,
+  "errors": [
+    {
+      "index": 1,
+      "step": 0,
+      "requestID": "Two2_123456",
+      "message": "User Id does not exist: test@test_fake.us",
+      "user": "test@test_fake.us",
+      "errorCode": "error.user.nonexistent"
+    },
+    {
+      "index": 3,
+      "step": 0,
+      "requestID": "Four4_123456",
+      "message": "Group NON_EXISTING_GROUP was not found",
+      "user": "user4@example.com",
+      "errorCode": "error.group.not_found"
+    },
+    {
+      "index": 5,
+      "step": 0,
+      "requestID": "Six6_123456",
+      "message": "User Id does not exist: test@test_fake.fake",
+      "user": "test6@test_fake.fake",
+      "errorCode": "error.user.nonexistent"
+    },
+    {
+      "index": 7,
+      "step": 0,
+      "requestID": "Eight8_123456",
+      "message": "Changes to users are only allowed in claimed domains.",
+      "user": "fake8@faketest.com",
+      "errorCode": "error.domain.trust.nonexistent"
+    },
+    {
+      "index": 9,
+      "step": 0,
+      "requestID": "Ten10_123456",
+      "message": "Group NON_EXISTING_GROUP was not found",
+      "user": "user10@example.com",
+      "errorCode": "error.group.not_found"
+    }
+  ],
+  "result": "partial",
+  "warnings": [
+    {
+      "warningCode": "warning.command.deprecated",
+      "requestID": "Four4_123456",
+      "index": 3,
+      "step": 0,
+      "message": "'product' command is deprecated. Please use productConfiguration.",
+      "user": "user4@example.com"
+    },
+    {
+      "warningCode": "warning.command.deprecated",
+      "requestID": "Ten10_123456",
+      "index": 9,
+      "step": 0,
+      "message": "'product' command is deprecated. Please use productConfiguration.",
+      "user": "user10@example.com"
+    }
+  ]
+}
+```
+Success status:
+```json
+{
+  "completed": 1,
+  "notCompleted": 0,
+  "completedInTestMode": 0,
+  "result": "success"
+}
+```
+
+#### Schema Properties
+
+__message:__ _string_  
+Only returned if initial validation of the request fails. It is not populated when a 200 status is returned.
+
+```json
+{
+  "result": "error.organization.invalid_id",
+  "message": "Bad organization Id"
+}
+```
+
+__result:__ _string_, possible values: `{ "success", "error", "partial", "error.apikey.invalid", "error.command.malformed", "error.organization.invalid", "error.organization.migrating" }`  
+The status of the request. This property can be used to manage error handling as the value will either be `success` or a corresponding error. If the result status is:
+* __success__: All the actions were completed. `completed` field will equal the total of commands processed.
+* __partial__: Some of the actions failed. `completed` and `notCompleted` fields with identify the number of commands that succeeded and failed.
+* __error__: All the requested actions failed. `completed` will be 0 and `notCompleted` will show the number of requests that failed.
+
+__completed:__ _integer_  
+The number of user commands that were successful.
+
+__notCompleted:__ _integer_  
+The number of user commands that were unsuccessful. When non-zero the errors field lists the specific actions that failed, with error information.
+
+__completedInTestMode:__ _integer_  
+The number of users that were completed in testOnly mode.
+
+__errors:__  
+An array of errors. Each error entry is an object with the attributes below. This section is ommitted if no errors were generated.
+
+* __index:__ _integer_; The 0-based index of the command entry in the commands structure.
+* __step:__ _string_; The 0-based index of the action step within that command entry.
+* __message:__ _string_; A description of the error.
+* __errorCode:__ _string_; The error type. See [Errors](ErrorRef.html) for a full list.
+* __requestID:__ _string_; A developer-defined ID passed into the request which you can use to match this response to a specific request.
+* __user:__ _string_; The user defined in the root of the command entry.
+
+__warnings:__  
+An array of warnings. Each warning entry is an object with the attributes below. This section is ommitted if no warnings were generated.
+
+* __index:__ _integer_; The 0-based index of the command entry in the commands structure.
+* __step:__ _string_; The 0-based index of the action step within that command entry.
+* __message:__ _string_; A description of the warning.
+* __warningCode:__ _string_; The warning type. See [Errors](ErrorRef.html) for a full list.
+* __requestID:__ _string_; A developer-defined ID passed into the request which you can use to match this response to a specific request.
+* __user:__ _string_; The user defined in the root of the command entry.
+
+#### Schema Model
+
+```json
+{
+  "completed": 0,
+  "completedInTestMode": 0,
+  "errors": [
+    {
+      "errorCode": "string",
+      "index": 0,
+      "message": "string",
+      "requestID": "string",
+      "step": 0,
+      "user": "string"
+    }
+  ],
+  "message": "string",
+  "notCompleted": 0,
+  "result": "string",
+  "warnings": [
+    {
+      "index": 0,
+      "message": "string",
+      "requestID": "string",
+      "step": 0,
+      "user": "string",
+      "warningCode": "string"
+    }
+  ]
+}
+```
+### Responses with Error Status
+
+If the response has a status other than 200, the request was not processed.  The status code indicates the reason type of error; this section provides some common causes for these errors.
+
+{% include apiRef/badRequest.md anchor="400" %}
+
+{% include apiRef/unauthorized.md anchor="401" %}
+
+{% include apiRef/forbidden.md anchor="403" %}
+
+## <a name="actionRequestBody" class="api-ref-subtitle">Request Body</a>
 
 The JSON request structure specifies a sequence of commands. Each _command_ entry specifies a user or a [user-group](glossary.html#usergroup) and a sequence of _steps_ to be performed for that user/user-group.  
 
@@ -50,7 +260,7 @@ For a given command entry, steps are attempted to be performed in the order that
 * [Adding](#addRoles) of administrative roles
 * [Removal](#removeFromOrg) of users from an organization
 
-### <a name="actionRequestBodyProperties" class="api-ref-subtitle">__Properties__</a>
+### <a name="actionRequestBodyProperties" class="api-ref-subtitle">Properties</a>
 
 The following properties are available for each _command_ entry:
 
@@ -116,7 +326,7 @@ Creates a [Federated ID](glossary.html#federatedId). See [user-information](#use
   }
 }
 ```
-__<a name="user-information" class="api-ref-subtitle">User Information Fields</a>__  
+<a name="user-information" class="api-ref-subtitle">__User Information Fields__</a>  
 * __firstname:__ _string_; Limited to 250 characters. Required for `createEnterpriseID` and `createFederatedID`. Optional for `addAdobeID` when a _[migrated](glossary.html#oneconsole)_ organization otherwise it is ignored for [Adobe IDs](glossary.html#adobeId).
 * __lastname:__ _string_; Limited to 250 characters. Required for `createEnterpriseID` and `createFederatedID`. Optional for `addAdobeID` when a _[migrated](glossary.html#oneconsole)_ organization otherwise it is ignored for [Adobe IDs](glossary.html#adobeId).
 * __email:__ _string_; A valid email address. Required for `createEnterpriseID`, `addAdobeID` and `createFederatedID`.
@@ -143,7 +353,7 @@ For [Federated IDs](glossary.html#federatedId), the `update` request can only ch
 ```
 
 <a name="add" class="api-ref-subtitle">__add:__</a>  
-Enables the entitlement or membership of users to product configurations and [user-groups](glossary.md#user-group). {% include apiRef/plc.md plural=true capitalize=true %} correspond to specific product access rights, so adding product access for a user is the same as adding that user to the corresponding {% include apiRef/plc.md %}. See [Add attributes](#addRemoveAttr) section for full details of the following attributes:
+Enables the entitlement or membership of users to product configurations and [user-groups](glossary.md#user-group). {% include apiRef/plc.md plural=true capitalize=true %} correspond to specific product access rights, so adding product access for a user is the same as adding that user to the corresponding {% include apiRef/plc.md %}. You can add a maximum of 10 memberships in one command entry. See [Add attributes](#addRemoveAttr) section for full details of the following attributes:
 ```json
 {
   "add": {
@@ -161,7 +371,7 @@ Enables the entitlement or membership of users to product configurations and [us
 ```
 
 <a name="remove" class="api-ref-subtitle">__remove:__</a>  
-Removes the entitlement or membership of users from {% include apiRef/plc.md %}s and [user-groups](glossary.md#user-group). {% include apiRef/plc.md plural=true %} correspond to specific product access rights, so removing product access for a user is the same as removing that user from the corresponding {% include apiRef/plc.md %}. See [Remove attributes](#addRemoveAttr) section for full details of the following attributes:
+Removes the entitlement or membership of users from {% include apiRef/plc.md %}s and [user-groups](glossary.md#user-group). {% include apiRef/plc.md plural=true %} correspond to specific product access rights, so removing product access for a user is the same as removing that user from the corresponding {% include apiRef/plc.md %}. You can remove a maximum of 10 memberships in one command entry, unless you use the special “all” parameter to remove all memberships for the user or user-group. See [Remove attributes](#addRemoveAttr) section for full details of the following attributes:
 ```json
 {
   "remove" : {
@@ -183,7 +393,7 @@ Additionally you can pass the attribute `all` to remove the user from all groups
   "remove" : "all"
 }
 ```
-__<a name="addRemoveAttr" class="api-ref-subtitle">Add/Remove Attributes</a>__
+<a name="addRemoveAttr" class="api-ref-subtitle">__Add/Remove Attributes__</a>
 * __group:__; A list of {% include apiRef/plc.md %} with a maximum of 10 entries. This can be used with the `user` or `usergroup` root commands and is available in the [add](#add) and [remove](#remove) operations.
 
 * __usergroup:__ (_only available with the [user root command](#userRootCommand)_); A list of user-groups with a maximum of 10 entries. This can be used with the `user` root command and is available in the [add](#add) and [remove](#remove) operations.
@@ -219,7 +429,7 @@ When a user is a member of a {% include apiRef/plc.md %}, this command will revo
   }
 }
 ```
-__<a name="addRemoveRoleAttr" class="api-ref-subtitle">Add/Remove Role Attributes</a>__  
+<a name="addRemoveRoleAttr" class="api-ref-subtitle">__Add/Remove Role Attributes__</a>  
 * __productAdmin:__ (_only available with the [user root command](#userRootCommand)_); A list of products (with a maximum of 10 entries) to assign the user as a [Product Administrator](glossary.html#productAdmin). This can only be used with the `user` root command and is applicable to the `addRoles` and `removeRoles` operations. 
 
 * __admin:__ (_only available with the [user root command](#userRootCommand)_); A list of product configurations and user-groups (with a maximum of 10 entries) to assign the user as an Administrator. This can only be used with the `user` root command and is applicable to the `addRoles` and `removeRoles` operations. Possible roles include:
@@ -239,7 +449,7 @@ __<a name="addRemoveRoleAttr" class="api-ref-subtitle">Add/Remove Role Attribute
 ```
 
 <a name="removeFromOrg" class="api-ref-subtitle">__removeFromOrg:__</a> (_only available with the [user root command](#userRootCommand)_)  
-Removes the user's membership in the organization, and optionally from membership in a domain that is linked to the given organization through the trusted-domain relationship. There can only be a single `removeFromOrg` action in a command entry. If present, the removal action will be the last step invoked.
+Removes the user's membership in the organization, and optionally from membership in a domain that is linked to the given organization through the trusted-domain relationship. This includes any product configurations and user-groups in the organization that they are a member of. There can only be a single `removeFromOrg` action in a command entry. If present, the removal action will be the last step invoked. If the user is specified by email address, then the domain of the email address specifies the domain of the account. If the user is specified by Username, the domain must be provided.
 ```json
 {
   "removeFromOrg": {
@@ -250,8 +460,7 @@ Removes the user's membership in the organization, and optionally from membershi
 
 * __deleteAccount:__ _boolean_; If true then if the account is owned by the organization, the account is also deleted. Note that [Adobe IDs](glossary.html#adobeId) are never deleted because they are owned by the user, not the organization. The default value is false.
 
-
-### <a name="actionRequestBodyExamples" class="api-ref-subtitle">__Examples__</a>
+### <a name="actionRequestBodyExamples" class="api-ref-subtitle">Examples</a>
 
 Creates a [Federated ID](glossary.html#federatedId) and adds them to the [{% include apiRef/plc.md plural=true %}](glossary.md#plc) 'Photoshop' and 'Illustrator' and removes them from the user-group 'devOps'. The user is identified by passing the username and domain.
 ```json
@@ -372,10 +581,36 @@ Removing a user from all their product entitlements and user-group memberships:
   }
 ]
 ```
+Add the Product Owner Admin role for a user:
+```json
+[
+  {
+    "user" : "jdoe@myCompany.com",
+    "do" : [{
+        "addRoles" : {
+            "productAdmin" : ["Product1_Name"]
+        }
+      }]
+  }
+]
+```
+Remove the admin role for the user for a given product configuration:
+```json
+[
+  {
+    "user": "jdoe@myCompany.com",
+    "do": [{
+        "removeRoles": {
+          "admin": [ "Product1_Name"]
+        }
+    }]
+  }
+]
+```
 
-### <a name="actionRequestBodySchema" class="api-ref-subtitle">__Request Body Schema__</a>
+### <a name="actionRequestBodySchema" class="api-ref-subtitle">Request Body Schema</a>
 
-#### __User Command__
+#### User Command
 ```json
 [
   {
@@ -447,7 +682,7 @@ Removing a user from all their product entitlements and user-group memberships:
 ]
 
 ```
-#### __Usergroup Command__
+#### Usergroup Command
 ```json
 [
   {
@@ -471,205 +706,6 @@ Removing a user from all their product entitlements and user-group memberships:
 
 ```
 
-## __Throttling__
+## Throttling
 
 {% include apiRef/throttling.md client=10 global=100 %}
-
-## <a name="actionResponses" class="api-ref-subtitle">__Responses__</a>
-
-__Content-Type:__ _application/json_
-
-### <a name="200" class="api-ref-subtitle">__200 OK__</a>
-The request was understood and at least partially completed. The response body returns a more complete description of the result in JSON format.
-If the result status is:
-* __success__: All the actions were completed. `completed` field will equal the total of commands processed.
-* __partial__: Some of the actions failed. `completed` and `notCompleted` fields with identify the number of commands that succeeded and failed.
-* __error__: All the requested actions failed. `completed` will be 0 and `notCompleted` will show the number of requests that failed.
-
-When the result is partial or error, the errors field lists will include the specific actions that failed with corresponding error information. Warnings can also be returned with details of deprecated commands. Warnings will not cause the command to fail.
-
-When using the [testOnly](#testOnly) parameter, the field `completedInTestMode` will be populated with the number of successful commands processed. In this scenario the `completed` field will be 0 as no commands will have been fully processed.
-
-#### __Examples__
-Error status:
-```json
-{
-  "completed": 0,
-  "notCompleted": 1,
-  "completedInTestMode": 0,
-  "errors": [
-    {
-      "index": 0,
-      "step": 0,
-      "message": "String too long in command for field: country, max length 2",
-      "errorCode": "error.command.string.too_long"
-    }
-  ],
-  "result": "error"
-}
-```
-Partial status:
-```json
-{
-  "completed": 5,
-  "notCompleted": 5,
-  "completedInTestMode": 0,
-  "errors": [
-    {
-      "index": 1,
-      "step": 0,
-      "requestID": "Two2_123456",
-      "message": "User Id does not exist: test@test_fake.us",
-      "user": "test@test_fake.us",
-      "errorCode": "error.user.nonexistent"
-    },
-    {
-      "index": 3,
-      "step": 0,
-      "requestID": "Four4_123456",
-      "message": "Group NON_EXISTING_GROUP was not found",
-      "user": "user4@example.com",
-      "errorCode": "error.group.not_found"
-    },
-    {
-      "index": 5,
-      "step": 0,
-      "requestID": "Six6_123456",
-      "message": "User Id does not exist: test@test_fake.fake",
-      "user": "test6@test_fake.fake",
-      "errorCode": "error.user.nonexistent"
-    },
-    {
-      "index": 7,
-      "step": 0,
-      "requestID": "Eight8_123456",
-      "message": "Changes to users are only allowed in claimed domains.",
-      "user": "fake8@faketest.com",
-      "errorCode": "error.domain.trust.nonexistent"
-    },
-    {
-      "index": 9,
-      "step": 0,
-      "requestID": "Ten10_123456",
-      "message": "Group NON_EXISTING_GROUP was not found",
-      "user": "user10@example.com",
-      "errorCode": "error.group.not_found"
-    }
-  ],
-  "result": "partial",
-  "warnings": [
-    {
-      "warningCode": "warning.command.deprecated",
-      "requestID": "Four4_123456",
-      "index": 3,
-      "step": 0,
-      "message": "'product' command is deprecated. Please use productConfiguration.",
-      "user": "user4@example.com"
-    },
-    {
-      "warningCode": "warning.command.deprecated",
-      "requestID": "Ten10_123456",
-      "index": 9,
-      "step": 0,
-      "message": "'product' command is deprecated. Please use productConfiguration.",
-      "user": "user10@example.com"
-    }
-  ]
-}
-```
-Success status:
-```json
-{
-  "completed" 1,
-  "notCompleted": 0,
-  "completedInTestMode": 0,
-  "result": "success"
-}
-```
-#### __Schema Properties__
-
-__message:__ _string_  
-Only returned if initial validation of the request fails. It is not populated when a 200 status is returned.
-
-```json
-{
-  "result": "error.organization.invalid_id",
-  "message": "Bad organization Id"
-}
-```
-
-__result:__ _string_, possible values: `{ "success", "error", "partial", "error.apikey.invalid", "error.command.malformed", "error.organization.invalid", "error.organization.migrating" }`  
-The status of the request. This property can be used to manage error handling as the value will either be `success` or a corresponding error. If the result status is:
-* __success__: All the actions were completed. `completed` field will equal the total of commands processed.
-* __partial__: Some of the actions failed. `completed` and `notCompleted` fields with identify the number of commands that succeeded and failed.
-* __error__: All the requested actions failed. `completed` will be 0 and `notCompleted` will show the number of requests that failed.
-
-__completed:__ _integer_  
-The number of user commands that were successful.
-
-__notCompleted:__ _integer_  
-The number of user commands that were unsuccessful. When non-zero the errors field lists the specific actions that failed, with error information.
-
-__completedInTestMode:__ _integer_  
-The number of users that were completed in testOnly mode.
-
-__errors:__  
-An array of errors. Each error entry is an object with the attributes below. This section is ommitted if no errors were generated.
-
-* __index:__ _integer_; The 0-based index of the command entry in the commands structure.
-* __step:__ _string_; The 0-based index of the action step within that command entry.
-* __message:__ _string_; A description of the error.
-* __errorCode:__ _string_; The error type. See [Errors](ErrorRef.html) for a full list.
-* __requestID:__ _string_; A developer-defined ID passed into the request which you can use to match this response to a specific request.
-* __user:__ _string_; The user defined in the root of the command entry.
-
-__warnings:__  
-An array of warnings. Each warning entry is an object with the attributes below. This section is ommitted if no warnings were generated.
-
-* __index:__ _integer_; The 0-based index of the command entry in the commands structure.
-* __step:__ _string_; The 0-based index of the action step within that command entry.
-* __message:__ _string_; A description of the warning.
-* __warningCode:__ _string_; The warning type. See [Errors](ErrorRef.html) for a full list.
-* __requestID:__ _string_; A developer-defined ID passed into the request which you can use to match this response to a specific request.
-* __user:__ _string_; The user defined in the root of the command entry.
-
-## __Schema Model__
-
-```json
-{
-  "completed": 0,
-  "completedInTestMode": 0,
-  "errors": [
-    {
-      "errorCode": "string",
-      "index": 0,
-      "message": "string",
-      "requestID": "string",
-      "step": 0,
-      "user": "string"
-    }
-  ],
-  "message": "string",
-  "notCompleted": 0,
-  "result": "string",
-  "warnings": [
-    {
-      "index": 0,
-      "message": "string",
-      "requestID": "string",
-      "step": 0,
-      "user": "string",
-      "warningCode": "string"
-    }
-  ]
-}
-```
-## __Responses with Error Status__
-
-If the response has a status other than 200, the request was not processed.  The status code indicates the reason type of error; this section provides some common causes for these errors.
-
-{% include apiRef/badRequest.md anchor="400" %}
-
-{% include apiRef/unauthorized.md anchor="401" %}
-
-{% include apiRef/forbidden.md anchor="403" %}

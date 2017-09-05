@@ -8,6 +8,7 @@
 	color: #111;
 }
 
+
 .api-ref-subtitle {
 	color: #111;
 }
@@ -43,4 +44,38 @@ a.api-ref-title, a.api-ref-subtitle {
 #prerequisites a {
 	text-decoration: none;
 	color: #111;
+}
+
+.page-content {
+	flex: 1;
+}
+
+.Site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.list-nav {
+	margin-bottom: 0px;
+}
+
+#orgIdDescription {
+	display: none;
+}
+
+#apiKeyDescription {
+	display: none;
+}
+
+#authDescription {
+	display: none;
+}
+
+#requestDescription {
+	display: none;
+}
+
+#directDescription {
+	display: none;
 }
