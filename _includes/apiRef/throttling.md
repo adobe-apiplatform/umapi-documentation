@@ -10,7 +10,7 @@ When the access limit is reached, further calls fail with one of the following H
 
 Because of the global limits, and because the specific limits may change, you cannot simply limit the rate at which you make your own calls. You must handle rate-limit errors by retrying the failed calls. We recommend a _exponential backoff retry_ technique for handling such errors.
 
-### __Handling error responses__
+### Handling error responses
 
 When you retry a failed request, the retry can also fail, and can fall back into the retry loop, adding to the system overload. The exponential backoff retry method increases the period between retries, so that the client makes fewer calls while the system is overloaded.
 

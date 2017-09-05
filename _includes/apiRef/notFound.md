@@ -1,4 +1,4 @@
-### <a name="{{ include.anchor }}" class="api-ref-subtitle">__404 Not Found__</a>
+### <a name="{{ include.anchor }}" class="api-ref-subtitle">404 Not Found</a>
 The {{ include.object }} was not found in the given organization.
 
 {% if include.object == "user" %}
@@ -13,10 +13,18 @@ The {{ include.object }} was not found in the given organization.
 {% endif %}
 {% if include.object == "group" %}
 ```
-> GET /v2/usermanagement/users/092DE2D65617B9967F000101@AdobeOrg/0/Group 1234 HTTP/1.1
-> postman-token: c0a973fe-0267-9d76-779a-270aeb8ca39c
 < HTTP/1.1 404 Not Found
 < Canonical-Resource: /v2/usermanagement/users/{orgId}/{page}/{groupName}
 {"lastPage":false,"result":"error.group.not_found","message":"Not found: Group 1234"}
+```
+{% endif %}
+{% if include.object == "plc" %}
+```
+< HTTP/1.1 404 Not Found
+< Canonical-Resource: /v2/usermanagement/{orgId}/products/{productId}/configurations/{id}
+< Content-Type: application/json
+< X-Request-Id: iB93be6zWzNg19TljWt2IvZCxSWHis5l
+< Connection: keep-alive
+{"errorMessage":"PLC_NOT_FOUND","errorCode":"PLC_NOT_FOUND"}
 ```
 {% endif %}

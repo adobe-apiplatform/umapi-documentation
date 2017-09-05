@@ -3,6 +3,7 @@ nav_link: Authentication
 nav_level: 1
 nav_order: 120
 lang: en
+layout: page
 ---
 
 # Authentication for API Access

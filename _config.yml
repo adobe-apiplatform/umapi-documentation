@@ -32,3 +32,6 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - art
+
+plugins_dir: 
+  - ./_plugins
