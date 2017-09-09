@@ -3,12 +3,9 @@ To protect the availability of the Adobe back-end user identity systems, the Use
 - Maximum calls per a client: **{{ include.client }} requests per a minute** 
 - Maximum calls for the application: **{{ include.global }} requests per a minute**
 
-When the access limit is reached, further calls fail with one of the following HTTP error status responses:
+When the client or global access limit is reached, further calls fail with HTTP error status **429 Too Many Requests**.
 
-**429 Too Many Requests:** You are being rate limited, delay before retry  
-**503 Service Unavailable:** Global limits have been reached, delay before retry
-
-Because of the global limits, and because the specific limits may change, you cannot simply limit the rate at which you make your own calls. You must handle rate-limit errors by retrying the failed calls. We recommend a _exponential backoff retry_ technique for handling such errors.
+Because of the global limits, and because the specific limits may change, you cannot simply limit the rate at which you make your own calls. You **must** handle rate-limit errors by retrying the failed calls. We recommend an _exponential backoff retry_ technique for handling such errors.
 
 ### Handling error responses
 
