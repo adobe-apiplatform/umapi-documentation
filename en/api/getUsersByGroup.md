@@ -28,7 +28,7 @@ __Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling
 | Name | Type | Required | Description |
 | :--- | :------ | :---: | :------ |
 | orgId | path | true | {% include apiRef/orgIdDescription.md %} |
-| groupName | path | true | The user group or product configuration name. |
+| groupName | path | true | The user group or product profile name. |
 | X-Api-Key | header | true | {% include apiRef/apiKeyDescription.md %} |
 | Authorization | header | true | {% include apiRef/authorizationDescription.md %} |
 | page | path | false | The page number being requested. Page numbers greater than what exist will return the last page of users. |
@@ -153,7 +153,7 @@ Represents a _User_ object. Properties that are not populated __will not__ be re
 * __domain:__ _string_; The user's domain.
 * __email:__ _string_
 * __firstname:__ _string_
-* __groups:__ _string[]_; The list of groups that the user is a current member of including user-groups and product configurations. See [Groups example](#getUserGroupsExample).
+* __groups:__ _string[]_; The list of groups that the user is a current member of including user-groups and product profiles. See [Groups example](#getUserGroupsExample).
 * __id:__ _string_
 * __lastname:__ _string_
 {% include apiRef/statusDescription.md %}

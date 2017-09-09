@@ -8,7 +8,7 @@ lang: en
 
 # Perform Actions for Multiple Users
 
-It is more efficient to bundle actions for many users into single requests, especially when multiple users are added to the same product configurations. These samples show how to bundle actions for multiple users by creating two users with Enterprise IDs, and then, in another call, removing both users from the organization.
+It is more efficient to bundle actions for many users into single requests, especially when multiple users are added to the same product profiles. These samples show how to bundle actions for multiple users by creating two users with Enterprise IDs, and then, in another call, removing both users from the organization.
 
 ## Create two users
 

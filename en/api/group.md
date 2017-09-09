@@ -8,9 +8,12 @@ lang: en
 
 # List All Configurations for Organization
 
-<a class="api-ref-title" name="getGroups">__GET /v2/usermanagement/groups/{orgId}/{page}__</a>
+```
+GET /v2/usermanagement/groups/{orgId}/{page}
+```
 
-This API retrieves a paged list of all product configurations in your organization along with information about them. You can make multiple paginated calls to retrieve the full list of product configurations.
+<a name="intro" class="api-ref-subtitle"></a>
+This API retrieves a paged list of all product profiles in your organization along with information about them. You can make multiple paginated calls to retrieve the full list of product profiles.
 
 __Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#getUsersWithPageThrottle) for full details.
 

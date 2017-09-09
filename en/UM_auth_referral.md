@@ -12,8 +12,8 @@ To maintain the security of your applications and users, all requests to Adobe I
 
 The workflow for obtaining credentials depends on whether your app is part of a service-to-service exchange, or is meant for an end user. Apps that use the User Management API are typically service-to-service, and use the JWT workflow.
 
-* For a service-to-service app, use the [Admin Console](https://www.adobe.io/adminconsole) to create an Integration with a JWT App Key. A member of the organization with admin rights can create the Integration. You can use the Admin Console to grant administrative privilege to users.
+* For a service-to-service app, use the [Admin Console](https://www.adobe.io/apis/cloudplatform/console.html) to create an Integration with a JWT App Key. A member of the organization with admin rights can create the Integration. You can use the Admin Console to grant administrative privilege to users.
 You will need to create or purchase a digital signing certification, and use it to sign a JSON Web Token (JWT), which you will use to authenticate your requests.
 * For an end-user service that uses an Adobe API, you use the [Adobe I/O Console](https://console.adobe.io) to integrate with Adobe I/O APIs and services (such as Event notifications) with an OAuth App Key.In this case, requests must be authenticated with the app's client credentials, and the end user must also authenticate with their own Adobe ID.
 
-For complete information about both types of integration, see [API Authentication Guide](https://www.adobe.io/content/udp/en/apis/cloudplatform/console/authentication)
+For complete information about both types of integration, see [API Authentication Guide](https://www.adobe.io/apis/cloudplatform/console/authentication.html)

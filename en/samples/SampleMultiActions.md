@@ -8,7 +8,7 @@ lang: en
 
 # Perform Multiple Actions for One User
 
-This creates a user with an Enterprise ID, then performs a series of actions for that user. It adds the user to a product configuration, adds two product entitlements for the user, and then removes one of the product entitlements.
+This creates a user with an Enterprise ID, then performs a series of actions for that user. It adds the user to a product profile, adds two product entitlements for the user, and then removes one of the product entitlements.
 
 ```json
 ========================= REQUEST ==========================

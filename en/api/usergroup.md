@@ -14,11 +14,7 @@ _User-groups_ can be used to organize related users together and assign them to 
 
 * [Get User Groups](getUserGroups.html)
 * [Get User Group](getUserGroup.html)
-* [Create a new User Group](createUserGroup.html)
-* [Update an existing User Group](updateUserGroup.html)
-* [Delete a User Group](deleteUserGroup.html)
 * [Add a user to a user-group](ActionsRef.html#add)
-* [Remove a user from a user-group](ActionsRef.html#remove)
 * [Add User-group Administrator permissions to a user](ActionsRef.html#addRoles)
 * [Remove User-group Administrator permissions to a user](ActionsRef.html#removeRoles)
 * [Get a list of users in a user-group](getUsersByGroup.html)

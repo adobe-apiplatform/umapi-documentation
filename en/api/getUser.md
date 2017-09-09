@@ -129,7 +129,7 @@ Represents a _User_ object. Properties that are not populated __will not__ be re
 * __domain:__ _string_; The user's domain.
 * __email:__ _string_
 * __firstname:__ _string_
-* __groups:__ _string[]_; The list of groups that the user is a current member of including user-groups and product configurations. See [Groups example](#getUserGroupsExample).
+* __groups:__ _string[]_; The list of groups that the user is a current member of including user-groups and product profiles. See [Groups example](#getUserGroupsExample).
 * __id:__ _string_
 * __lastname:__ _string_
 {% include apiRef/statusDescription.md %}

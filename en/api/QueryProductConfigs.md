@@ -1,17 +1,17 @@
 ---
 layout: default
-nav_link: Access Product Configurations
+nav_link: Access Product Profiles
 nav_order: 452
 nav_level: 3
 lang: en
 ---
 
-# Product Configuration Query Resource Reference
+# Product Profile Query Resource Reference
 
-You can query the Adobe database for information about product configurations that are defined for your organization. Membership in user groups and in product configurations controls a user's access to Adobe products in your organization.
+You can query the Adobe database for information about product profiles that are defined for your organization. Membership in user groups and in product profiles controls a user's access to Adobe products in your organization.
 
-* [Access Product Configuration Information](#accessProductConfigurationInformation)
-* [Update Product Configuration Information]()
+* [Access Product Profile Information](#accessProductConfigurationInformation)
+* [Update Product Profile Information]()
 
 ### Notation
 
@@ -20,7 +20,7 @@ In syntax statements for endpoints, the following notation is used:
 * **[UM_Server]** is the UM API server: **https://usermanagement.adobe.io/v2/usermanagement/**
 * Curly braces indicate a variable, to be replaced with specific values for your organization.
   - Replace **{orgId}** with your organization's unique ID, which looks like this: "12345@AdobeOrg".
-  - Replace **{...Id}** with the unique ID assigned to the products and product configurations that are defined for you organization.
+  - Replace **{...Id}** with the unique ID assigned to the products and product profiles that are defined for you organization.
   - Replace the **{page}** element with the zero-based index for the first requested page of the paged result.
 
 ### Request headers
@@ -30,28 +30,28 @@ You must include these headers in all requests:
 * **Authorization** : A current access token obtained from login request.
 * **x-api-key** : The API key for your organization, obtained from the Developer Portal.
 
-# <a name="accessProductConfigurationInformation" class="api-ref-subtitle">Access Product Configuration Information</a>
+# <a name="accessProductConfigurationInformation" class="api-ref-subtitle">Access Product Profile Information</a>
 
-Products are associated with product configurations that are defined in the [Admin Console](https://adminconsole.adobe.com/enterprise/). For a given product, you can list and examine the associated product configurations.
+Products are associated with product profiles that are defined in the [Admin Console](https://adminconsole.adobe.com/enterprise/). For a given product, you can list and examine the associated product profiles.
 
-All products and product configurations can be accessed through endpoints under the **{orgId}/products** resource.
+All products and product profiles can be accessed through endpoints under the **{orgId}/products** resource.
 
-* List a page of product configurations defined for your organization, or for a specific product.
+* List a page of product profiles defined for your organization, or for a specific product.
 
 ```
 GET [UM_Server]/{orgId}/products/{productId}/configurations
 ```
-* Retrieve information about a specific product configuration.
+* Retrieve information about a specific product profile.
 
 ```
 GET [UM_Server]/{orgId}/products/{productId}/configurations/{configId}
 ```
-* List a page of users who belong to a specific product configuration.
+* List a page of users who belong to a specific product profile.
 
 ```
 GET [UM_Server]/{orgId}/products/{productId}/configurations/{configId}/users
 ```
-* List a page of users with admin role for a specific product configuration.
+* List a page of users with admin role for a specific product profile.
 
 ```
 GET [UM_Server]/{orgId}/products/{productId}/configurations/{configId}/admins
@@ -59,7 +59,7 @@ GET [UM_Server]/{orgId}/products/{productId}/configurations/{configId}/admins
 
 ## <a name="listAllConfigurationsForOrganization" class="api-ref-subtitle">List All Configurations for Organization</a>
 
-A GET request to the **groups/{orgId}** resource retrieves a paged list of all product configurations that have been defined for your organization in the [Admin Console](https://adminconsole.adobe.com/enterprise/).
+A GET request to the **groups/{orgId}** resource retrieves a paged list of all product profiles that have been defined for your organization in the [Admin Console](https://adminconsole.adobe.com/enterprise/).
 
 ```
 GET [UM_Server]/groups/{orgId}/{page}
@@ -67,11 +67,11 @@ GET [UM_Server]/groups/{orgId}/{page}
 
 * **{orgId}** : Required. The unique ID of your organization.
 * **{page}** : Required. A zero-based index for the start entry of a paged response.
-The number of product configurations returned in each call is subject to change, but never exceeds 200 entries. You can make multiple paginated calls to retrieve the full list.
+The number of product profiles returned in each call is subject to change, but never exceeds 200 entries. You can make multiple paginated calls to retrieve the full list.
 
 ## <a name="listConfigurationsForProducts" class="api-ref-subtitle">List Configurations for Products</a>
 
-A GET request to the **configurations** resource for a specific product retrieves a paged list of Adobe product configurations defined for that product.
+A GET request to the **configurations** resource for a specific product retrieves a paged list of Adobe product profiles defined for that product.
 
 ```
 GET [UM_Server]/{orgId}/products/{productId}/configurations[?page={n}]
@@ -83,7 +83,7 @@ The number of products returned in each call is subject to change, but never exc
 
 ### Responses
 
-A successful request returns a response with **HTTP status 200**. The response body contains the requested product configuration data in JSON format:
+A successful request returns a response with **HTTP status 200**. The response body contains the requested product profile data in JSON format:
 
 ```json
 {
@@ -127,9 +127,9 @@ A failed request can result in a response with one of these HTTP status values, 
 
 _Note that server errors can occur that require exponential back-off on retry._
 
-## <a name="queryIndividualProductConfigurations" class="api-ref-subtitle">Query Individual Product Configurations</a>
+## <a name="queryIndividualProductConfigurations" class="api-ref-subtitle">Query Individual Product Profiles</a>
 
-A GET request to the **{orgId}/products/{productId}/configurations/{configId}** resource retrieves information for a defined product configuration. The body of the response contains the configuration information in JSON format.
+A GET request to the **{orgId}/products/{productId}/configurations/{configId}** resource retrieves information for a defined product profile. The body of the response contains the configuration information in JSON format.
 
 ```
 GET [UM_Server]/{orgId}/products/{productId}/configurations/{configId}
@@ -137,7 +137,7 @@ GET [UM_Server]/{orgId}/products/{productId}/configurations/{configId}
 
 * **{orgId}** : Required. Your organization ID.
 * **{productId}** : Required. The unique ID of the product.
-* **{configId}** : Required. The unique ID of the product configuration.
+* **{configId}** : Required. The unique ID of the product profile.
 
 ### Responses
 
@@ -158,7 +158,7 @@ A successful request returns the requested data with **HTTP status 200**. The re
 
 ## <a name="listMemberUsers" class="api-ref-subtitle">List Member Users</a>
 
-A GET request to the **users** or **admins** resource under a specific product configuration returns a list of all members or members with admin rights in that configuration. If you have the product configuration name then you can use the alternatively [GET /v2/usermanagement/users/{orgId}/{page}/{groupName}](user.html#getUsersByGroup) API.
+A GET request to the **users** or **admins** resource under a specific product profile returns a list of all members or members with admin rights in that configuration. If you have the product profile name then you can use the alternatively [GET /v2/usermanagement/users/{orgId}/{page}/{groupName}](user.html#getUsersByGroup) API.
 
 ```
 GET [UM_Server]/{orgId}/products/{productId}/configurations/{configId}/users
@@ -193,9 +193,9 @@ A failed request can result in a response with one of these HTTP status values, 
 
 _Note that server errors can occur that require exponential back-off on retry._
 
-## Manage Access through Product Configuration Endpoints
+## Manage Access through Product Profile Endpoints
 
-You can manage membership and administrative rights for specific product configurations in a POST request to:
+You can manage membership and administrative rights for specific product profiles in a POST request to:
 ```
 POST [UM_Server]/{orgId}/products/{productId}/configurations/{configId}
 ```

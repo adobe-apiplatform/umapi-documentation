@@ -1,5 +1,5 @@
 {% if include.capitalize %}
-Product Configuration{% if include.plural %}s{% endif %}
+Product Profile{% if include.plural %}s{% endif %}
 {% else %}
-product configuration{% if include.plural %}s{% endif %}
+product profile{% if include.plural %}s{% endif %}
 {% endif %}

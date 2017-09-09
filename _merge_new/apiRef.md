@@ -157,7 +157,7 @@ Represents a _User_ object. Properties that are not populated __will not__ be re
 &nbsp;&nbsp;&nbsp;&nbsp;__firstname:__ _string_
 
 &nbsp;&nbsp;&nbsp;&nbsp;__groups:__ _string[]_  
-&nbsp;&nbsp;&nbsp;&nbsp;The list of groups that the user is a current member of including user-groups and product configurations.
+&nbsp;&nbsp;&nbsp;&nbsp;The list of groups that the user is a current member of including user-groups and product profiles.
 
 &nbsp;&nbsp;&nbsp;&nbsp;__id:__ _string_
 

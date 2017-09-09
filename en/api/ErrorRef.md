@@ -271,7 +271,7 @@ The possible error codes and messages are listed with their context and descript
 
 * **error.usergroup.command.missing.arguments**
     * usergroup command action
-    * No users or PLCs found to associate with the user group.
+    * No users or profiles found to associate with the user group.
 
 * **error.country.invalid**
     * create

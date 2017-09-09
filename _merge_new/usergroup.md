@@ -3,7 +3,7 @@
 # User Groups
 
 The following set of APIs allow users to perform management of their organization's [user-groups](glossary.md#user-group). Management operations include create, read, update and delete for user-groups.
-_User-groups_ can be used to organize related users together and assign them to products. A user-group is a collection of different users that share a set of permissions. There are various permissions across different products that have to be assigned to many users in varying order. Managing permissions by user is not a sustainable model. The purpose of these APIs is to managing the user-groups. To associate user-groups with product configurations or users please see [Action API](TBD).
+_User-groups_ can be used to organize related users together and assign them to products. A user-group is a collection of different users that share a set of permissions. There are various permissions across different products that have to be assigned to many users in varying order. Managing permissions by user is not a sustainable model. The purpose of these APIs is to managing the user-groups. To associate user-groups with product profiles or users please see [Action API](TBD).
 
 # <a href="getUserGroups">GET /v2/usermanagement/{orgId}/user-groups</a>
 
@@ -379,7 +379,7 @@ Possible causes are:
 
 # <a href="updateUserGroup">PUT /v2/usermanagement/{orgId}/user-groups/{groupId}</a>
 
-Enables the updating of the name and/or description of an existing [user-group](glossary.md#user-group). The user-group name and description provide the administrator a means of identifying what a particular user-group represents. When the exact nature of an existing group changes a system administrator may wish to update the user-group with a new name or description. For instance the group "DevOps" might be changed to "CloudOps". As the user-group `groupId` is the identifier, this operation will not affect users who are already a member of the user-group or their access to any associated product configurations.  
+Enables the updating of the name and/or description of an existing [user-group](glossary.md#user-group). The user-group name and description provide the administrator a means of identifying what a particular user-group represents. When the exact nature of an existing group changes a system administrator may wish to update the user-group with a new name or description. For instance the group "DevOps" might be changed to "CloudOps". As the user-group `groupId` is the identifier, this operation will not affect users who are already a member of the user-group or their access to any associated product profiles.  
 
 ### Example Request:
 ```
