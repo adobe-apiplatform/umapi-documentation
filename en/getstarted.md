@@ -44,6 +44,6 @@ To create an integration of this type, sign in to the <a href=" https://console.
 ## What's Next?
 
 * If you think your enterprise can use the ready-made API client, User Sync, read more about the tool: [Synchronize User Data with UserSync](https://adobe-apiplatform.github.io/user-sync.py/).
-* If you plan to build your own API client, learn about the specific operations that are available through the User Management Web API: [Integrate User Management into an Admin Application](createapps.md)
-* Get complete reference details for all API calls: [User Management API Reference](api/Overview.md)
-* See a sample Python script and examples of representative requests: [Examples and Samples](samples/index.md)
+* If you plan to build your own API client, learn about the specific operations that are available through the User Management Web API: [Integrate User Management into an Admin Application](createapps.html)
+* Get complete reference details for all API calls: [User Management API Reference](api/Overview.html)
+* See a sample Python script and examples of representative requests: [Examples and Samples](samples/index.html)

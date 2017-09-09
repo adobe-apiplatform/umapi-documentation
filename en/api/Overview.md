@@ -59,7 +59,7 @@ You can update personal information for a user who has an Enterprise or Federate
 
 ## <a name="remove" class="api-ref-subtitle">Remove Users</a>
 
-UM API allows an organization to remove a user from an organization, or from a Trusted Domain through the POST [action](ActionsRef.html) API. The _removeFromOrg command_ removes the user from the organization and from any product configurations and user-groups in the organization. An organization can also delete user accounts of type Enterprise and Federated ID, if the caller is from the owning organization and has delete access. This will also remove them from all product configurations and user-groups in a given domain.
+UM API allows an organization to remove a user from an organization, or from a Trusted Domain through the POST [action](ActionsRef.html) API. The _removeFromOrg command_ removes the user from the organization and from any product profiles and user-groups in the organization. An organization can also delete user accounts of type Enterprise and Federated ID, if the caller is from the owning organization and has delete access. This will also remove them from all product profiles and user-groups in a given domain.
 
 * [Remove a user from the organization](ActionsRef.html#removeFromOrg)
 
@@ -67,25 +67,25 @@ UM API allows an organization to remove a user from an organization, or from a T
 
 The retrieval of users and membership details in user-groups and product profiles are available through the following GET APIs:
 
-* [Get all users in an organization](users.html#getUsers)
-* [Get a user](user.html#getUserByEmailOrUsername)
-* [Get all users in a user-group](users.html#getUsersByGroup)
-* [Get all users in a product profile](users.html#getUsersByGroup)
+* [Get all users in an organization](getUsers.html#getUsers)
+* [Get a user](getUsers.html#getUserByEmailOrUsername)
+* [Get all users in a user-group](getUsersByGroup.html#getUsersByGroup)
+* [Get all users in a product profile](getUsersByGroup.html#getUsersByGroup)
 
 ## <a name="usergroups" class="api-ref-subtitle">Manage User-Groups</a>
 
-User Management API delivers a set of APIs to [manage User-groups](usergroups.html) including creation, retrieval, updates, and deletion. Through the POST [action](ActionsRef.html) API we also enable management of group membership and assignment of administrators:
+User Management provides an API user-groups retrieval. Through the POST [action](ActionsRef.html) API we also enable management of group membership and assignment of administrators:
 
-* [Create a user-group](usergroup.html#createUserGroup)
+<!-- * [Create a user-group](usergroup.html#createUserGroup)
 * [Update a user-group](usergroup.html#updateUserGroup)
-* [Delete a user-group](usergroup.html#deleteUserGroup)
+* [Delete a user-group](usergroup.html#deleteUserGroup) 
 * [Get all user-groups in an Organization](usergroup.html#getUserGroups)
-* [Get details of a particular user-group](usergroup.html#getUserGroup)
+* [Get details of a particular user-group](usergroup.html#getUserGroup) -->
 * [Add a user to a user-group](ActionsRef.html#add)
 * [Remove a user from a user-group](ActionsRef.html#remove)
 * [Add User-group Administrator permissions to a user](ActionsRef.html#addRoles)
 * [Remove User-group Administrator permissions to a user](ActionsRef.html#removeRoles)
-* [Get a list of users in a user-group](users.html#getUsersByGroup)
+* [Get a list of users in a user-group](getUsersByGroup.html)
 
 ## <a name="provision" class="api-ref-subtitle">Provision Users</a>
 
@@ -110,9 +110,9 @@ The POST [action](ActionsRef.html) API uses the _addRoles_ and _removeRoles_ com
 * [Remove System Administrator permissions to a user](ActionsRef.html#removeRoles)
 * [Add Deployment Administrator permissions to a user](ActionsRef.html#addRoles)
 * [Remove Deployment Administrator permissions to a user](ActionsRef.html#removeRoles)
-* [Add Support Administrator permissions to a user](ActionsRef.html#addRoles)
-* [Remove Support Administrator permissions to a user](ActionsRef.html#removeRoles)
 * [Add Product Administrator permissions to a user](ActionsRef.html#addRoles)
 * [Remove Product Administrator permissions to a user](ActionsRef.html#removeRoles)
 * [Add Product Profile Administrator permissions to a user](ActionsRef.html#addRoles)
 * [Remove Product Profile Administrator permissions to a user](ActionsRef.html#removeRoles)
+* [Add User-group Administrator permissions to a user](ActionsRef.html#addRemoveRoleAttr)
+* [Remove User-group Administrator permissions to a user](ActionsRef.html#addRemoveRoleAttr)

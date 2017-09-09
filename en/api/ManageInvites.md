@@ -8,6 +8,10 @@ lang: en
 
 # Manage Pending User Invitations
 
+**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+
+<hr class="api-ref-rule">
+
 When you add a user with an Adobe ID to your organization, the user receives an email invitation. The user is not added to your organization until the user clicks the link in the email and accepts the invitation. An invite is pending until the user accepts it, an admin revokes it, or the invite expires.
 
 You can send GET requests to the **{orgId}/invites** resource to retrieve a [list of pending invites](#pending) and to get information about [pending invites for a specific user](#user).
@@ -40,7 +44,7 @@ A failed request can result in a response with one of these HTTP status values:
 * **404 Not Found** : No pending invites exist for user.
 * **500 Internal Server Error** : A server-side error occurred when resending or revoking an invite.
 
-The response body contains the status (an error code) and a status message. For more information about the possible error codes and messages, see [Error Conditions](ErrorRef.md).
+The response body contains the status (an error code) and a status message. For more information about the possible error codes and messages, see [Error Conditions](ErrorRef).
 
 ## <a name="pending" class="api-ref-subtitle">List Pending User Invites</a>
 

@@ -16,8 +16,8 @@ POST /v2/usermanagement/action/{orgId}
 * [Parameters](#parameters)
 * [Responses](#responses)
 * [Request Body](#actionRequestBody)
-  - [Schema](actionRequestBodySchema)
-  - [Examples](actionRequestBodyExamples)
+  - [Schema](#actionRequestBodySchema)
+  - [Examples](#actionRequestBodyExamples)
 * [Throttling Limits](#getUsersRESTThrottle)
 
 <a name="intro" class="api-ref-subtitle"></a>
@@ -284,8 +284,7 @@ __do:__
 Lists the series of _steps_ to complete for this command entry. Please note when using the [user root command](#userRootCommand)) that there can only be __one__ create user operation ([createEnterpriseID](#createEnterpriseID), [createFederatedID](#createFederatedID) or [addAdobeID](#addAdobeID)) and __one__ delete user operation ([removeFromOrg](#removeFromOrg)) in a single command entry.
 
 <a name="addAdobeID" class="api-ref-subtitle">__addAdobeID:__</a> (_only available with the [user root command](#userRootCommand)_)  
-Adds a user who has an existing [Adobe ID](glossary.html#adobeId).  If the organization has not migrated to [OneConsole](glossary.html#oneconsole) then the user will receive an email inviting them to join the organization.  
-For _[migrated](glossary.html#oneconsole)_ organizations, the client can include user-information fields such as `firstname` and `lastname`.  
+Adds a user who has an existing [Adobe ID](glossary.html#adobeId).  The client can include user-information fields such as `firstname` and `lastname`.  
 See [user-information](#user-information) for individual field descriptions.
 ```json
 {
@@ -339,7 +338,7 @@ Creates a [Federated ID](glossary.html#federatedId). See [user-information](#use
 The `update` action writes new personal information to the user's account details. You can update [Enterprise](glossary.html#enterpriseId) and [Federated IDs](glossary.html#federatedId) that are managed by your organization.  
 Independent [Adobe IDs](glossary.html#adobeId) are managed by the individual user and cannot be updated through the User Management API. Attempting to update information for a user who has an [Adobe ID](glossary.html#adobeId) will result in error [error.update.adobeid.no](errorRef.html#adobeidno).  
 For [Federated IDs](glossary.html#federatedId), the `update` request can only change the information that is stored by Adobe. You cannot change information your organization stores outside of Adobe through the User Management API. You can, however, include a `username` field for users whose email address is in your domain. The `username` value must not include an at-sign character (@). The parameters of an update step specify the changed fields and their new values. If you do not specify a field, its value remains unchanged.  
-[Identity Types](glossary.md#identity) explains the different account types available. See [user-information](#user-information) for individual field descriptions.  
+[Identity Types](glossary.html#identity) explains the different account types available. See [user-information](#user-information) for individual field descriptions.  
 ```json
 {
   "update": {
@@ -353,7 +352,7 @@ For [Federated IDs](glossary.html#federatedId), the `update` request can only ch
 ```
 
 <a name="add" class="api-ref-subtitle">__add:__</a>  
-Enables the entitlement or membership of users to product configurations and [user-groups](glossary.md#user-group). {% include apiRef/plc.md plural=true capitalize=true %} correspond to specific product access rights, so adding product access for a user is the same as adding that user to the corresponding {% include apiRef/plc.md %}. You can add a maximum of 10 memberships in one command entry. See [Add attributes](#addRemoveAttr) section for full details of the following attributes:
+Enables the entitlement or membership of users to product profiles and [user-groups](glossary.html#user-group). {% include apiRef/plc.md plural=true capitalize=true %} correspond to specific product access rights, so adding product access for a user is the same as adding that user to the corresponding {% include apiRef/plc.md %}. You can add a maximum of 10 memberships in one command entry. See [Add attributes](#addRemoveAttr) section for full details of the following attributes:
 ```json
 {
   "add": {
@@ -371,7 +370,7 @@ Enables the entitlement or membership of users to product configurations and [us
 ```
 
 <a name="remove" class="api-ref-subtitle">__remove:__</a>  
-Removes the entitlement or membership of users from {% include apiRef/plc.md %}s and [user-groups](glossary.md#user-group). {% include apiRef/plc.md plural=true %} correspond to specific product access rights, so removing product access for a user is the same as removing that user from the corresponding {% include apiRef/plc.md %}. You can remove a maximum of 10 memberships in one command entry, unless you use the special “all” parameter to remove all memberships for the user or user-group. See [Remove attributes](#addRemoveAttr) section for full details of the following attributes:
+Removes the entitlement or membership of users from {% include apiRef/plc.md %}s and [user-groups](glossary.html#user-group). {% include apiRef/plc.md plural=true %} correspond to specific product access rights, so removing product access for a user is the same as removing that user from the corresponding {% include apiRef/plc.md %}. You can remove a maximum of 10 memberships in one command entry, unless you use the special “all” parameter to remove all memberships for the user or user-group. See [Remove attributes](#addRemoveAttr) section for full details of the following attributes:
 ```json
 {
   "remove" : {
@@ -432,11 +431,11 @@ When a user is a member of a {% include apiRef/plc.md %}, this command will revo
 <a name="addRemoveRoleAttr" class="api-ref-subtitle">__Add/Remove Role Attributes__</a>  
 * __productAdmin:__ (_only available with the [user root command](#userRootCommand)_); A list of products (with a maximum of 10 entries) to assign the user as a [Product Administrator](glossary.html#productAdmin). This can only be used with the `user` root command and is applicable to the `addRoles` and `removeRoles` operations. 
 
-* __admin:__ (_only available with the [user root command](#userRootCommand)_); A list of product configurations and user-groups (with a maximum of 10 entries) to assign the user as an Administrator. This can only be used with the `user` root command and is applicable to the `addRoles` and `removeRoles` operations. Possible roles include:
+* __admin:__ (_only available with the [user root command](#userRootCommand)_); A list of product profiles and user-groups (with a maximum of 10 entries) to assign the user as an Administrator. This can only be used with the `user` root command and is applicable to the `addRoles` and `removeRoles` operations. Possible roles include:
   * "org": Assign the user as a [System Administrator](glossary.html#orgAdmin).
   * "deployment": Assign the user as a [Deployment Administrator](glossary.html#deployment).
-  * "support": Assign the user as a [Support Administator](glossary.html#supportAdmin).
-  * "{product-config-name}": Assign user as a [{% include apiRef/plc.md capitalize=true %} Administrator](glossary.html#productConfigAdmin).
+<!--  * "support": Assign the user as a [Support Administator](glossary.html#supportAdmin). -->
+  * "{product-profile-name}": Assign user as a [{% include apiRef/plc.md capitalize=true %} Administrator](glossary.html#productProfileAdmin).
   * "{user-group-name}": Assign user as a [UserGroup Administrator](glossary.html#usergroupAdmin). 
 ```json
   {
@@ -449,7 +448,7 @@ When a user is a member of a {% include apiRef/plc.md %}, this command will revo
 ```
 
 <a name="removeFromOrg" class="api-ref-subtitle">__removeFromOrg:__</a> (_only available with the [user root command](#userRootCommand)_)  
-Removes the user's membership in the organization, and optionally from membership in a domain that is linked to the given organization through the trusted-domain relationship. This includes any product configurations and user-groups in the organization that they are a member of. There can only be a single `removeFromOrg` action in a command entry. If present, the removal action will be the last step invoked. If the user is specified by email address, then the domain of the email address specifies the domain of the account. If the user is specified by Username, the domain must be provided.
+Removes the user's membership in the organization, and optionally from membership in a domain that is linked to the given organization through the trusted-domain relationship. This includes any product profiles and user-groups in the organization that they are a member of. There can only be a single `removeFromOrg` action in a command entry. If present, the removal action will be the last step invoked. If the user is specified by email address, then the domain of the email address specifies the domain of the account. If the user is specified by Username, the domain must be provided.
 ```json
 {
   "removeFromOrg": {
@@ -462,7 +461,7 @@ Removes the user's membership in the organization, and optionally from membershi
 
 ### <a name="actionRequestBodyExamples" class="api-ref-subtitle">Examples</a>
 
-Creates a [Federated ID](glossary.html#federatedId) and adds them to the [{% include apiRef/plc.md plural=true %}](glossary.md#plc) 'Photoshop' and 'Illustrator' and removes them from the user-group 'devOps'. The user is identified by passing the username and domain.
+Creates a [Federated ID](glossary.html#federatedId) and adds them to the [{% include apiRef/plc.md plural=true %}](glossary.html#plc) 'Photoshop' and 'Illustrator' and removes them from the user-group 'devOps'. The user is identified by passing the username and domain.
 ```json
 {
   "user" : "jdoe",
@@ -594,7 +593,7 @@ Add the Product Owner Admin role for a user:
   }
 ]
 ```
-Remove the admin role for the user for a given product configuration:
+Remove the admin role for the user for a given product profile:
 ```json
 [
   {

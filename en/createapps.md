@@ -21,7 +21,7 @@ https://usermanagement.adobe.io/v2/usermanagement/...
 
 **NOTE:** In syntax statements, this address is shortened to **[UM_Server]**.
 
-There are separate endpoints under the user-management server for write operations (managing the enterprise user base), and read operations (retrieving information from the enterprise user base). The API defines a set of specific write actions that you can use to create, update, and delete user accounts, and manage Adobe product access for users. The read operations retrieve information about users and product configurations in your organization.
+There are separate endpoints under the user-management server for write operations (managing the enterprise user base), and read operations (retrieving information from the enterprise user base). The API defines a set of specific write actions that you can use to create, update, and delete user accounts, and manage Adobe product access for users. The read operations retrieve information about users and product profiles in your organization.
 
 ***
 
@@ -29,7 +29,7 @@ There are separate endpoints under the user-management server for write operatio
 * [Manage your Adobe Users](#manage-your-adobe-users)
 * [Query your Adobe Users and Product Access](#query-your-adobe-users-and-product-access)
 
-For a Python code walkthrough and samples of actual API calls, see the [User Management Walkthrough](samples/index.md).
+For a Python code walkthrough and samples of actual API calls, see the [User Management Walkthrough](samples/index.html).
 
 ***
 
@@ -57,7 +57,7 @@ The response contains an access token that is valid for 24 hours after it is iss
 You can request multiple access tokens. Previous tokens are not invalidated when a new one is issued. You can authorize requests with any valid access token. This allows you to overlap access tokens to ensure your integration is always able to connect to Adobe.
 
 * For details of the log-in call, see [JWT Authentication Reference](https://www.adobe.io/apis/cloudplatform/console/authentication/connect.html).
-* For an example of a script that creates a JWT and makes a log-in call, see [User Management Walkthrough.](samples/index.md)
+* For an example of a script that creates a JWT and makes a log-in call, see [User Management Walkthrough.](samples/index.html)
 
 ***
 
@@ -94,9 +94,9 @@ Send POST requests whose body contains a JSON structure that specifies a set of 
 | **createFederatedID** | Create a Federated ID in a domain owned by your organization. |
 | **addAdobeID** | Issue an invitation to a user with a general Adobe ID to join your organization.The user receives an email with a link for accepting the invitation. Users do not become members of your organization until they accept. You cannot perform any other steps for a user with a pending invitation, such as adding product accesss. |
 | **update** | Update personal information for a user who has an Enterprise or Federated ID that is managed by your organization. |
-| **add**, **remove** | Manage product access.You must create Product Configurations in the [Admin Console](https://adminconsole.adobe.com/enterprise/), and assign each one a unique identifing nickname. You can then use the User Management API to manage product access for user by adding and removing users to and from your existing product configurations. |
-| **addRoles**, **removeRoles** | Add or remove a user's admin rights for specific user-groups, products, and defined Product Configurations. |
-| **removeFromOrg**, **removeFromDomain** | Remove the user from the organization, or from a Trusted Domain.  The **removeFromOrg** operation removes the user from the organization and from any product configurations in the organization. The **removeFromDomain** operation removes the user from all product configurations for a given domain. For user accounts of type Enterprise and Federated ID, if the caller is from the owning organization and has delete access, **removeFromDomain** also deletes the user account. If the user is specified by email address, then the domain of the email address specifies the domain of the account. If the user is specified by Username, the domain must be provided. |
+| **add**, **remove** | Manage product access.You must create Product Profiles in the [Admin Console](https://adminconsole.adobe.com/enterprise/), and assign each one a unique identifing nickname. You can then use the User Management API to manage product access for user by adding and removing users to and from your existing product profiles. |
+| **addRoles**, **removeRoles** | Add or remove a user's admin rights for specific user-groups, products, and defined Product Profiles. |
+| **removeFromOrg**, **removeFromDomain** | Remove the user from the organization, or from a Trusted Domain.  The **removeFromOrg** operation removes the user from the organization and from any product profiles in the organization. The **removeFromDomain** operation removes the user from all product profiles for a given domain. For user accounts of type Enterprise and Federated ID, if the caller is from the owning organization and has delete access, **removeFromDomain** also deletes the user account. If the user is specified by email address, then the domain of the email address specifies the domain of the account. If the user is specified by Username, the domain must be provided. |
 | **resetPassword** | For Enterprise IDs only, initiates the password-reset process for the user.Sends a password-reset email, and prevents login to the account until the password is reset. |
 
 ### Managing User Invites
@@ -111,7 +111,7 @@ When you add a user with the Adobe ID type to join your organization, they get a
 
 ### Managing Administrative Access
 
-To manage administrative rights for user groups, products, or product configurations, send the POST request to one of these URLs:
+To manage administrative rights for user groups, products, or product profiles, send the POST request to one of these URLs:
 
 ```
    [UM_Server]/{orgId}/user-groups/{userGroupId}
@@ -121,7 +121,7 @@ To manage administrative rights for user groups, products, or product configurat
 
 * **[UM_Server]** is the UM API server: **https://usermanagement.adobe.io/v2/usermanagement/**
 * Replace **{orgId}** with your organization's unique ID, which looks like this: "12345@AdobeOrg".
-* Replace the **{...Id}** elements with the unique IDs assigned to user groups, products, and product configurations that are defined for you organization.
+* Replace the **{...Id}** elements with the unique IDs assigned to user groups, products, and product profiles that are defined for you organization.
 
 ***
 
@@ -129,23 +129,23 @@ To manage administrative rights for user groups, products, or product configurat
 
 For detailed descriptions and examples of specific user-management operations, see the following pages.
 
-* For specific request and response syntax, see [Managing Users](api/ManageRef.md).
-* For detailed syntax of the JSON commands structure and user account operations, see [User Management Actions](api/ActionsRef.md).
+* For specific request and response syntax, see [Managing Users](api/user.html).
+* For detailed syntax of the JSON commands structure and user account operations, see [User Management Actions](api/ActionsRef.html).
 * For examples of user-management requests, see:
-  - [Create users](samples/SampleCreate.md)
-  - [Manage pending invites](samples/SampleInvites.md)
-  - [Update user information](samples/SampleUpdate.md)
-  - [Add and remove membership and admin rights in user groups](samples/SampleGroups.md)<br>
-  - [Add and remove entitlements through product configuration membership](samples/SampleGroups.md)
-  - [Remove users](samples/SampleRemove.md)
-  - [Perform multiple actions for one user](samples/SampleMultiActions.md)
-  - [Perform actions for multiple users](samples/SampleMultiUser.md)
+  - [Create users](samples/SampleCreate.html)
+  - [Manage pending invites](samples/SampleInvites.html)
+  - [Update user information](samples/SampleUpdate.html)
+  - [Add and remove membership and admin rights in user groups](samples/SampleGroups.html)<br>
+  - [Add and remove entitlements through product profile membership](samples/SampleGroups.html)
+  - [Remove users](samples/SampleRemove.html)
+  - [Perform multiple actions for one user](samples/SampleMultiActions.html)
+  - [Perform actions for multiple users](samples/SampleMultiUser.html)
 
 ***
 
 ## Query your Adobe Users and Product Access
 
-You can retrieve paged lists of all users and products for the organization, and of user groups and product configurations that you have defined in the [Admin Console](https://adminconsole.adobe.com/enterprise/). Product configurations are identified by the nickname you have assigned to them in the Admin Console. You can then examine an individual user, user group, product, or product configuration using its unique ID.
+You can retrieve paged lists of all users and products for the organization, and of user groups and product profiles that you have defined in the [Admin Console](https://adminconsole.adobe.com/enterprise). Product configurations are identified by the nickname you have assigned to them in the Admin Console. You can then examine an individual user, user group, product, or product profile using its unique ID.
 
 There are API endpoints for each resource type under your organization's unique ID. For example, to list users in your existing user base and get the information for a particular user, send GET requests to these URLs:
 
@@ -167,5 +167,5 @@ When you invite users with the Adobe ID type to join your organization, they are
    GET [UM_Server]/{orgId}/invites/{email}
 ```
 
-* For specific endpoints and request/response syntax, see [Query API Reference](api/QueryRef.md)
-* For examples of user-base query requests, see [Query user information](samples/SampleQuery.md)
+* For specific endpoints and request/response syntax, see [API Reference](api/Overview.html)
+* For examples of user-base query requests, see [Query user information](samples/SampleQuery.html)

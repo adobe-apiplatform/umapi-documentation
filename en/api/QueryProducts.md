@@ -8,7 +8,7 @@ lang: en
 
 # Product Query Resource Reference
 
-You can query the Adobe database for information about products that are defined for your organization. Membership in user groups and in product configurations controls a user's access to Adobe products in your organization.
+You can query the Adobe database for information about products that are defined for your organization. Membership in user groups and in product profiles controls a user's access to Adobe products in your organization.
 
 * [Access Product Information](#accessProductInformation)
 
