@@ -1,6 +1,6 @@
 ---
 layout: default
-nav_link: Query Product Configurations
+nav_link: Query Product Configurations - /groups/{orgId}/{page}
 nav_order: 540
 nav_level: 3
 lang: en
