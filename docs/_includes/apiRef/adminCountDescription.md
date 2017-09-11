@@ -1,0 +1,1 @@
+The number of admins assigned to a configuration.

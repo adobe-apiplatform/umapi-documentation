@@ -1,0 +1,1 @@
+Number of users assigned to a configuration.
