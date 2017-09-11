@@ -1,0 +1,5 @@
+Users are granted access to Adobe products by adding them as members of a product profile that has been created in the Admin Console. A product profile identifies an Adobe product or set of products, and is associated with a list of users who are entitled to access. You can use the API to add individual users to and remove individual users from specific product profiles.
+
+You can also create User Groups in the Admin Console. You can use the API to add and remove users to and from the user group, and to add and remove user groups to and from product profiles. This allows you to group users according to your own criteria, and then grant or deny product access to an entire group.
+
+_Note: You cannot create or manage product profiles themselves through the User Management API. For more information about creating and managing product profiles, see [Manage Product Profiles](https://helpx.adobe.com/enterprise/help/admin-roles.html#Create_product_configurations) in the Enterprise help hub._
