@@ -11,15 +11,7 @@ lang: en
 
 To protect the availability of the Adobe back-end user identity systems, the User Management API imposes limits on client access to the data. Limits apply to the number of calls that an individual client can make within a time interval, and global limits apply to access by all clients within the time period.
 
-Specific limits may change over time, but these are general guidelines.
-
-| Client calls | Per client maximum | Global maximum (all clients) | 
-| --- | --- | --- |
-| /action | 10 requests per minute | 100 requests per minute |
-| /users | 25 requests per minute | 100 requests per minute |
-| /groups | 5 requests per minute | 50 requests per minute |
-
-When the access limit is reached, further calls fail with one of the following HTTP error status responses:
+Please refer to the _Throttling_ section of each API to determine its limitations. When the access limit is reached, further calls fail with one of the following HTTP error status responses:
 
 * **429 Too Many Requests** – You are being rate limited, delay before retry
 * **503 Service Unavailable** – Global limits have been reached, delay before retry

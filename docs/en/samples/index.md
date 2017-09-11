@@ -350,14 +350,14 @@ def send_request_retry(method, url, headers, body):
 
 ## Sample Requests
 
-The following samples show the request format and JSON command structures for a variety of user-management tasks. We create a user of each type, update that user's information, and add and remove product configuration memberships for the user. We show how to retrieve information about users and product configurations we have added, and how to remove a user from the organization. Additional examples show how to combine multiple actions for a single user, and perform actions for multiple users in one request.
+The following samples show the request format and JSON command structures for a variety of user-management tasks. We create a user of each type, update that user's information, and add and remove product profile memberships for the user. We show how to retrieve information about users and product profiles we have added, and how to remove a user from the organization. Additional examples show how to combine multiple actions for a single user, and perform actions for multiple users in one request.
 
 For better readability, the samples show the unprocessed JSON array for each request body, and use placeholder values for enterprise-specific variables, which you would replace in your own scripts: {myDomain}, {myOrgId}, {myApiKey}, {myAccessToken}
 
-* [Create users](SampleCreate.md)
-* [Update user information](SampleUpdate.md)
-* [Add and remove product access for a user](SampleGroups.md)
-* [Query user and product configuration information](SampleQuery.md)
-* [Remove users](SampleRemove.md)
-* [Perform multiple actions for one user](SampleMultiActions.md)
-* [Perform actions for multiple users](SampleMultiUser.md)
+* [Create users](SampleCreate.html)
+* [Update user information](SampleUpdate.html)
+* [Add and remove product access for a user](SampleGroups.html)
+* [Query user and product profile information](SampleQuery)
+* [Remove users](SampleRemove.html)
+* [Perform multiple actions for one user](SampleMultiActions.html)
+* [Perform actions for multiple users](SampleMultiUser.html)
