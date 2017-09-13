@@ -9,14 +9,12 @@ lang: en
 
 Welcome to the documentation center for User Management APIs from Adobe.
 
-**This is a draft development area.  Production documentation is [here](https://www.adobe.io/apis/cloudplatform/usermanagement/docs/gettingstarted.html)**
+**This is a draft development area.**  Production documentation is [here](https://www.adobe.io/apis/cloudplatform/usermanagement/docs/gettingstarted.html).
 
-[Getting Started with User Management](getstarted.md)
+[Getting Started with User Management](getstarted.html)
 
-[Creating User Management Applications](createapps.md)
+[Creating User Management Applications](createapps.html)
 
-[User Management API Reference](api/Overview.md)
+[User Management API Reference](api/Overview.html)
 
-[User Management Walkthrough](samples/index.md)
-
-<p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+[User Management Walkthrough](samples/index.html)

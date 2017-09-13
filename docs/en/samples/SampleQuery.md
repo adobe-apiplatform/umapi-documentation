@@ -1,14 +1,14 @@
 ---
 layout: default
-nav_link: Query User and Product Configuration
+nav_link: Query User and Product Profile
 nav_level: 2
 nav_order: 240
 lang: en
 ---
 
-# Query User and Product Configuration Information
+# Query User and Product Profile Information
 
-These samples show how to use GET requests to retrieve information about users and product configurations that are defined for your organization. In API requests and responses, a product configuration is identified by the unique nickname you assign to it in the [Admin Console](https://adminconsole.adobe.com/enterprise/). The 0 at the end of each URL sets the page index to 0, causing the call to retrieve the first 200-entry page of users.
+These samples show how to use GET requests to retrieve information about users and product profiles that are defined for your organization. In API requests and responses, a product profile is identified by the unique nickname you assign to it in the [Admin Console](https://adminconsole.adobe.com/enterprise). The 0 at the end of each URL sets the page index to 0, causing the call to retrieve the first 200-entry page of users.
 
 ## Request user information
 
@@ -39,7 +39,7 @@ x-api-key: {myApiKey}
 Authorization: Bearer {myAccessToken}
 ```
 
-## Request a list of product configurations defined for your organization.
+## Request a list of product profiles defined for your organization.
 
 ```json
 ========================= REQUEST ==========================
@@ -51,7 +51,7 @@ x-api-key: {myApiKey}
 Authorization: Bearer {myAccessToken}
 ```
 
-## Request information for users belonging to a specific product configuration
+## Request information for users belonging to a specific product profile
 
 ```json
 ========================= REQUEST ==========================
