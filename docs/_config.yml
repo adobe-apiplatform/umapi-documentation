@@ -14,12 +14,12 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: User Management API
-email: 
+email:
 description: > # this means to ignore newlines until "baseurl:"
   The User Management API allows clients to manage their users
   and product entitlements.
   ***This is a draft development area.***
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: "/umapi-documentation" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  adobe-apiplatform
 
@@ -33,5 +33,5 @@ exclude:
   - Gemfile.lock
   - art
 
-plugins_dir: 
+plugins_dir:
   - ./_plugins
