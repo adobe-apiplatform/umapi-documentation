@@ -262,7 +262,7 @@ An array of warnings. Each warning entry is an object with the attributes below.
 #### Schema Model
 
 
-Creates a [Federated ID](glossary.html#federatedId) and adds them to the [{% include apiRef/plc.md plural=true %}](glossary.html#plc) 'Photoshop' and 'Illustrator' and removes them from the user-group 'devOps'. The user is identified by passing the username and domain.
+Creates a [Federated ID](glossary.html#federatedId) and adds them to the [{% include_relative partials/plc.md plural=true %}](glossary.html#plc) 'Photoshop' and 'Illustrator' and removes them from the user-group 'devOps'. The user is identified by passing the username and domain.
 ```json
 {
   "completed": 0,
