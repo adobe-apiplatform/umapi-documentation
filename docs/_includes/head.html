@@ -15,4 +15,8 @@
   {% if jekyll.environment == 'production' and site.google_analytics %}
   {% include google-analytics.html %}
   {% endif %}
+
+  {% if site.adobe_analytics %}
+  <script src="{{ site.adobe_analytics }}"></script>
+  {% endif %}
 </head>
