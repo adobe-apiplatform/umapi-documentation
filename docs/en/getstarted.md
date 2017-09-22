@@ -13,9 +13,11 @@ The User Management API allows you to manage a large number of identities progra
 
 You can use the API directly to create applications and scripts to manage your organization's Adobe user accounts and product entitlements. In addition to direct programmatic access through the API, Adobe offers system administrators a ready-made user-management automation tool, [User Sync](#usersync), which is built on top of the UM API.
 
+
 ## User Management Tasks
 
 The User Management API gives you direct access to the functionality you need to manage your Adobe user accounts and control user access to Adobe products.
+
 
 ### Create and Manage User Accounts
 
@@ -47,6 +49,8 @@ Before you can use the User Management API (directly or indirectly through User 
 ## What's Next?
 
 * If you think your enterprise can use the ready-made API client, User Sync, read more about the tool: [Synchronize User Data with UserSync](https://adobe-apiplatform.github.io/user-sync.py/).
+
 * If you plan to build your own API client, learn about the user-management operations that are available through the [Introduction to User Management APIs](API_introduction.md)
 * Get complete reference details for all API calls: [User Management API Reference](RefOverview.md)
 * See a sample Python script and examples of representative requests: [Examples and Samples](samples/index.md)
+

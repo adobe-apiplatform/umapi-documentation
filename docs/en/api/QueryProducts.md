@@ -26,9 +26,7 @@ You must include these headers in all requests:
 * **Authorization** : A current access token obtained from login request.
 * **x-api-key** : The API key for your organization, obtained from the Developer Portal.
 
-***
-
-## List Products
+### List Products
 
 A GET request to the **/{orgId}/products/** resource retrieves a paged list of Adobe products that your organization uses.
 
@@ -110,5 +108,4 @@ A successful request returns the requested data with **HTTP status 200**. The re
   ]
  }
 ```
-
 

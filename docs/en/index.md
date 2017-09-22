@@ -9,6 +9,7 @@ lang: en
 
 Welcome to the documentation center for User Management APIs from Adobe.
 
+
 [Getting Started with User Management](getstarted.md)
 
 [User Management API Overview](API_introduction.md)
@@ -16,3 +17,7 @@ Welcome to the documentation center for User Management APIs from Adobe.
 [User Management API Reference](RefOverview.md)
 
 [User Management Walkthrough](samples/index.md)
+
+**This is a draft development area.**  Production documentation is [here](https://www.adobe.io/apis/cloudplatform/usermanagement/docs/gettingstarted.html).
+
+
