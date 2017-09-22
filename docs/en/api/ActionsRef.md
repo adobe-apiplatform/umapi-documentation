@@ -261,8 +261,6 @@ An array of warnings. Each warning entry is an object with the attributes below.
 
 #### Schema Model
 
-
-Creates a [Federated ID](glossary.html#federatedId) and adds them to the [{% include_relative partials/plc.md plural=true %}](glossary.html#plc) 'Photoshop' and 'Illustrator' and removes them from the user-group 'devOps'. The user is identified by passing the username and domain.
 ```json
 {
   "completed": 0,
@@ -305,4 +303,3 @@ If the response has a status other than 200, the request was not processed.  The
 ## Throttling
 
 {% include_relative partials/throttling.md client=10 global=100 %}
-
