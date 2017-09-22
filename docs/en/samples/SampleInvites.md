@@ -1,8 +1,8 @@
 ---
 layout: default
 nav_link: Pending User Invites
-nav_level: 2
-nav_order: 220
+nav_level: 3
+nav_order: 462
 lang: en
 ---
 
@@ -14,7 +14,7 @@ When you use the **addAdobeID** command to add a user to your organization, the 
 
 Retrieve a list of pending invites for your organization or for a single user with a GET request to the **invites** resource.
 
-```json
+```
 ========================= REQUEST ==========================
 GET https://usermanagement.adobe.io/v2/usermanagement/{myOrgId}/invites
 ------------------------- headers --------------------------
@@ -36,7 +36,7 @@ Authorization: Bearer {myAccessToken}
 
 Resend an invite for a given email address with a POST request to the **invites** resource.
 
-```json
+```
 ========================= REQUEST ==========================
 POST https://usermanagement.adobe.io/v2/usermanagement/{myOrgId}/invites/{email}
 ------------------------- headers --------------------------
@@ -51,7 +51,7 @@ Authorization: Bearer {myAccessToken}
 
 Revoke a pending invite for a given email address with a DELETE request to the **invites** resource.
 
-```json
+```
 ========================= REQUEST ==========================
 DELETE https://usermanagement.adobe.io/v2/usermanagement/{myOrgId}/invites/{email}
 ------------------------- headers --------------------------

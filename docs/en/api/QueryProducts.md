@@ -1,25 +1,30 @@
 ---
 layout: default
-nav_link: Query Products
-nav_order: 530
+nav_link: Product APIs
+nav_order: 454
 nav_level: 3
 lang: en
+title: Product APIs
 ---
 
-# List and Query Products
+Product information defined for your organization in the [Admin Console](https://adminconsole.adobe.com/enterprise/) is available through the **{orgId}/products/** resource. You can list products and examine information for individual products.
 
-Information about Adobe products used in your organization is available through the **{orgId}/products/** resource.
-
-* Retrieve a paged list of all products for your organization:
+* Get a paged list of products for your organization.
 
 ```
-GET [UM_Server]/{orgId}/products
+GET /v2/usermanagement/{orgId}/products/
 ```
-* Access information for individual products by their unique ID.
+* Retrieve information for an individual product by its unique ID.
 
 ```
-GET [UM_Server]/{orgId}/products/{productId}
+GET /v2/usermanagement/{orgId}/products/{productId}
 ```
+### Request headers
+
+You must include these headers in all requests:
+
+* **Authorization** : A current access token obtained from login request.
+* **x-api-key** : The API key for your organization, obtained from the Developer Portal.
 
 ***
 
@@ -27,7 +32,7 @@ GET [UM_Server]/{orgId}/products/{productId}
 
 A GET request to the **/{orgId}/products/** resource retrieves a paged list of Adobe products that your organization uses.
 
-```json
+```
 GET [UM_Server]/{orgId}/products[?page={n}]
 ```
 
@@ -76,14 +81,12 @@ A failed request can result in a response with one of these HTTP status values, 
 
 _Note that server errors can occur that require exponential back-off on retry._
 
-***
-
-## Query Individual Products
+## Get Product Information
 
 A GET request to the **{orgId}/products/{productId}** resource retrieves the product information for an individual Adobe product. The body of the response contains the product information in JSON format.
 
-```json
-   GET [UM_Server]/{orgId}/products/{productId}
+```
+GET [UM_Server]/{orgId}/products/{productId}
 ```
 
 * **{orgId}** : Required. Your organization ID.
@@ -107,3 +110,5 @@ A successful request returns the requested data with **HTTP status 200**. The re
   ]
  }
 ```
+
+

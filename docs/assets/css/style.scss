@@ -1,0 +1,86 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+.api-ref-title {
+	font-size: 1.17em;
+	color: #111;
+}
+
+
+.api-ref-subtitle {
+	color: #111;
+}
+
+
+a.api-ref-title, a.api-ref-subtitle {
+	text-decoration: none;
+	color: #111;
+}
+
+
+.bordertablestyle {
+        border-collapse: collapse;
+
+   > table, td, th {
+        border: 1px solid black;
+		padding: 5px;
+		margin: 1px;
+		vertical-align: baseline;
+    }
+
+}
+
+.api-ref-rule {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.user-information-section {
+	margin-left: 10px;
+}
+
+#prerequisites a {
+	text-decoration: none;
+	color: #111;
+}
+
+.page-content {
+	flex: 1;
+}
+
+.Site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.list-nav {
+	margin-bottom: 0px;
+}
+
+.footer-text {
+	text-align: center;
+	color: $grey-color;
+}
+
+#orgIdDescription {
+	display: none;
+}
+
+#apiKeyDescription {
+	display: none;
+}
+
+#authDescription {
+	display: none;
+}
+
+#requestDescription {
+	display: none;
+}
+
+#directDescription {
+	display: none;
+}

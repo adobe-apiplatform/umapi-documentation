@@ -1,232 +1,305 @@
----
-title: User Management Actions
-layout: default
-nav_link: User Management Actions
-nav_order: 440
-nav_level: 3
-lang: en
----
+---   
+title: User Management Action Requests    
+layout: default   
+nav_link: User Management Action API  
+nav_order: 420    
+nav_level: 2    
+lang: en    
+---   
 
-# User Management Actions
 
-The body of a user-management request must contain a **commands** list, a JSON structure that specifies users to act upon, and the actions to take.
+* [Overview](#intro)
+* [Parameters](#parameters)
+* [Request Body](#actionRequestBody)
+* [Responses](#responses)
+* [Throttling Limits](#getUsersRESTThrottle)
 
-## Command structure
+## <a name="intro" class="api-ref-subtitle">Overview</a>
 
-The JSON **commands** structure contains an array of individual command entries, where each command names a user and applies a series of actions on that user. Each requested action is a step in the command. For each step, information relevant to the requested action is included in the step. For details of the syntax for each action, see [Action data formats](#action-data-formats).
-
-```json
-[ {"user" : "uid1@domain",
-   "do" : [ { "action" : {action_params} },
-            {... }
-           ] },
-   {"user" : "uid2@domain",
-    "do" : [ {"action" : {...} , ...] } ,
-    ...
- ]
+Use an HTTPS **POST** request to the `action` resource for your organization to request most user-management actions.
+```
+https://usermanagement.adobe.io/v2/usermanagement/action/{orgId}
 ```
 
-In the "user" field, the user specification is usually an email address with a UID and domain component. Your organization can be configured to accept user IDs that are not email addresses. In either case, you can also specify a separate email address as a data field for the user.
+The body of this request contains a JSON _commands_ structure that you use to specify which actions to perform for which user or user group. You can create, update, entitle, and remove users or [user-groups](glossary.md#usergroup) in an organization.
 
-In the case of Federated IDs that are not email addresses, you must supply the domain the user belongs to in order to create the user, and to perform update, add, remove, and removeFromOrg operations. To do this, add a "domain" field at the same level as the "user" field. For example:
+When a request has been understood and at least partially completed, it returns with HTTP status 200.
 
-```json
-[ {"user" : "jdoe",
-   "domain" : "example.com",
-   "requestID" : "ed2149",
-   "do" :  [ { "createFederatedID": {
-             "email": "john.doe@myDomain",
-             "country": "US",
-             "firstname": "John",
-             "lastname": "Doe"
-             }
-           },
-         { "add" : { "productConfiguration" : [ "Photoshop", "Illustrator"] }
-       }
-      ]
-   }
-]
+__Throttle Limits__: Maximum 10 requests per minute per a client. See [Throttling Limits](#actionThrottle) for full details.
+
+## <a name="parameters" class="api-ref-subtitle">Parameters</a>
+
+| Name | Type | Req? | Description |
+| :--- | :---| :---: | :---------- |
+| orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
+| testOnly | query | false | A boolean value indicating whether to run the commands in _test mode_.  If true, parameter syntactic and (limited) semantic checking is done, but the specified operations are not performed, so no user accounts or group memberships are created, changed, or deleted. |
+| X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
+| Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
+| Content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
+| X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
+| request | body | true | JSON payload containing a series of commands. See [Request Body](#actionRequestBody). |
+{:.bordertablestyle}
+
+*****
+### <a name="testOnly" class="api-ref-subtitle">Using Test Mode</a>
+
+Supply the **testOnly** parameter in the POST request to the Action API in order to test the behavior of the command set.
+
 ```
 
-The "domain" field is ignored if the user has an Adobe ID or Enterprise ID.
-
-### Identifying commands for debugging
-
-In addition to the required "user" and "do" fields, a command can include a "requestID" field. The value is an arbitrary string that helps you identify a command if it is returned in an error response. For example, if you generate commands from a particular data structure in your program, you can use a requestID to tag those commands. You can then connect any errors back to your internal structure using the requestID value as an index.
-
-Add the "requestID" field at the same level as the "user" field. For example:
-
-```json
-[ {"user" : "jdoe@example.com",
-   "requestID" : "ed2146",
-   "do" :  [{ "add" : { "product" : [ "Photoshop", "Illustrator"] } } ]
-  },
-    ...
- ]
+POST https://usermanagement.adobe.io/v2/usermanagement/action/{myOrgID}?testOnly=true
+-------------------------- body ----------------------------
+JSON commands
+------------------------- headers --------------------------
+Accept: application/json
+Content-Type: application/json
+x-api-key: {myApiKey}
+Authorization: Bearer {myAccessToken}
 ```
 
-### Command limits
+When you set the **testOnly** flag in an action call, the user-management service checks all commands for validity but does not make any actual changes in your user data. Use the flag to make sure that you are passing proper values without risk to the integrity of your user data. The response to a test-mode request reports that 0 operations were "completed". The "completedInTestMode" field reports the number of commands expected to complete without error, subject to limitations.
 
-The following limits apply to the "commands" structure and components:
+```
+{ "result": "partial",
+  "completed" : 0,
+  "completedInTestMode" : 3,
+  "notCompleted" : 1,
+  "errors" : [...]
+```
 
-| Component | Maximum |
+#### Limitations of Test Mode
+
+In normal operation, a command would create a user and then take actions on that user. When you create a user in test mode, the creation operation is not executed. All subsequent actions on that user should then fail. In order to make the test mode useful, it marks as successful any operation that refers to a non-existent user but is otherwise valid.
+
+The test behavior generally reflects the normal behavior of a command set, but the need to ignore the non-existent user leads to limitations of the test that you should be aware of. Some sequences of commands that succeed in test mode do not succeed in normal operation. For example, two attempts to create the same users passes test mode, but is otherwise an error.
+
+#### Test Behavior Cases
+
+The following table shows the behavior of test mode for particular test cases.
+
+| Command Types | Test Behavior |
 | --- | --- |
-| Size of JSON structure | 1 MB |
-| Number of commands in the JSON structure per call | 10 |
-| Number of action steps per command | 10 |
-| Number of product configurations or products per command | 10 |
+| Create user | Reports errors in command syntax, organization or user type mismatches, conflicting users.Does not create user. |
+| Update user info | Reports syntax or field errors. Checks user validity, except non-existent user.Does not make any changes to an existing user or report an error for non-existent user. |
+| Add or remove product access | Checks validity of product profile names. Reports error in syntax and limits.Does not make any membership changes for an existing user or report an error for non-existent user. |
+| Remove user | Reports errors in command syntax, organization mismatches.Does not remove an existing user or report an error for non-existent user. |
+| Reset password | Reports errors in command syntax, organization and user mismatches.Does not send password email or disable the user account. |
 
-***
 
-## Action data formats
+## <a name="actionRequestBody" class="api-ref-subtitle">Request Body</a>
 
-The "do" element of a command specifies a set of action steps to perform on a user record. The following sections describe the specific action values and their parameters.
+The JSON _commands_ structure contained in your POST request specifies a sequence of commands. Each command entry specifies a user or a [user-group](glossary.md#usergroup) and a sequence of _steps_ to be performed for that user/user-group.
 
-* [Create and add user operations](#create-and-add-user-operations)
-* [User update operations](#user-update-operations)
-* [Product access operations](#product-access-operations)
-* [Remove user operations](#remove-user-operations)
-* [Reset password operations](#reset-password-operations)
+* The JSON commands structure allows a maximum of 10 users or user-groups to be operated on per request.
+* For a detailed description of the command structure and syntax, including details of all user-management _actions_ that can be performed, see [User Management Action Commands](ActionsCmds.md)
 
-***
+******
+## <a name="responses" class="api-ref-subtitle">Responses</a>
 
-## Create and add user operations
+- [200: OK](#200)
+- [400: Bad Request](#400)
+- [401: Unauthorized](#401)
+- [403: Forbidden](#403)
+- [429: Too Many Requests](#actionThrottle)
 
-There can be only one add or create user operation in a command and it must be the first step. The following actions create new user accounts in your organization:<br>
+__Content-Type:__ _application/json_
 
-**createEnterpriseID<br>createFederatedID**
+### <a name="200" class="api-ref-subtitle">200 OK</a>
+The request was understood and at least partially completed. The response body returns a more complete description of the result in JSON format.
+If the result status is:
+* __success__: All the actions were completed. `completed` field will equal the total of commands processed.
+* __partial__: Some of the actions failed. `completed` and `notCompleted` fields with identify the number of commands that succeeded and failed.
+* __error__: All the requested actions failed. `completed` will be 0 and `notCompleted` will show the number of requests that failed.
 
-The **addAdobeID** action sends an email to a user with an existing Adobe ID, inviting them to join your organization. The invited user is not available for other operations, such as product access management, until they have accepted the invitation. When you add an Adobe ID user, the command must not include further steps for that user.
+When the result is partial or error, the errors field lists will include the specific actions that failed with corresponding error information. Warnings can also be returned with details of deprecated commands. Warnings will not cause the command to fail.
 
-The parameters for a create or add user operation must include the user ID, and can include any other user-information fields. The fields that can be present depend on the ID type.
+When using the [testOnly](#testOnly) parameter, the field `completedInTestMode` will be populated with the number of successful commands processed. In this scenario the `completed` field will be 0 as no commands will have been fully processed.
 
-<caption> **User ID Fields**</caption>
-
-| Field | Value | ID Type |
-| --- | --- | --- |
-| **email** | A valid email address. Limited to 64 characters. | Required for all types. |
-| **firstname**, **lastname** | Maximum 250 characters | Not used for **addAdobeID**. Optional for **createEnterpriseID**and **createFederatedID**. |
-| **country** | A valid ISO 2-character country code for a country in which Adobe does business. | Not used for **addAdobeID**. Optional for **createEnterpriseID**. Required for **createFederatedID**. |
-
-In addition to the new user's field values, the parameters can include an "option" flag that specifies how to perform the create operation when a user with the given ID already exist in the user database:
-
-* **"option" : "ignoreIfAlreadyExists"**
-If the ID already exists, ignore the create step. Process any other steps in the command entry for this user.
-* **"option" : "updateIfAlreadyExists"**
-If the ID already exists, perform an Update action using the parameters in the create step. After updating all fields present in the step, process any other steps in the command entry for this user.
-
-***
-
-## Update user operations
-
-The **update** action writes new personal information to the user's account details. You can only update Enterprise and Federated IDs that are managed by your enterprise.
-
-* Independent Adobe IDs are managed by the individual user and cannot be updated through the User Management API. Attempting to update information for a user who has an Adobe ID is an error.
-* For Federated IDs, the update request can only change the information that is stored by Adobe. You cannot change information your organization stores outside of Adobe through the User Management API. You can, however, include a "username" field for users whose email address is in your domain. The "username" value must not include an at-sign character (@).
-
-The parameters of an **update** step specify the changed fields and their new values. If you do not specify a field, its value remains unchanged.
-
+#### Examples
+Error status:
 ```json
-[ {"user" : "jdoe@example.com",
-   "do" : [ { "update" : {"email" : "jdoe@example.com",
-           "firstname" : "Jane",
-           "lastname" : "Doe",
-           "username" : "jdoe"
-        }
-      }
-    ]
-  }
-]
+{
+  "completed": 0,
+  "notCompleted": 1,
+  "completedInTestMode": 0,
+  "errors": [
+    {
+      "index": 0,
+      "step": 0,
+      "message": "String too long in command for field: country, max length 2",
+      "errorCode": "error.command.string.too_long"
+    }
+  ],
+  "result": "error"
+}
+```
+Partial status:
+```json
+{
+  "completed": 5,
+  "notCompleted": 5,
+  "completedInTestMode": 0,
+  "errors": [
+    {
+      "index": 1,
+      "step": 0,
+      "requestID": "Two2_123456",
+      "message": "User Id does not exist: test@test_fake.us",
+      "user": "test@test_fake.us",
+      "errorCode": "error.user.nonexistent"
+    },
+    {
+      "index": 3,
+      "step": 0,
+      "requestID": "Four4_123456",
+      "message": "Group NON_EXISTING_GROUP was not found",
+      "user": "user4@example.com",
+      "errorCode": "error.group.not_found"
+    },
+    {
+      "index": 5,
+      "step": 0,
+      "requestID": "Six6_123456",
+      "message": "User Id does not exist: test@test_fake.fake",
+      "user": "test6@test_fake.fake",
+      "errorCode": "error.user.nonexistent"
+    },
+    {
+      "index": 7,
+      "step": 0,
+      "requestID": "Eight8_123456",
+      "message": "Changes to users are only allowed in claimed domains.",
+      "user": "fake8@faketest.com",
+      "errorCode": "error.domain.trust.nonexistent"
+    },
+    {
+      "index": 9,
+      "step": 0,
+      "requestID": "Ten10_123456",
+      "message": "Group NON_EXISTING_GROUP was not found",
+      "user": "user10@example.com",
+      "errorCode": "error.group.not_found"
+    }
+  ],
+  "result": "partial",
+  "warnings": [
+    {
+      "warningCode": "warning.command.deprecated",
+      "requestID": "Four4_123456",
+      "index": 3,
+      "step": 0,
+      "message": "'product' command is deprecated. Please use productConfiguration.",
+      "user": "user4@example.com"
+    },
+    {
+      "warningCode": "warning.command.deprecated",
+      "requestID": "Ten10_123456",
+      "index": 9,
+      "step": 0,
+      "message": "'product' command is deprecated. Please use productConfiguration.",
+      "user": "user10@example.com"
+    }
+  ]
+}
+```
+Success status:
+```json
+{
+  "completed": 1,
+  "notCompleted": 0,
+  "completedInTestMode": 0,
+  "result": "success"
+}
 ```
 
-_NOTE: Currently, the country value cannot be updated after it is set._
+#### Schema Properties
 
-***
-
-## Product access operations
-
-You can use the User Management API to manage product access for users by adding them to and removing them from your defined product configurations. These product configurations correspond to specific product access rights, so adding product access for a user is the same as adding that user to the corresponding product configuration.
-
-When a user is a member of a product configuration, you can use action commands to grant and revoke administrative privilege for that user in that product configuration.
-
-You cannot create product configurations through the User Management API. Before you can manage product access for users, you must create named product configurations for the products your organization uses, using the [Admin Console](https://adminconsole.adobe.com/enterprise/).
-
-A product can have more than one configuration associated with it, to allow different access privileges for different sets of users. When you create a product configuration, you must assign it a unique, identifying name. For example, if your organization uses Adobe Document Cloud Pro, you could have one product configuration that blocks access to related services and another that only allows access to E-sign services. Assign unique names, such as "DC no services" and "DC e-sign". You can then use the "add" and "delete" actions to manage the membership of each product configuration.
-
-
-_NOTE: If you have not yet upgraded your enterprise to support granular admin roles, you cannot create product configurations in the [Admin Console](https://adminconsole.adobe.com/enterprise/). Instead, you must add product access to user groups, and manage group membership to add and remove product access for users._
-
-### Add product access
-
-The **add productConfiguration** action adds the user to one or more product configurations, thereby adding a specific type of product access for the user.
+__message:__ _string_  
+Only returned if initial validation of the request fails. It is not populated when a 200 status is returned.
 
 ```json
-{ "add" : { "productFConfiguration" : [ "product_config_name", ...] } }
+{
+  "result": "error.organization.invalid_id",
+  "message": "Bad organization Id"
+}
 ```
 
-You can make a maximum of 10 individual product configuration additions in one command entry.
+__result:__ _string_, possible values: `{ "success", "error", "partial", "error.apikey.invalid", "error.command.malformed", "error.organization.invalid", "error.organization.migrating" }`  
+The status of the request. This property can be used to manage error handling as the value will either be `success` or a corresponding error. If the result status is:
+* __success__: All the actions were completed. `completed` field will equal the total of commands processed.
+* __partial__: Some of the actions failed. `completed` and `notCompleted` fields with identify the number of commands that succeeded and failed.
+* __error__: All the requested actions failed. `completed` will be 0 and `notCompleted` will show the number of requests that failed.
 
-### Remove product access
+__completed:__ _integer_  
+The number of user commands that were successful.
 
-The **remove** action removes the user from a product configuration, thereby removing a specific type of product access for the user.
+__notCompleted:__ _integer_  
+The number of user commands that were unsuccessful. When non-zero the errors field lists the specific actions that failed, with error information.
+
+__completedInTestMode:__ _integer_  
+The number of users that were completed in testOnly mode.
+
+__errors:__  
+An array of errors. Each error entry is an object with the attributes below. This section is ommitted if no errors were generated.
+
+* __index:__ _integer_; The 0-based index of the command entry in the commands structure.
+* __step:__ _string_; The 0-based index of the action step within that command entry.
+* __message:__ _string_; A description of the error.
+* __errorCode:__ _string_; The error type. See [Errors](ErrorRef.md) for a full list.
+* __requestID:__ _string_; A developer-defined ID passed into the request which you can use to match this response to a specific request.
+* __user:__ _string_; The user defined in the root of the command entry.
+
+__warnings:__  
+An array of warnings. Each warning entry is an object with the attributes below. This section is ommitted if no warnings were generated.
+
+* __index:__ _integer_; The 0-based index of the command entry in the commands structure.
+* __step:__ _string_; The 0-based index of the action step within that command entry.
+* __message:__ _string_; A description of the warning.
+* __warningCode:__ _string_; The warning type. See [Errors](ErrorRef.md) for a full list.
+* __requestID:__ _string_; A developer-defined ID passed into the request which you can use to match this response to a specific request.
+* __user:__ _string_; The user defined in the root of the command entry.
+
+#### Schema Model
 
 ```json
-{ "remove" : { "productConfiguration" : [ "product_config_name", ...] } }
-{ "remove" : "all" }
+{
+  "completed": 0,
+  "completedInTestMode": 0,
+  "errors": [
+    {
+      "errorCode": "string",
+      "index": 0,
+      "message": "string",
+      "requestID": "string",
+      "step": 0,
+      "user": "string"
+    }
+  ],
+  "message": "string",
+  "notCompleted": 0,
+  "result": "string",
+  "warnings": [
+    {
+      "index": 0,
+      "message": "string",
+      "requestID": "string",
+      "step": 0,
+      "user": "string",
+      "warningCode": "string"
+    }
+  ]
+}
 ```
+### Responses with Error Status
 
-The special argument "all" removes the user from all product configurations, thereby removing all product access for the user.
+If the response has a status other than 200, the request was not processed.  The status code indicates the reason type of error; this section provides some common causes for these errors.
 
-You can remove a maximum of 10 product configuration removals in one command entry, unless you use the special "all" parameter to remove the user from all existing product configurations.
+{% include_relative partials/badRequest.md anchor="400" %}
 
-### Add admin role for products
+{% include_relative partials/unauthorized.md anchor="401" %}
 
-The **addRoles admin** action adds the user to the list of admins for one or more product configurations.
+{% include_relative partials/forbidden.md anchor="403" %}
 
-```json
-{ "addRoles" : { "admin" : [ "product_config_name", ...] } }
-```
+## Throttling
 
-### Remove admin role for product configurations
-
-The **removeRoles admin** action removes the admin role for the user for one or more product configurations.
-
-```json
-{ "removeRoles" : { "admin" : [ "product_config_name", ...] } }
-```
-
-## Remove user operations
-
-These commands remove a user from membership in an organization, or from membership in a trusted domain of an organization.
-
-There can only be a single **removeFromOrg** or **removeFromDomain** action in a command entry. If present, the removal action must be last step in the command entry.
-
-* The **removeFromOrg** action removes the user from membership in the organization, and optionally from membership in a domain that is linked to the given organization through the trusted-domain relationship.
-
-  - If the account is owned by the organization, the account is also deleted.
-  - If the "removedDomain" argument is supplied, the user is also removed from that domain.
-  - Note that Adobe IDs are never deleted because they are owned by the user, not the organization.
-
-
-
-```json
-{ "removeFromOrg" : { "removedDomain" : "domain_name"} }
-```
-* The **removeFromDomain** action removes the user from membership in your organization and from membership in a domain that is linked to the given organization through the trusted-domain relationship. Note that this results in the removal of provisioning for that user that is granted through any linked organization, not just the one specified in this call.
-
-```json
-
- { "removeFromDomain" :
-    { "removedDomain" : "domain_name" }
- }
-```
-
-***
-
-## Reset password operations
-
-For Enterprise IDs only, **resetPassword** action initiates the password-reset process for the user. The system sends a password-reset email to the user, and prevents login to the account until the password is reset.
-
-```json
-{ "resetPassword" : {} }
-```
+{% include_relative partials/throttling.md client=10 global=100 %}

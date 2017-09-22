@@ -18,17 +18,23 @@ email:
 description: > # this means to ignore newlines until "baseurl:"
   The User Management API allows clients to manage their users
   and product entitlements.
-  ***This is a draft development area.***
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-github_username:  adobe-apiplatform
+baseurl: "/umapi-documentation" # the subpath of your site, e.g. /blog
+
+# the base hostname & protocol for your site, e.g. http://example.com
+# url will have a different value on stage and prod
+url: "" # stage
+#url: "umapi-documentation" #prod
+
+github_username: adobe-apiplatform
 
 # Build settings
 markdown: kramdown
 theme: minima
 gems:
-  - jekyll-feed
+  - jekyll-relative-links
 exclude:
   - Gemfile
   - Gemfile.lock
   - art
+
+github_url: https://github.com/adobe-apiplatform/umapi-documentation #prod

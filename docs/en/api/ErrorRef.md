@@ -1,8 +1,8 @@
 ---
 layout: page
 nav_link: Error Conditions
-nav_order: 600
-nav_level: 2
+nav_order: 470
+nav_level: 1
 lang: en
 ---
 
@@ -139,7 +139,7 @@ The possible error codes and messages are listed with their context and descript
     * The user appears twice in the list of product's admin users.
 
 * **error.command.add_remove.invalid.usergroup_list**
-    * add or remove groups for a product config
+    * add or remove groups for a product profile
     * No user groups were found to add or remvove
 
 * **error.command.product.not_found**
@@ -176,7 +176,7 @@ The possible error codes and messages are listed with their context and descript
 
 * **error.command.add_remove.group_or_product_name_too_long**
     * add, remove
-    * Name of a group or product configuration is too long.
+    * Name of a group or product profile is too long.
 
 * **error.command.boolean_expected**
     * useAdobeID
@@ -258,7 +258,7 @@ The possible error codes and messages are listed with their context and descript
     * A user or usergroup element must be present in each action command.
 
 * **error.usergroup.not_found**
-    * add usergroup to config
+    * add usergroup to profile
     * A named User Group is not found.
 
 * **error.usergroup.user_list.invalid**
@@ -266,12 +266,12 @@ The possible error codes and messages are listed with their context and descript
     * The provided list of users did not change the group membership.
 
 * **error.usergroup.update.failed**
-    * add or delete usergroup action or add/remove usergroup for config
+    * add or delete usergroup action or add/remove usergroup for profile
     * The user group was not updated.
 
 * **error.usergroup.command.missing.arguments**
     * usergroup command action
-    * No users or PLCs found to associate with the user group.
+    * No users or profiles found to associate with the user group.
 
 * **error.country.invalid**
     * create
@@ -290,11 +290,11 @@ The possible error codes and messages are listed with their context and descript
 
 * **error.group.not_found**
     * /users, add, remove
-    * A named group or product configuration was not found.
+    * A named group or product profile was not found.
 
 * **error.group.invalid_list**
     * add, remove
-    * A list of groups or product configurations is empty or contains a null entry.
+    * A list of groups or product profiles is empty or contains a null entry.
 
 * **error.option.illegal**
     * The "option" flag value in a user add or create call (addAdobeID, createEnterpriseID, createFederatedID) is not one of the defined values.
@@ -390,15 +390,15 @@ The possible error codes and messages are listed with their context and descript
     * Unable to get email address for user to send reset password message. Try updating the email address for the user.
 
 * **plc.not_found**
-    * access or update to a config endpoint
-    * The Product License Configuration was not found.
+    * access or update to a profile endpoint
+    * The product profile was not found.
 
 * **plc.admin.group.not_found**
-    * access or update to admin user list at config endpoint
-    * The admin user list for the Product License Config was not found.
+    * access or update to admin user list at profile endpoint
+    * The admin user list for the product profile was not found.
 
 * **plc.admin.already_added<br>plc.add.admin.error<br>plc.remove.admin.error**
-    * add or remove admin user to config
+    * add or remove admin user to profile
     * The admin user already exists or doesn't exist in list
 
 * **error.productadmin.add.user.failed<br>error.productadmin.remove.admin.failed**
@@ -406,5 +406,9 @@ The possible error codes and messages are listed with their context and descript
     * The admin user list was not updated.
 
 * **FAILED_TO_ADD_TO_PLC<br>FAILED_TO_REMOVE_FROM_PLC**
-    * add or remove user to config
+    * add or remove user to profile
     * Attempt to add or remove user failed
+
+* **<a name="adobeidno" class="api-ref-subtitle">error.update.adobeid.no</a>**
+    * update action workflows
+    * The operation in the command cannot be applied to an Adobe ID.
