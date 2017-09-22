@@ -1,1 +1,0 @@
-The unique identifier for a license configuration.

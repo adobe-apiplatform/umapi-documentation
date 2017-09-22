@@ -1,1 +1,0 @@
-Used to specify the content type of the request data. Must be `application/json`
