@@ -1,22 +1,41 @@
 ---
-title: User APIs
+title: User Access APIs
 layout: default
-nav_link: User APIs
+nav_link: User Access APIs
 nav_order: 430
 nav_level: 2
 lang: en
 ---
 
-# Manage Users
+An application can use the User Management API to access Adobe users and manage their identities.
 
-An application can use the User Management API to access Adobe users and manage their identities. You can create and remove user accounts for your organization, modify a user’s personal information (depending on the account type), and modify users’ access rights to Adobe applications within your organization.
+## Retrieving Users
 
-* [Get a User in an Organization](getUser.html#getUserByEmailOrUsername)
-* [Add a User to an Organization](ActionsRef.html)
-* [Update an existing User in the Organization](ActionsRef.html#update)
-* [Delete a User from an Organization](ActionsRef.html#removeFromOrg)
-* [Get all Users in an Organization](getUsers.html#getUsers)
-* [Get a list of members in a User Group](getUsersByGroup.html)
-* [Get a list of users in a Product Profile Group](getUsersByGroup.html)
+You can retrieve information for individual users, and lists of all users, and of members of user groups and product profile groups.
+
+* [Get user information -- `organizations/{orgId}/users/{userString}`](getUser.md)
+* [Get all users in org -- `{orgId}/users/` or `/users/{orgId}/{page}`](getUsers.md)
+* [Get all member users in a user group](getUsersByGroup.md)
+* [Get all member users in a product profile group](getUsersByGroup.md)
+
+## User Actions
+
+You can create and remove user accounts for your organization, modify a user’s personal information (depending on the account type).
+
+Request these user-management actions from the [`action` resource](ActionsRef.md) for your organization.
+```
+POST v2/usermanagement/action/{orgId}
+```
+
+The _commands_ in the body of your POST request specify _action steps_ to take for a given _user_.
+
+* Create or add a user to an organization
+ + [addAdobeId](ActionsCmds.md#addAdobeID) Create or add an Adobe ID user
+ + [createEnterpriseID](ActionsCmds.md#createEnterpriseID) Create an Enterprise ID user
+ + [createFederatedID](ActionsCmds.md#createFederatedID) Create an Federated ID user.
+* [update](ActionsCmds.md#update) Update an existing user in an organization
+* [remove](ActionsCmds.md#removeFromOrg) Remove a user from an organization
+
+You can also use `action` requests to modify users' memberships and administrative roles. See [User Group APIs](group.md) and [Product APIs](product.md) for details.
 
 <hr class="api-ref-rule">

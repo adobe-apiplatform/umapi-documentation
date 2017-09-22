@@ -7,8 +7,6 @@ nav_level: 3
 lang: en
 ---
 
-# <a class="api-ref-title" name="getUserGroups">Get User Groups</a>
-
 ```
 GET /v2/usermanagement/{orgId}/user-groups
 ```
@@ -30,12 +28,12 @@ This table summarizes the parameters and how they are provided:
 
 | Name | Type | Required | Description |
 | :------ | :------ | :---: | :------ |
-| orgId | path | true | {% include apiRef/orgIdDescription.md %} |
+| orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
 | groupId | path | true | The id of the user-group. |
-| x-api-key | header | true | {% include apiRef/apiKeyDescription.md %} |
-| Authorization | header | true | {% include apiRef/authorizationDescription.md %} |
-| Content-type | header | false | {% include apiRef/contentTypeDescription.md %} |
-| X-Request-Id | header | false | {% include apiRef/requestIdDescription.md %} |
+| x-api-key | header | true | {% include_relative partials/apiKeyDescription.md %} |
+| Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
+| Content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
+| X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
 {:.bordertablestyle}
 
 ## <a name="responses" class="api-ref-subtitle">Responses</a>
@@ -55,7 +53,7 @@ The response body contains a list of user-groups in JSON format including the gr
 
 This table summarizes the headers that are returned:
 
-{% include apiRef/pagedResponseHeaders.md object="user-groups" %}
+{% include_relative partials/pagedResponseHeaders.md object="user-groups" %}
 
 #### Example
 Response with 3 user-groups including a user-group with administrators.
@@ -87,13 +85,13 @@ Response with 3 user-groups including a user-group with administrators.
 #### Schema Properties
 
 __adminCount:__ _string_ 
-The number of users with administrative privileges. {% include apiRef/mayNotBePresent.md %}
+The number of users with administrative privileges. {% include_relative partials/mayNotBePresent.md %}
 
 __adminGroupId:__ _string_ 
-{% include apiRef/mayNotBePresent.md %}
+{% include_relative partials/mayNotBePresent.md %}
 
 __adminGroupName:__ _string_ 
-{% include apiRef/mayNotBePresent.md %}
+{% include_relative partials/mayNotBePresent.md %}
 
 __groupId:__ _long_  
 
@@ -103,7 +101,7 @@ __type:__ _string_
 The group type will always be `USER_GROUP`.
 
 __userCount:__ _long_  
-The number of users in the group. {% include apiRef/mayNotBePresent.md %}
+The number of users in the group. {% include_relative partials/mayNotBePresent.md %}
 
 #### Schema Model
 
@@ -121,11 +119,11 @@ The number of users in the group. {% include apiRef/mayNotBePresent.md %}
 ]
 ```
 
-{% include apiRef/badRequest.md anchor="400getUserGroups" %}
+{% include_relative partials/badRequest.md anchor="400getUserGroups" %}
 
-{% include apiRef/unauthorized.md anchor="401getUserGroups" %}
+{% include_relative partials/unauthorized.md anchor="401getUserGroups" %}
 
-{% include apiRef/forbidden.md anchor="403getUserGroups" %}
+{% include_relative partials/forbidden.md anchor="403getUserGroups" %}
 
 ## <a name="exampleRequests" class="api-ref-subtitle">Example Requests</a>
 Retrieve the first page of user-groups:
@@ -148,4 +146,4 @@ curl -ivs -X GET \
 
 ## <a name="getUserGroupsThrottle" class="api-ref-subtitle">Throttling</a>
 
-{% include apiRef/throttling.md client=5 global=50 %}
+{% include_relative partials/throttling.md client=5 global=50 %}

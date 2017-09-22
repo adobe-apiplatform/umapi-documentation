@@ -28,13 +28,13 @@ __Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttlin
 
 | Name | Type | Req? | Description |
 | :--- | :------ | :---: | :------ |
-| orgId | path | true | {% include apiRef/orgIdDescription.md %} |
-| X-Api-Key | header | true | {% include apiRef/apiKeyDescription.md %} |
-| Authorization | header | true | {% include apiRef/authorizationDescription.md %} |
+| orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
+| X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
+| Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
 | page | query | false | The page number being requested. Page numbers greater than what exist will return the last page of users. |
-| content-type | header | false | {% include apiRef/contentTypeDescription.md %} |
-| X-Request-Id | header | false | {% include apiRef/requestIdDescription.md %} |
-| directOnly | query | false | {% include apiRef/directOnlyDescription.md %} |
+| content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
+| X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
+| directOnly | query | false | {% include_relative partials/directOnlyDescription.md %} |
 {:.bordertablestyle}
 
 ## <a name="responses" class="api-ref-subtitle">Responses</a>
@@ -52,7 +52,7 @@ The response body contains a list of users in JSON format including the email, f
 
 #### Headers
 
-{% include apiRef/pagedResponseHeaders.md object="users" %}
+{% include_relative partials/pagedResponseHeaders.md object="users" %}
 
 #### Examples
 <a name="getUsersRESTExample" class="api-ref-subtitle">Response returning three users with different group membership and administrative rights:</a>
@@ -108,7 +108,7 @@ The response body contains a list of users in JSON format including the email, f
 __user:__  
 Represents a _User_ object. Properties that are not populated __will not__ be returned in the response. Some properties are not applicable for particular account types. See [Identity Types](glossary.html#identity) for more information on account types.
 
-* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. {% include apiRef/rolesDescription.md %}
+* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. {% include_relative partials/rolesDescription.md %}
 * __countryCode:__ _string_; A valid ISO 2-character country code.
 * __domain:__ _string_; The user's domain.
 * __email:__ _string_
@@ -117,7 +117,7 @@ Represents a _User_ object. Properties that are not populated __will not__ be re
 * __id:__ _string_
 * __lastName:__ _string_
 * __phoneNumber:__ _string_
-{% include apiRef/statusDescription.md %}
+{% include_relative partials/statusDescription.md %}
 * __userType:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.html#identity) for more information.
 * __username:__ _string_; The user's username (applicable for [Enterprise](glossary.html#enterpriseId) and [Federated](glossary.html#federatedId) users). For most [AdobeID](glossary.html#adobeId) users, this value will be the same as the email address.
 
@@ -146,11 +146,11 @@ Represents a _User_ object. Properties that are not populated __will not__ be re
 ]
 ```
 
-{% include apiRef/badRequest.md anchor="400getUsersREST" %}
+{% include_relative partials/badRequest.md anchor="400getUsersREST" %}
 
-{% include apiRef/unauthorized.md anchor="401getUsersREST" %}
+{% include_relative partials/unauthorized.md anchor="401getUsersREST" %}
 
-{% include apiRef/forbidden.md anchor="403getUsersREST" %}
+{% include_relative partials/forbidden.md anchor="403getUsersREST" %}
 
 ## <a name="exampleRequests" class="api-ref-subtitle">Example Requests</a>
 Retrieve the first page of users:
@@ -168,4 +168,4 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/12345@AdobeOrg/use
 
 ## <a name="getUsersRESTThrottle" class="api-ref-subtitle">Throttling</a>
 
-{% include apiRef/throttling.md client=25 global=100 %}
+{% include_relative partials/throttling.md client=25 global=100 %}

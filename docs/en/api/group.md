@@ -1,66 +1,49 @@
 ---
 layout: default
-nav_link: List All Configurations for Organization
+nav_link: List All Profiles for Organization
 nav_order: 453
 nav_level: 3
 lang: en
 ---
 
-# List All Configurations for Organization
+# <a class="api-ref-title" name="getGroups">List All Profiles for Organization</a>
 
 ```
 GET /v2/usermanagement/groups/{orgId}/{page}
 ```
 
+* [Overview](#intro)
+* [Parameters](#parameters)
+* [Responses](#responses)
+* [Request Examples](#exampleRequests)
+* [Throttling Limits](#throttle)
+
 <a name="intro" class="api-ref-subtitle"></a>
 This API retrieves a paged list of all product profiles in your organization along with information about them. You can make multiple paginated calls to retrieve the full list of product profiles.
 
-__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#getUsersWithPageThrottle) for full details.
+__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#throttle) for full details.
 
-## __Parameters__
+## <a name="parameters" class="api-ref-subtitle">Parameters</a>
 
-| Name | Type | Req? | Description |
+| Name | Type | Required | Description |
 | :--- | :------ | :--- | :--- | --- |
-| orgId | path | true | {% include apiRef/orgIdDescription.md %} |
-| X-Api-Key | header | true | {% include apiRef/apiKeyDescription.md %} |
+| orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
+| X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
 | page | path | true | The page number being requested. |
-| Authorization | header | true | {% include apiRef/authorizationDescription.md %} |
-| content-type | header | false | {% include apiRef/contentTypeDescription.md %} |
-| X-Request-Id | header | false | {% include apiRef/requestIdDescription.md %} |
+| Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
+| content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
+| X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
 {:.bordertablestyle}
 
+## <a name="responses" class="api-ref-subtitle">Responses</a>
 
-## __Responses__
+__Content-Type:__ _application/json_
 
 - [200: OK](#200getGroupsWithPage)
 - [400: Bad Request](#400getGroupsWithPage)
 - [401: Unauthorized](#401getGroupsWithPage)
 - [403: Forbidden](#403getGroupsWithPage)
 - [429: Too Many Requests](#getGroupsWithPageThrottle)
-
-### __Example Requests__
-Retrieve the first page of groups:
-```
-curl -X GET https://usermanagement.adobe.io/v2/usermanagement/groups/12345@AdobeOrg/0 \
-  --header 'Authorization: Bearer ey...' \
-  --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
-```
-
-Retrieve the fourth page of groups:
-```
-curl -X GET https://usermanagement.adobe.io/v2/usermanagement/groups/12345@AdobeOrg/4 \
-  --header 'Authorization: Bearer ey...' \
-  --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
-```
-
-## <a name="getUsersWithPageThrottle" class="api-ref-subtitle">__Throttling__</a>
-
-{% include apiRef/throttling.md client=5 global=100 %}
-
-
-## __Responses__
-
-__Content-Type:__ _application/json_
 
 ### <a name="200getGroupsWithPage" class="api-ref-subtitle">__200 OK__</a>
 A successful request returns a response body with the requested group data in JSON format. When the response contains the last paged entry, the response includes the field `lastPage : true`. If the returned page is not the last page, make additional paginated calls to retrieve the full list.
@@ -82,7 +65,7 @@ A successful request returns a response body with the requested group data in JS
           "memberCount": 26
         },
         {
-          "groupName": "Default Support configuration",
+          "groupName": "Default Support Profile",
           "memberCount": 0
         }
     ]
@@ -109,10 +92,30 @@ A successful request returns a response body with the requested group data in JS
   "groupName": "string",
   "memberCount": integer
 }
-  ```
+```
 
-{% include apiRef/badRequest.md anchor="400getGroupsWithPage" %}
+{% include_relative partials/badRequest.md anchor="400getGroupsWithPage" %}
 
-{% include apiRef/unauthorized.md anchor="401getGroupsWithPage" %}
+{% include_relative partials/unauthorized.md anchor="401getGroupsWithPage" %}
 
-{% include apiRef/forbidden.md anchor="403getGroupsWithPage" %}
+{% include_relative partials/forbidden.md anchor="403getGroupsWithPage" %}
+
+## <a name="exampleRequests" class="api-ref-subtitle">Example Requests</a>
+Retrieve the first page of groups:
+```
+curl -X GET https://usermanagement.adobe.io/v2/usermanagement/groups/12345@AdobeOrg/0 \
+  --header 'Authorization: Bearer ey...' \
+  --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
+```
+
+Retrieve the fourth page of groups:
+```
+curl -X GET https://usermanagement.adobe.io/v2/usermanagement/groups/12345@AdobeOrg/4 \
+  --header 'Authorization: Bearer ey...' \
+  --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
+```
+
+## <a name="throttle" class="api-ref-subtitle">__Throttling__</a>
+
+{% include_relative partials/throttling.md client=5 global=100 %}
+

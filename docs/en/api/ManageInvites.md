@@ -1,8 +1,8 @@
 ---
 layout: default
 nav_link: Manage Pending User Invitations
-nav_order: 460
-nav_level: 2
+nav_order: 461
+nav_level: 3
 lang: en
 ---
 
@@ -33,7 +33,7 @@ DELETE [UM_Server]/{orgId}/invites/{email}
 
 A successful request returns a response with **HTTP status 200**. The response body for a successful POST or DELETE request contains the status in JSON format.
 
-```
+```json
 {"status": "success"}
 ```
 

@@ -7,16 +7,22 @@ nav_level: 2
 lang: en
 ---
 
-# User Groups
+Use the following set of APIs to manage your organization's [user-groups](glossary.md#usergroup). You cannot currently create user groups programmatically. You can use the APIs to list user groups that have been created using the Admin Console, and to examine, and delete those groups.
 
-The following set of APIs allow users to perform management of their organization's [user-groups](glossary.html#usergroup). Management operations include create, read, update and delete for user-groups.
-_User-groups_ can be used to organize related users together and assign them to products. A user-group is a collection of different users that share a set of permissions. There are various permissions across different products that have to be assigned to many users in varying order. The purpose of these APIs is to manage the user-groups. To associate user-groups with Product Profiles or users please see [products page](Product.html).
+* [Get User Groups](getUserGroups.md)
+* [Get User Group](getUserGroup.md)
+* [Create a new User Group](createUserGroup.md)
+* [Get a list of users in a user-group](getUsersByGroup.md)
+* [Update an existing User Group](updateUserGroup.md)
+* [Delete a User Group](deleteUserGroup.md)
 
-* [Get User Groups](getUserGroups.html)
-* [Get User Group](getUserGroup.html)
-* [Add a user to a user-group](ActionsRef.html#add)
-* [Add User-group Administrator permissions to a user](ActionsRef.html#addRoles)
-* [Remove User-group Administrator permissions to a user](ActionsRef.html#removeRoles)
-* [Get a list of users in a user-group](getUsersByGroup.html)
+You can use the a POST request to the [`action` resource](ActionsRef.md) for your organization to manage user group memberships, and to manage administrative rights in user groups. The _commands_ in the body of your POST request specify _action steps_ to take for a given _user_.
+
+* [add](ActionsCmds.md#add) Add a user to a specified _usergroup_
+* [remove](ActionsCmds.md#remove) Remove a user from a specified _usergroup_
+* [addRoles](ActionsRef.md#addRoles) Add the _admin_ role for a specified _usergroup_
+* [removeRoles](ActionsRef.md#removeRoles) Remove the _admin_ role for a specified _usergroup_ 
+
 
 <hr class="api-ref-rule">
+

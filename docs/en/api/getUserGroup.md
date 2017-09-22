@@ -29,12 +29,12 @@ This table summarizes the parameters and how they are provided:
 
 | Name | Type | Required | Description |
 | :--- | :------ | :---: | :------ |
-| orgId | path | true | {% include apiRef/orgIdDescription.md %} |
+| orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
 | groupId | path | true | The id of the user-group. |
-| x-api-key | header | true | {% include apiRef/apiKeyDescription.md %} |
-| Authorization | header | true | {% include apiRef/authorizationDescription.md %} |
-| Content-type | header | false | {% include apiRef/contentTypeDescription.md %} |
-| X-Request-Id | header | false | {% include apiRef/requestIdDescription.md %} |
+| x-api-key | header | true | {% include_relative partials/apiKeyDescription.md %} |
+| Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
+| Content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
+| X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
 {:.bordertablestyle}
 
 ## <a name="responses" class="api-ref-subtitle">Responses</a>
@@ -97,13 +97,13 @@ The number of users in the group.
   }
 ```
 
-{% include apiRef/badRequest.md anchor="400getUserGroup" %}
+{% include_relative partials/badRequest.md anchor="400getUserGroup" %}
 
-{% include apiRef/unauthorized.md anchor="401getUserGroup" %}
+{% include_relative partials/unauthorized.md anchor="401getUserGroup" %}
 
-{% include apiRef/forbidden.md anchor="403getUserGroup" %}
+{% include_relative partials/forbidden.md anchor="403getUserGroup" %}
 
-{% include apiRef/notFound.md object="user-group" anchor="404getUserGroup" %}
+{% include_relative partials/notFound.md object="user-group" anchor="404getUserGroup" %}
 
 ```
 < HTTP/1.1 404 Not Found
@@ -128,4 +128,4 @@ The number of users in the group.
 
 ## <a name="throttle" class="api-ref-subtitle">Throttling</a>
 
-{% include apiRef/throttling.md client=5 global=50 %}
+{% include_relative partials/throttling.md client=5 global=50 %}

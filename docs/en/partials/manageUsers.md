@@ -1,0 +1,3 @@
+Creative Cloud, Experience Cloud, and Document Cloud apps and services use an identity management system to determine an end user’s entitlements. A user is recognized based on their identity. You can use the User Management API to create and manage Adobe user identities of all types. User types include the personal Adobe ID, the Enterprise ID that is managed by your enterprise but hosted by Adobe, and the Federated ID that is both managed and hosted by your enterprise.
+
+For details of supported types, see [Manage Identity Types](https://helpx.adobe.com/enterprise/help/identity.html) in the Enterprise help hub.

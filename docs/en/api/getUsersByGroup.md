@@ -6,7 +6,6 @@ nav_order: 436
 nav_level: 3
 lang: en
 ---
-# <a name="getUsersByGroup" class="api-ref-title">Get Users in Group</a>
 
 ```
 GET /v2/usermanagement/users/{orgId}/{page}/{groupName}
@@ -27,14 +26,14 @@ __Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling
 
 | Name | Type | Required | Description |
 | :--- | :------ | :---: | :------ |
-| orgId | path | true | {% include apiRef/orgIdDescription.md %} |
+| orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
 | groupName | path | true | The user group or product profile name. |
-| X-Api-Key | header | true | {% include apiRef/apiKeyDescription.md %} |
-| Authorization | header | true | {% include apiRef/authorizationDescription.md %} |
+| X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
+| Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
 | page | path | false | The page number being requested. Page numbers greater than what exist will return the last page of users. |
-| content-type | header | false | {% include apiRef/contentTypeDescription.md %} |
-| X-Request-Id | header | false | {% include apiRef/requestIdDescription.md %} |
-| directOnly | query | false | {% include apiRef/directOnlyDescription.md %} |
+| content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
+| X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
+| directOnly | query | false | {% include_relative partials/directOnlyDescription.md %} |
 {:.bordertablestyle}
 
 ## <a name="responses" class="api-ref-subtitle">Responses</a>
@@ -54,7 +53,7 @@ A successful request returns a response body with the requested user data in JSO
 
 #### Headers
 
-{% include apiRef/pagedResponseHeaders.md object="users" %}
+{% include_relative partials/pagedResponseHeaders.md object="users" %}
 
 #### Examples
 
@@ -88,7 +87,7 @@ A successful request returns a response body with the requested user data in JSO
                 "deployment",
                 "Document Cloud 1",
                 "Support for AEM Mobile",
-                "Default Support configuration",
+                "Default Support profile",
                 "Creative Cloud 1"
             ],
             "domain": "example.com",
@@ -148,7 +147,7 @@ The status of the request. This property can be used to manage error handling as
 __user:__  
 Represents a _User_ object. Properties that are not populated __will not__ be returned in the response. Some properties are not applicable for particular account types.
 
-* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. {% include apiRef/rolesDescription.md %}
+* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. {% include_relative partials/rolesDescription.md %}
 * __country:__ _string_; A valid ISO 2-character country code.
 * __domain:__ _string_; The user's domain.
 * __email:__ _string_
@@ -156,7 +155,7 @@ Represents a _User_ object. Properties that are not populated __will not__ be re
 * __groups:__ _string[]_; The list of groups that the user is a current member of including user-groups and product profiles. See [Groups example](#getUserGroupsExample).
 * __id:__ _string_
 * __lastname:__ _string_
-{% include apiRef/statusDescription.md %}
+{% include_relative partials/statusDescription.md %}
 * __type:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.html#identity) for more information.
 * __username:__ _string_; The user's username (applicable for [Enterprise](glossary.html#enterpriseId) and [Federated](glossary.html#federatedId) users). For most Adobe ID users, this value will be the same as the email address.
 
@@ -190,13 +189,13 @@ Represents a _User_ object. Properties that are not populated __will not__ be re
 }
 ```
 
-{% include apiRef/badRequest.md anchor="400getUsersByGroup" %}
+{% include_relative partials/badRequest.md anchor="400getUsersByGroup" %}
 
-{% include apiRef/unauthorized.md anchor="401getUsersByGroup" %}
+{% include_relative partials/unauthorized.md anchor="401getUsersByGroup" %}
 
-{% include apiRef/forbidden.md anchor="403getUsersByGroup" %}
+{% include_relative partials/forbidden.md anchor="403getUsersByGroup" %}
 
-{% include apiRef/notFound.md object="group" anchor="404getUsersByGroup" %}
+{% include_relative partials/notFound.md object="group" anchor="404getUsersByGroup" %}
 
 ## <a name="exampleRequests" class="api-ref-subtitle">Example Requests</a>
 Retrieve the first page of users for group Photoshop:
@@ -214,4 +213,4 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeO
 
 ## <a name="getUsersByGroupThrottle" class="api-ref-subtitle">Throttling</a>
 
-{% include apiRef/throttling.md client=25 global=100 %}
+{% include_relative partials/throttling.md client=25 global=100 %}

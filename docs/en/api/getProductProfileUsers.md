@@ -2,14 +2,13 @@
 title: Get Users in Product Profile
 layout: default
 nav_link: Get Users in Product Profile
-nav_order: 452
+nav_order: 453
 nav_level: 3
 lang: en
 ---
-# Get Users in Product Profile
 
 ```
-GET /v2/usermanagement/{orgId}/products/{productId}/configurations/{configId}/users
+GET /v2/usermanagement/{orgId}/products/{productId}/configurations/{profileId}/users
 ```
 
 * [Overview](#intro)
@@ -29,13 +28,13 @@ This table summarizes the parameters and how they are provided:
 
 | Name | Type | Required | Description |
 | :---- | :------ | :---: | :------ |
-| orgId | path | true | {% include apiRef/orgIdDescription.md %} |
-| productId | path | true | {% include apiRef/productIdDescription.md %} |
-| licenseId | path | true | {% include apiRef/licenseIdDescription.md %} |
-| x-api-key | header | true | {% include apiRef/apiKeyDescription.md %} |
-| Authorization | header | true | {% include apiRef/authorizationDescription.md %} |
-| Content-type | header | false | {% include apiRef/contentTypeDescription.md %} |
-| X-Request-Id | header | false | {% include apiRef/requestIdDescription.md %} |
+| orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
+| productId | path | true | {% include_relative partials/productIdDescription.md %} |
+| licenseId | path | true | {% include_relative partials/licenseIdDescription.md %} |
+| x-api-key | header | true | {% include_relative partials/apiKeyDescription.md %} |
+| Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
+| Content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
+| X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
 {:.bordertablestyle}
 
 ## <a name="responses" class="api-ref-subtitle">Responses</a>
@@ -115,13 +114,13 @@ Response returning no users associated with the product profile.
 ]
 ```
 
-{% include apiRef/badRequest.md anchor="400getPLCUsers" %}
+{% include_relative partials/badRequest.md anchor="400getPLCUsers" %}
 
-{% include apiRef/unauthorized.md anchor="401getPLCUsers" %}
+{% include_relative partials/unauthorized.md anchor="401getPLCUsers" %}
 
-{% include apiRef/forbidden.md anchor="403getPLCUsers" %}
+{% include_relative partials/forbidden.md anchor="403getPLCUsers" %}
 
-{% include apiRef/notFound.md object="plc" anchor="404getPLCUsers" %}
+{% include_relative partials/notFound.md object="plc" anchor="404getPLCUsers" %}
 
 ## <a name="exampleRequests" class="api-ref-subtitle">Example Requests</a>
 ```
@@ -132,4 +131,4 @@ curl -X GET https://usermanagement-stage.adobe.io/v2/usermanagement/12345@AdobeO
 
 ## <a name="throttle" class="api-ref-subtitle">Throttling</a>
 
-{% include apiRef/throttling.md client=25 global=100 %}
+{% include_relative partials/throttling.md client=25 global=100 %}

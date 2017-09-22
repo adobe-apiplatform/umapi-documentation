@@ -28,14 +28,14 @@ __Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttlin
 
 | Name | Type | Required | Description |
 | :--- | :------ | :---: | :------ |
-| orgId | path | true | {% include apiRef/orgIdDescription.md %} |
-| X-Api-Key | header | true | {% include apiRef/apiKeyDescription.md %} |
+| orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
+| X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
 | page | path | true | The page number being requested. Page numbers greater than what exist will return the last page of users. |
-| Authorization | header | true | {% include apiRef/authorizationDescription.md %} |
-| content-type | header | false | {% include apiRef/contentTypeDescription.md %} |
-| X-Request-Id | header | false | {% include apiRef/requestIdDescription.md %} |
+| Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
+| content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
+| X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
 | domain | query | false | Retrieves users from a domain linked to an organization through the Trusted Domain relationship. |
-| directOnly | query | false | {% include apiRef/directOnlyDescription.md %} |
+| directOnly | query | false | {% include_relative partials/directOnlyDescription.md %} |
 {:.bordertablestyle}
 
 ## <a name="responses" class="api-ref-subtitle">Responses</a>
@@ -55,7 +55,7 @@ A successful request returns a response body with the requested user data in JSO
 
 #### Headers
 
-{% include apiRef/pagedResponseHeaders.md object="users" %}
+{% include_relative partials/pagedResponseHeaders.md object="users" %}
 
 #### Examples
 <a name="getUsersExample" class="api-ref-subtitle">Response returning three users with different group membership and administrative rights:</a>
@@ -154,7 +154,7 @@ The status of the request. This property can be used to manage error handling as
 __users:__  
 Represents a list of _User_ objects. Properties that are not populated __will not__ be returned in the response. Some properties are not applicable for particular account types.
 
-* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. See [AdminRoles](#getUserAdminRolesExample) for an example of the response. {% include apiRef/rolesDescription.md %}
+* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. See [AdminRoles](#getUserAdminRolesExample) for an example of the response. {% include_relative partials/rolesDescription.md %}
 * __country:__ _string_; A valid ISO 2-character country code.
 * __domain:__ _string_; The user's domain.
 * __email:__ _string_
@@ -162,7 +162,7 @@ Represents a list of _User_ objects. Properties that are not populated __will no
 * __groups:__ _string[]_; The list of groups that the user is a current member of including user-groups and product profiles. See [Groups example](#getUserGroupsExample).
 * __id:__ _string_
 * __lastname:__ _string_
-{% include apiRef/statusDescription.md %}
+{% include_relative partials/statusDescription.md %}
 * __type:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.html#identity) for more information.
 * __username:__ _string_; The user's username (applicable for [Enterprise](glossary.html#enterpriseId) and [Federated](glossary.html#federatedId) users). For most [AdobeID](glossary.html#adobeId) users, this value will be the same as the email address.
 
@@ -195,13 +195,13 @@ Represents a list of _User_ objects. Properties that are not populated __will no
 }
 ```
 
-{% include apiRef/badRequest.md anchor="400getUsersWithPage" %}
+{% include_relative partials/badRequest.md anchor="400getUsersWithPage" %}
 
-{% include apiRef/unauthorized.md anchor="401getUsersWithPage" %}
+{% include_relative partials/unauthorized.md anchor="401getUsersWithPage" %}
 
-{% include apiRef/forbidden.md anchor="403getUsersWithPage" %}
+{% include_relative partials/forbidden.md anchor="403getUsersWithPage" %}
 
-{% include apiRef/notFound.md object="domain" anchor="404getUsersWithPage" %}
+{% include_relative partials/notFound.md object="domain" anchor="404getUsersWithPage" %}
 
 
 ## <a name="exampleRequests" class="api-ref-subtitle">Example Requests</a>
@@ -232,4 +232,4 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeO
 
 ## <a name="getUsersWithPageThrottle" class="api-ref-subtitle">Throttling</a>
 
-{% include apiRef/throttling.md client=25 global=100 %}
+{% include_relative partials/throttling.md client=25 global=100 %}
