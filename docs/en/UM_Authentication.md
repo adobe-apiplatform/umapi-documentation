@@ -9,7 +9,7 @@ layout: page
 
 To maintain the security of your applications and users, all requests to Adobe I/O APIs must be authenticated and authorized using standards such as OAuth and JSON Web Tokens (JWT). Before you can access the User Management API, you will need to obtain access credentials by creating a new Integration in the Adobe I/O Console or Admin Console.
 
-![../../assets/AuthWorkflow.png]
+![AuthWorkflow.png]
 
 ## One-time Setup
 
