@@ -1,3 +1,13 @@
+# UMAPI Specific
+Gemfile.lock
+docs/README.md
+Gemfile
+docs/start.sh
+docs/_config.yml
+docs/en/api/updateUserGroup.md
+docs/en/api/createUserGroup.md
+docs/en/api/deleteUserGroup.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
