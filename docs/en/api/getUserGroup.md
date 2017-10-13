@@ -2,27 +2,29 @@
 title: Get User Group
 layout: default
 nav_link: Get User Group
-nav_order: 442
-nav_level: 3
+nav_order: 462
+nav_level: 4
 lang: en
 ---
 
 # <a name="getUserGroup" class="api-ref-title">Get User Group</a>
 
+**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+
+<hr class="api-ref-rule">
+
 ```
 GET /v2/usermanagement/{orgId}/user-groups/{groupId}
 ```
+This API retrieves the details of a single [user-group](glossary.md#usergroup) within a specified organization by searching for them using their `groupId`. Successful queries will return a 200 response whose body is a single JSON response representing the user-group information.
 
-* [Overview](#intro)
+__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#throttle) for full details.   
+
 * [Parameters](#parameters)
 * [Responses](#responses)
 * [Example Requests](#exampleRequests)
 * [Throttling Limits](#throttle)
 
-<a name="intro" class="api-ref-subtitle"></a>
-This API retrieves the details of a single [user-group](glossary.html#user-group) within a specified organization by searching for them using their `groupId`. Successful queries will return a 200 response whose body is a single JSON response representing the user-group information.
-
-__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#throttle) for full details.   
 ## <a name="parameters" class="api-ref-subtitle">Parameters</a>
 
 This table summarizes the parameters and how they are provided:
@@ -49,7 +51,7 @@ __Content-Type:__ _application/json_
 
 ### <a name="200getUserGroup" class="api-ref-subtitle">200 OK</a>
 
-The response body contains the specified user-group in JSON format including the groupId, name and userCount. Please note that fields can be missing if there are no values, i.e. there are no users so `userCount` will not be returned. [User-groups can have administrators](glossary.html#usergroupAdmin) who have the ability to manage the user membership of the user-group. In these scenarios, the details of the admin group and admin member count will be included in the response. 
+The response body contains the specified user-group in JSON format including the groupId, name and userCount. Please note that fields can be missing if there are no values, i.e. there are no users so `userCount` will not be returned. [User-groups can have administrators](glossary.md#usergroupAdmin) who have the ability to manage the user membership of the user-group. In these scenarios, the details of the admin group and admin member count will be included in the response. 
 
 #### Example
 ```json

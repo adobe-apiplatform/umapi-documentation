@@ -7,6 +7,8 @@ title: User Management Walkthrough
 lang: en
 ---
 
+# User Management Walkthrough
+
 This walkthrough shows you how to set up the environment and make calls into the User Management API, using a JSON web token (JWT) to obtain authorization for your requests. The general technique applies to any Service Integrations with an Adobe API, and can be useful to anyone using the JWT workflow. 
 
 The walkthrough integrates with a set of [Python samples]({{ site.github_url }}/tree/master/samples), available in GitHub, which demonstrate using the User Management API. Note that the sample scripts are intended to illustrate technique, and are not warranted for any purpose. 

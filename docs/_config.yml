@@ -14,16 +14,16 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: User Management API
-email:
+email: 
 description: > # this means to ignore newlines until "baseurl:"
   The User Management API allows clients to manage their users
   and product entitlements.
-baseurl: "/umapi-documentation" # the subpath of your site, e.g. /blog
+
+baseurl: "/umapi-documentation" #prod
 
 # the base hostname & protocol for your site, e.g. http://example.com
 # url will have a different value on stage and prod
-url: "" # stage
-#url: "umapi-documentation" #prod
+url: "umapi-documentation" #prod
 
 github_username: adobe-apiplatform
 
@@ -31,12 +31,14 @@ github_username: adobe-apiplatform
 markdown: kramdown
 theme: minima
 gems:
-  - jekyll-relative-links
 exclude:
   - Gemfile
   - Gemfile.lock
   - art
 
-github_url: https://github.com/adobe-apiplatform/umapi-documentation #prod
+relative_links:
+  enabled:     true
+  collections: true
 
+github_url: https://github.com/adobe-apiplatform/umapi-documentation #prod
 adobe_analytics: //assets.adobedtm.com/659ec8ada5450db95675e43beaaae92399591a11/satelliteLib-46e65db5bb0c375f8f64619be31cc9b29acf4867.js

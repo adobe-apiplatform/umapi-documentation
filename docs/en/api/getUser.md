@@ -2,35 +2,32 @@
 title: Get User Information
 layout: default
 nav_link: Get User Information
-nav_order: 432
+nav_order: 411
 nav_level: 3
 lang: en
 ---
-
+# <a name="getUserInfo" class="api-ref-title">Get User Information</a>
 ```
 GET /v2/usermanagement/organizations/{orgId}/users/{userString}
 ```
+Retrieves the details of a single user within a specified organization by searching for them using their email address or a username and domain combination. Successful queries return a 200 response whose body is a single JSON structure containing the user information.
 
-* [Overview](#intro)
+__Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#getUserThrottle) for full details.
+
 * [Parameters](#parameters)
 * [Responses](#responses)
 * [Example Requests](#exampleRequests)
-* [Throttling Limits](#getUserThrottle)
-
-<a name="intro" class="api-ref-subtitle"></a>
-This API retrieves the details of a single user within a specified organization by searching for them using their email address or a username and domain combination. Successful queries return a 200 response whose body is a single JSON structure containing the user information.
-
-__Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#getUserThrottle) for full details.  
+* [Throttling Limits](#getUserThrottle) 
 
 ## <a name="parameters" class="api-ref-subtitle">Parameters</a>
 
 | Name | Type | Req? | Description |
 | :---- | :--- | :---: | :------ |
 | orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
-| userString | path | true | For [AdobeID](glossary.html#adobeId), [Enterprise](glossary.html#enterpriseId) and _[email-federated](glossary.html#federatedId)_ users this should be the full email address including domain. For _[username-Federated](glossary.html#federatedId)_ users, this should be the username. In both cases the parameter is case-insensitive. [Identity Types](glossary.html#identity) explains the different account types available. |
+| userString | path | true | For [AdobeID](glossary.md#adobeId), [Enterprise](glossary.md#enterpriseId) and _[email-federated](glossary.md#federatedId)_ users this should be the full email address including domain. For _[username-Federated](glossary.md#federatedId)_ users, this should be the username. In both cases the parameter is case-insensitive. [Identity Types](glossary.md#identity) explains the different account types available. |
 | X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
 | Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
-| domain | query | false | Optional parameter but highly recommended including for all user types. For [AdobeID](glossary.html#adobeId) users this would be `AdobeID`. For [Enterprise](glossary.html#enterpriseId) and _[email-federated](glossary.html#federatedId)_ users the domain will either match the email domain or, in the case of multi-domain federations, have any other domain for that directory. For _[username-federated](glossary.html#federatedId)_ users the value must be a claimed domain which contains the user's account |
+| domain | query | false | Optional parameter but highly recommended including for all user types. For [AdobeID](glossary.md#adobeId) users this would be `AdobeID`. For [Enterprise](glossary.md#enterpriseId) and _[email-federated](glossary.md#federatedId)_ users the domain will either match the email domain or, in the case of multi-domain federations, have any other domain for that directory. For _[username-federated](glossary.md#federatedId)_ users the value must be a claimed domain which contains the user's account |
 | content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
 | X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
 {:.bordertablestyle}
@@ -70,7 +67,7 @@ The response body contains the requested user data in JSON format including any 
   }
 }
 ```
-<a name="getUserGroupsExample" class="api-ref-subtitle">[Enterprise](glossary.md#enterpriseId) User with membership</a> to 2 user-groups but no administrative roles. If the fields are not populated e.g. `firstname`/`lastname` in this example, then they will be excluded from the response.
+<a name="getUserGroupsExample" class="api-ref-subtitle">[Enterprise](glossary.md#enterpriseId) User with membership</a> to 2 user-groups but no administrative roles. If the fields are not populated (`firstname` and`lastname` in this example), they are excluded from the response.
 ```json
 {
   "result": "success",
@@ -117,10 +114,10 @@ Only returned if initial validation of the request fails. It is not populated wh
 ```
 
 __result:__ _string_, possible values: `{ "success", "error", "error.apikey.invalid", "error.user.email.invalid", "error.api.user.not.parent.org", "error.organization.invalid_id" }`  
-The status of the request. This property can be used to manage error handling as the value will either be `success` or a corresponding error.
+The status of the request. This property can be used to manage error handling; the value is `success` or a corresponding error.
 
 __user:__  
-Represents a _User_ object. Properties that are not populated __will not__ be returned in the response. Some properties are not applicable for particular account types.
+Represents a _User_ object. Properties that are not populated in the request are not returned in the response. Some properties are not applicable for particular account types.
 
 * **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. For example if a user is an System Administrator then `org` will be returned. If the user is an administrator for a user-group or product, the name of the group will be returned. See [AdminRoles example](#getUserAdminRolesExample).
 * __country:__ _string_; A valid ISO 2-character country code.
@@ -131,8 +128,8 @@ Represents a _User_ object. Properties that are not populated __will not__ be re
 * __id:__ _string_
 * __lastname:__ _string_
 {% include_relative partials/statusDescription.md %}
-* __type:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.html#identity) for more information.
-* __username:__ _string_; The user's username (applicable for [Enterprise](glossary.html#enterpriseId) and [Federated](glossary.html#federatedId) users). For most [AdobeID](glossary.html#adobeId) users, this value will be the same as the email address.
+* __type:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.md#identity) for more information.
+* __username:__ _string_; The user's username (applicable for [Enterprise](glossary.md#enterpriseId) and [Federated](glossary.md#federatedId) users). For most [AdobeID](glossary.md#adobeId) users, this value will be the same as the email address.
 
 #### Schema Model
 
@@ -200,6 +197,6 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/organizations/1234
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
 ```
 
-## <a name="getUserThrottle" class="api-ref-subtitle">Throttling</a>
+## <a name="getUserThrottle" class="api-ref-subtitle">Throttling Limits</a>
 
 {% include_relative partials/throttling.md client=25 global=100 %}

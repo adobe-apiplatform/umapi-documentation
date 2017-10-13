@@ -1,26 +1,22 @@
 ---
-title: Get Users in Group
+title: Get Users by Group
 layout: default
-nav_link: Get Users in Group
-nav_order: 436
+nav_link: Get Users by Group
+nav_order: 413
 nav_level: 3
 lang: en
 ---
-
+# <a name="getUsersByGroup" class="api-ref-title">Get Users in a User Group or Product Profile</a>
 ```
 GET /v2/usermanagement/users/{orgId}/{page}/{groupName}
 ```
+Gets a paged list of users in a specific group of an organization along with information about them. If you pass the `directOnly` flag, only users that have a direct membership to the group are returned.  
+__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#getUsersByGroupThrottle) for full details.
 
-* [Overview](#intro)
 * [Parameters](#parameters)
 * [Responses](#responses)
 * [Example Requests](#exampleRequests)
-* [Throttling Limits](#getUsersRESTThrottle)
-
-<a name="intro" class="api-ref-subtitle"></a>
-Get a paged list of users in a specific group of an organization along with information about them. If you pass the `directOnly` flag then only users that have a direct membership to the group will be returned.  
-
-__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#getUsersByGroupThrottle) for full details.
+* [Throttling Limits](#getUsersByGroupThrottle)
 
 ## <a name="parameters" class="api-ref-subtitle">Parameters</a>
 
@@ -30,7 +26,7 @@ __Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling
 | groupName | path | true | The user group or product profile name. |
 | X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
 | Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
-| page | path | false | The page number being requested. Page numbers greater than what exist will return the last page of users. |
+| page | path | false | The page number being requested. If greater than existing number of pages, returns the last page of users. |
 | content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
 | X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
 | directOnly | query | false | {% include_relative partials/directOnlyDescription.md %} |
@@ -49,7 +45,7 @@ __Content-Type:__ _application/json_
 ### <a name="200getUsersByGroup" class="api-ref-subtitle">200 OK</a>
 A successful request returns a response body with the requested user data in JSON format. When the response contains the last paged entry, the response includes the field `lastPage : true`. If the returned page is not the last page, make additional paginated calls to retrieve the full list.
 
-[Identity Types](glossary.html#identity) explains the different account types available.
+[Identity Types](glossary.md#identity) explains the different account types available.
 
 #### Headers
 
@@ -58,6 +54,7 @@ A successful request returns a response body with the requested user data in JSO
 #### Examples
 
 <a name="getUsersExample" class="api-ref-subtitle">Response returning three users with different group membership and administrative rights:</a>
+
 ```json
 {
     "lastPage": false,
@@ -105,9 +102,11 @@ A successful request returns a response body with the requested user data in JSO
             "domain": "example.com",
             "country": "US",
             "type": "federatedID"
-        },
+        }
 ```
-<a name="getUsersExampleLastage" class="api-ref-subtitle">Response that is the last page:
+
+<a name="getUsersExampleLastPage" class="api-ref-subtitle">Response that is the last page:
+
 ```json
 {
     "lastPage": true,
@@ -142,22 +141,27 @@ Only returned if initial validation of the request fails. It is not populated wh
 ```
 
 __result:__ _string_, possible values: `{ "success", "error", "error.apikey.invalid", "error.user.email.invalid", "error.api.user.not.parent.org", "error.organization.invalid_id" }`  
-The status of the request. This property can be used to manage error handling as the value will either be `success` or a corresponding error.
+The status of the request. Can be used to manage error handling; the value is either `success` or a corresponding error.
 
 __user:__  
-Represents a _User_ object. Properties that are not populated __will not__ be returned in the response. Some properties are not applicable for particular account types.
+Represents a _User_ object. Properties that are not populated are returned in the response. Some properties are not applicable for particular account types.
 
-* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. {% include_relative partials/rolesDescription.md %}
+* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. Possible roles include:
+  * "org": The user is a [System Administrator](glossary.md#orgAdmin).
+  * "deployment": The user is a [Deployment Administrator](glossary.md#deployment).
+  * "{product-profile-name}": The user is a [Product Profile Administrator](glossary.md#productProfileAdmin).
+  * "{user-group-name}": The user is a [UserGroup Administrator](glossary.md#usergroupAdmin).
+  * "support": The user is a [Support Administator](glossary.md#supportAdmin). 
 * __country:__ _string_; A valid ISO 2-character country code.
 * __domain:__ _string_; The user's domain.
 * __email:__ _string_
 * __firstname:__ _string_
-* __groups:__ _string[]_; The list of groups that the user is a current member of including user-groups and product profiles. See [Groups example](#getUserGroupsExample).
+* __groups:__ _string[]_; The list of groups in which the user is a current member, including both user groups and product profiles. 
 * __id:__ _string_
 * __lastname:__ _string_
 {% include_relative partials/statusDescription.md %}
-* __type:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.html#identity) for more information.
-* __username:__ _string_; The user's username (applicable for [Enterprise](glossary.html#enterpriseId) and [Federated](glossary.html#federatedId) users). For most Adobe ID users, this value will be the same as the email address.
+* __type:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.md#identity) for more information.
+* __username:__ _string_; The user's username (applicable for [Enterprise](glossary.md#enterpriseId) and [Federated](glossary.md#federatedId) users). For most Adobe ID users, this value is the same as the email address.
 
 #### Schema Model
 
@@ -211,6 +215,6 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeO
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
  ```
 
-## <a name="getUsersByGroupThrottle" class="api-ref-subtitle">Throttling</a>
+## <a name="getUsersByGroupThrottle" class="api-ref-subtitle">Throttling Limits</a>
 
 {% include_relative partials/throttling.md client=25 global=100 %}

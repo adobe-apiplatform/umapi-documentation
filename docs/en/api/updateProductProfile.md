@@ -1,26 +1,27 @@
 ---
 title: Update Product Profiles
 layout: default
-nav_link: Udpate Product Profile API
-nav_order: 454
-nav_level: 3
+nav_link: Update Product Profile
+nav_order: 475
+nav_level: 4
 lang: en
 ---
+# <a name="updateProfile" class="api-ref-title">Update Product Profile</a>
+
+**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+
+<hr class="api-ref-rule">
 
 ```
 POST [UM_Server]/{orgId}/products/{productId}/configurations/{profileId}
 ```
+Manage membership and administrative rights for a specific product profile in a POST request to the profile endpoint. Use this API to grant or revoke the Product Profile Admin role for one or more users.
 
-* [Overview](#intro)
 * [Parameters](#parameters)
 * [Request Body](#requestBody)
 * [Responses](#responses)
-* [Example Requests](#exampleRequests)
+* [Example Requests](#example)
 * [Throttling Limits](#throttle)
-
-<a name="intro" class="api-ref-subtitle">Overview</a>
-
-You can manage membership and administrative rights for a specific product profile in a POST request to the profile endpoint. Use this API to grant or revoke the Product Profile Admin role for one or more users.
 
 ## <a name="parameters" class="api-ref-subtitle">Parameters</a>
 This table summarizes the parameters and how they are provided:

@@ -1,7 +1,7 @@
 ---
 layout: default
 nav_link: Manage Pending User Invitations
-nav_order: 461
+nav_order: 440
 nav_level: 3
 lang: en
 ---
@@ -132,3 +132,60 @@ A failed request can result in a response with one of these HTTP status values, 
 * **401 Unauthorized** : Invalid or expired token.
 * **404 Not Found** : No pending invites exist for the user.
 * **500 Internal Server Error** 
+
+*****************
+
+# Pending User Invite Samples
+
+When you use the **addAdobeID** command to add a user to your organization, the user gets an email invite, and is not added to your list of users until the invite is accepted. The following samples show how to  view and manage pending invites that have been sent, and have not yet been accepted.
+
+## List and Examine Pending Invites
+
+Retrieve a list of pending invites for your organization or for a single user with a GET request to the **invites** resource.
+
+```
+========================= REQUEST ==========================
+GET https://usermanagement.adobe.io/v2/usermanagement/{myOrgId}/invites
+------------------------- headers --------------------------
+Accept: application/json
+x-api-key: {myApiKey}
+Authorization: Bearer {myAccessToken}
+
+========================= REQUEST ==========================
+GET https://usermanagement.adobe.io/v2/usermanagement/{myOrgId}/invites/{email}
+------------------------- headers --------------------------
+Accept: application/json
+x-api-key: {myApiKey}
+Authorization: Bearer {myAccessToken}
+```
+
+***
+
+## Resend a Pending Invite
+
+Resend an invite for a given email address with a POST request to the **invites** resource.
+
+```
+========================= REQUEST ==========================
+POST https://usermanagement.adobe.io/v2/usermanagement/{myOrgId}/invites/{email}
+------------------------- headers --------------------------
+Accept: application/json
+x-api-key: {myApiKey}
+Authorization: Bearer {myAccessToken}
+```
+
+***
+
+## Revoke a Pending Invite
+
+Revoke a pending invite for a given email address with a DELETE request to the **invites** resource.
+
+```
+========================= REQUEST ==========================
+DELETE https://usermanagement.adobe.io/v2/usermanagement/{myOrgId}/invites/{email}
+------------------------- headers --------------------------
+Accept: application/json
+x-api-key: {myApiKey}
+Authorization: Bearer {myAccessToken}
+```
+

@@ -6,6 +6,7 @@ nav_level: 1
 nav_order: 135
 lang: en
 ---
+# API Overview
 
 ## User Management Tasks
 
@@ -15,11 +16,11 @@ You can use the API to perform a variety of user-management tasks:
 
 * Update user information associated with an Enterprise ID or Federated ID account that is managed by your organization. Adobe ID accounts are managed by the user and by Adobe.
 * Delete accounts of any type from your organization. For Enterprise IDs, you can also delete the accounts.
-* Manage membership in user groups and product profiles. These memberships control user access to Adobe products.
+* Manage membership in user groups and product profiles that have been created using the [Admin Console](https://adminconsole.adobe.com/enterprise). These memberships control user access to Adobe products.
 * Manage administrative rights for users within user groups and product profiles.
-* Query your Adobe users, and the user groups, products, and product profiles you have created using the [Admin Console](https://adminconsole.adobe.com/enterprise).
+* Query your Adobe users.
 
-This page provides an introduction to the endpoints and techniques you use to perform these tasks. For complete syntax details, see the [UM API Reference](api/RefOverview.md).
+This page provides an introduction to the endpoints and techniques you use to perform these tasks. For complete syntax details, see the [UM API Reference](RefOverview.md).
 
 ## Calling into the UM API
 
@@ -39,19 +40,18 @@ For a Python code walkthrough and samples of actual API calls that demonstrate m
 
 * [Manage your Adobe Users](#manage-your-adobe-users)
 When you have obtained access, you can use the API to request changes to your Adobe user accounts.
-* [Manage Products Access and Admin Rights](#manage-products)
-* [Query Users and Products](#query-adobe-users-and-products)
-You can retrieve information about users, user groups, and product profiles in your organization.
-* [Manage Administrative Access](#manage-administrative-access)
-Product access is controlled by memberships in user groups and product profiles. You can use the API to query and update those memberships.
+* [Manage Products Access and Admin Rights](#manage-products)  
+Product access is controlled by memberships in user groups and product profiles. You can use the API to query and update memberships, and control user roles within the groups.
+* [Query Users](#query-users)
+You can retrieve information about users in your organization.
 * [Throttling and Error Handling](#throttling-and-error-handling)  
 Throttling enables you to handle errors that result from data-access limitations.
 
 *****
 
-## Manage your Adobe Users
+## <a name="manage-your-adobe-users" class="api-ref-subtitle">Manage your Adobe Users</a>
 
-The API defines a set of specific write _actions_ that you use to create, update, and delete user accounts, and manage Adobe product access for users. To make most user-management requests, send an HTTPS POST request to the user-management [Action API](ActionsRef.md):
+The API defines a set of specific write _actions_ that you use to create, update, and delete user accounts, and manage Adobe product access for users. To make most user-management requests, send an HTTPS POST request to the user-management [Action API](api/ActionsRef.md):
 
 ```
 https://usermanagement.adobe.io/v2/usermanagement/action/{orgId}
@@ -75,31 +75,29 @@ When you create a new user of the Adobe ID type, the user is identified by email
  > Previously, users were required to accept an email invitation before being added to your organization. A deprecated API allowed you to [manage pending new-user invites](api/ManageInvites.md). Please discontinue use of this API in your applications.
 
 ***
-## Manage Product Access and Admin Rights
+## <a name="manage-products" class="api-ref-subtitle">Manage Product Access and Admin Rights</a>
 
 Users are provisioned for access to Adobe products through their membership in user groups and product profiles. A user group is a collection of users who share a set of permissions. Both individual users and user groups can be added to product profiles to give them access to a set of products.  
 
 You cannot create either user groups or product profiles through the API. You must create them in the [Admin Console](https://adminconsole.adobe.com/enterprise/). You can then use the User Management API to manage product access for users by adding and removing users to and from your existing user groups and product profiles.
 
-### Manage memberships
+### Manage memberships and roles
 
-* To manage user group membership and assign administrative rights in user groups, use the `usergroup` root command in a POST request to the [Action API](ActionsCmds.md) for your organization. For details, see [User Management Actions](ActionsRef.md).  
+* To manage user group membership and assign administrative rights in user groups, use the `usergroup` root command in a POST request to the [Action API](api/ActionsCmds.md) for your organization. For details, see [User Management Actions](api/ActionsRef.md).  
 ```
 https://usermanagement.adobe.io/v2/usermanagement/action/{orgId}
 ```
-* To manage product profile membership and administrative rights, use the `user` root command in a POST request to the [Action API](ActionsCmds.md) for your organization. Use the [Product Information APIs](product.md) to find products and profiles for your organization.  
+* To manage product profile membership and administrative rights, use the `user` root command in a POST request to the [Action API](api/ActionsCmds.md) for your organization. Use the [Product Information APIs](api/product.md) to find products and profiles for your organization.  
 ```
 https://usermanagement.adobe.io/v2/usermanagement/{orgId}/product/{productId}/configurations/{profileId}
 ```
 ***
-## Query Users and Products
+## <a name="query-users" class="api-ref-subtitle">Query Users</a>
 
-You can retrieve paged lists of all users and products for the organization, and of user groups and product profiles that you have defined in the [Admin Console](https://adminconsole.adobe.com/enterprise/). You can then examine an individual user, user group, product, or product profile using its unique ID.
-
-There are API endpoints for each resource type under your organization's unique ID. For specific endpoints and request/response syntax, see [User Access APIs](user.md) and [Product Information APIs](product.md).
+You can retrieve paged lists of all users for the organization, and examine information for an individual user through the unique user ID.
 
 ***********
-## Throttling and Error Handling
+## <a name="throttling-and-error-handling" class="api-ref-subtitle">Throttling and Error Handling</a>
 
 To protect the availability of the Adobe back-end user identity systems, the User Management API imposes limits on client access to the data. Limits apply to the number of calls that an individual client can make within a time interval, and global limits apply to access by all clients within the time period.
 

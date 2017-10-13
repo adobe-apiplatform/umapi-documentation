@@ -1,9 +1,9 @@
 ---
 title: Get Users in Organization
 layout: default
-nav_link: /users/{orgId}/{page}
-nav_order: 434
-nav_level: 4
+nav_link: Get Users in Organization
+nav_order: 412
+nav_level: 3
 lang: en
 ---
 
@@ -13,16 +13,14 @@ lang: en
 GET /v2/usermanagement/users/{orgId}/{page}
 ```
 
-* [Overview](#intro)
+Retrieve a paged list of all users in your organization along with information about them. The number of users returned in each call is subject to change but never exceeds 200 entries. You can make multiple paginated calls to retrieve the full list of users. The `domain` query parameter filters the results to only return users within a specified domain.  
+
+__Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#getUsersWithPageThrottle) for full details.
+
 * [Parameters](#parameters)
 * [Responses](#responses)
 * [Example Requests](#exampleRequests)
 * [Throttling Limits](#getUsersWithPageThrottle)
-
-<a name="intro" class="api-ref-subtitle"></a>
-Retrieve a paged list of all users in your organization along with information about them. The number of users returned in each call is subject to change but never exceeds 200 entries. You can make multiple paginated calls to retrieve the full list of users. The `domain` query parameter filters the results to only return users within a specified domain.  
-
-__Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#getUsersWithPageThrottle) for full details.
 
 ## <a name="parameters" class="api-ref-subtitle">Parameters</a>
 
@@ -51,7 +49,7 @@ __Content-Type:__ _application/json_
 ### <a name="200getUsersWithPage" class="api-ref-subtitle">200 OK</a>
 A successful request returns a response body with the requested user data in JSON format. When the response contains the last paged entry, the response includes the field `lastPage : true`. If the returned page is not the last page, make additional paginated calls to retrieve the full list.
 
-[Identity Types](glossary.html#identity) explains the different account types available.
+[Identity Types](glossary.md#identity) explains the different account types available.
 
 #### Headers
 
@@ -154,17 +152,22 @@ The status of the request. This property can be used to manage error handling as
 __users:__  
 Represents a list of _User_ objects. Properties that are not populated __will not__ be returned in the response. Some properties are not applicable for particular account types.
 
-* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. See [AdminRoles](#getUserAdminRolesExample) for an example of the response. {% include_relative partials/rolesDescription.md %}
+* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. Possible roles include:
+  * "org": The user is a [System Administrator](glossary.md#orgAdmin).
+  * "deployment": The user is a [Deployment Administrator](glossary.md#deployment).
+  * "{product-profile-name}": The user is a [Product Profile Administrator](glossary.md#productProfileAdmin).
+  * "{user-group-name}": The user is a [UserGroup Administrator](glossary.md#usergroupAdmin).
+  * "support": The user is a [Support Administator](glossary.md#supportAdmin). 
 * __country:__ _string_; A valid ISO 2-character country code.
 * __domain:__ _string_; The user's domain.
 * __email:__ _string_
 * __firstname:__ _string_
-* __groups:__ _string[]_; The list of groups that the user is a current member of including user-groups and product profiles. See [Groups example](#getUserGroupsExample).
+* __groups:__ _string[]_; The list of groups that the user is a current member of including user-groups and product profiles. 
 * __id:__ _string_
 * __lastname:__ _string_
 {% include_relative partials/statusDescription.md %}
-* __type:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.html#identity) for more information.
-* __username:__ _string_; The user's username (applicable for [Enterprise](glossary.html#enterpriseId) and [Federated](glossary.html#federatedId) users). For most [AdobeID](glossary.html#adobeId) users, this value will be the same as the email address.
+* __type:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.md#identity) for more information.
+* __username:__ _string_; The user's username (applicable for [Enterprise](glossary.md#enterpriseId) and [Federated](glossary.md#federatedId) users). For most [AdobeID](glossary.md#adobeId) users, this value will be the same as the email address.
 
 #### Schema Model
 
@@ -230,6 +233,6 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeO
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
  ```
 
-## <a name="getUsersWithPageThrottle" class="api-ref-subtitle">Throttling</a>
+## <a name="getUsersWithPageThrottle" class="api-ref-subtitle">Throttling Limits</a>
 
 {% include_relative partials/throttling.md client=25 global=100 %}

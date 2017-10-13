@@ -5,4 +5,4 @@
 | X-Current-Page | The integer value of the page being returned. |
 | X-Page-Size | The number of entries in the page being returned. |
 {:.bordertablestyle}
-_please note that all of the above headers are strings_
+_All of the values for the listed headers are strings._

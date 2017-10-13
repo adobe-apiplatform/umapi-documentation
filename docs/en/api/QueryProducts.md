@@ -1,11 +1,16 @@
 ---
 layout: default
 nav_link: Product APIs
-nav_order: 454
-nav_level: 3
+nav_order: 471
+nav_level: 4
 lang: en
-title: Product APIs
+title: Product Access APIs
 ---
+# <a name="productApis" class="api-ref-title">Product Access APIs</a>
+
+**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+
+<hr class="api-ref-rule">
 
 Product information defined for your organization in the [Admin Console](https://adminconsole.adobe.com/enterprise/) is available through the **{orgId}/products/** resource. You can list products and examine information for individual products.
 
@@ -26,7 +31,9 @@ You must include these headers in all requests:
 * **Authorization** : A current access token obtained from login request.
 * **x-api-key** : The API key for your organization, obtained from the Developer Portal.
 
-### List Products
+***
+
+## List Products
 
 A GET request to the **/{orgId}/products/** resource retrieves a paged list of Adobe products that your organization uses.
 
@@ -108,4 +115,5 @@ A successful request returns the requested data with **HTTP status 200**. The re
   ]
  }
 ```
+
 

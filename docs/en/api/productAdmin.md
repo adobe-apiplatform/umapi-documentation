@@ -1,26 +1,27 @@
 ---
 layout: default
 nav_link: Product Admin Role API
-nav_order: 455
-nav_level: 3
+nav_order: 476
+nav_level: 4
 lang: en
 title: Update Product Admin Roles
 ---
+# <a name="prodAdmin" class="api-ref-title">Update Product Admin Roles</a>
+
+**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+
+<hr class="api-ref-rule">
 
 ```
 POST /v2/usermanagement/{orgId}/products/{productId}/admin
 ```
 
-* [Overview](#intro)
+Administrative rights are granted on a per-product basis.  This POST request allows you to update the administrative rights for an existing product. Use this API to grant or revoke the ProductAdmin role for one or more users.
+
 * [Parameters](#parameters)
 * [Request Body](#requestBody)
 * [Responses](#responses)
-* [Example Requests](#exampleRequests)
 * [Throttling Limits](#throttle)
-
-<a name="intro" class="api-ref-subtitle">Overview</a>
-
-Administrative rights are granted on a per-product basis.  This POST request allows you to update the administrative rights for an existing [product](glossary.html#product). Use this API to grant or revoke the ProductAdmin role for one or more users.
 
 ## <a name="parameters" class="api-ref-subtitle">Parameters</a>
 This table summarizes the parameters and how they are provided:
@@ -76,6 +77,6 @@ The response body contains the updated product in JSON format.
 
 {% include_relative partials/forbidden.md anchor="403updateUserGroup" %}
 
-## <a name="throttle" class="api-ref-subtitle">Throttling</a>
+## <a name="throttle" class="api-ref-subtitle">Throttling Limits</a>
 
 {% include_relative partials/throttling.md client=5 global=50 %}

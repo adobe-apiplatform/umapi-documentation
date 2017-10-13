@@ -1,28 +1,30 @@
 ---
-title: Get Users in Organization
+title: Get All Users 
 layout: default
-nav_link: /{orgId}/users
-nav_order: 435
-nav_level: 4
+nav_link: Get All Users 
+nav_order: 450
+nav_level: 3
 lang: en
 ---
 
-# <a name="getUsersWithPage" class="api-ref-title">Get Users in Organization</a>
+# <a name="getUsersWithPage" class="api-ref-title">Get All Users in Organization</a>
+
+**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+
+<hr class="api-ref-rule">
 
 ```
 GET /v2/usermanagement/{orgId}/users
 ```
 
-* [Overview](#intro)
+Retrieve a paged list of all users in your organization along with information about them. The number of users returned in each call is subject to change but never exceeds 200 entries. You can make multiple paginated calls to retrieve the full list of users.  
+
+__Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#getUsersRESTThrottle) for full details.
+
 * [Parameters](#parameters)
 * [Responses](#responses)
 * [Example Requests](#exampleRequests)
 * [Throttling Limits](#getUsersRESTThrottle)
-
-<a name="intro" class="api-ref-subtitle"></a>
-Retrieve a paged list of all users in your organization along with information about them. The number of users returned in each call is subject to change but never exceeds 200 entries. You can make multiple paginated calls to retrieve the full list of users.  
-
-__Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#getUsersRESTThrottle) for full details.
 
 ## <a name="parameters" class="api-ref-subtitle">Parameters</a>
 
@@ -106,9 +108,14 @@ The response body contains a list of users in JSON format including the email, f
 #### Schema Properties
 
 __user:__  
-Represents a _User_ object. Properties that are not populated __will not__ be returned in the response. Some properties are not applicable for particular account types. See [Identity Types](glossary.html#identity) for more information on account types.
+Represents a _User_ object. Properties that are not populated __will not__ be returned in the response. Some properties are not applicable for particular account types. See [Identity Types](glossary.md#identity) for more information on account types.
 
-* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. {% include_relative partials/rolesDescription.md %}
+* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. Possible roles include:
+  * "org": The user is a [System Administrator](glossary.md#orgAdmin).
+  * "deployment": The user is a [Deployment Administrator](glossary.md#deployment).
+  * "{product-profile-name}": The user is a [Product Profile Administrator](glossary.md#productProfileAdmin).
+  * "{user-group-name}": The user is a [UserGroup Administrator](glossary.md#usergroupAdmin).
+  * "support": The user is a [Support Administator](glossary.md#supportAdmin).
 * __countryCode:__ _string_; A valid ISO 2-character country code.
 * __domain:__ _string_; The user's domain.
 * __email:__ _string_
@@ -118,8 +125,8 @@ Represents a _User_ object. Properties that are not populated __will not__ be re
 * __lastName:__ _string_
 * __phoneNumber:__ _string_
 {% include_relative partials/statusDescription.md %}
-* __userType:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.html#identity) for more information.
-* __username:__ _string_; The user's username (applicable for [Enterprise](glossary.html#enterpriseId) and [Federated](glossary.html#federatedId) users). For most [AdobeID](glossary.html#adobeId) users, this value will be the same as the email address.
+* __userType:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.md#identity) for more information.
+* __username:__ _string_; The user's username (applicable for [Enterprise](glossary.md#enterpriseId) and [Federated](glossary.md#federatedId) users). For most [AdobeID](glossary.md#adobeId) users, this value will be the same as the email address.
 
 #### Schema Model
 

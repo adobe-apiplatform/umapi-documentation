@@ -1,16 +1,21 @@
 ---
 layout: default
 nav_link: Get User Group Users and Admins
-nav_order: 447
-nav_level: 3
+nav_order: 463
+nav_level: 4
 lang: en
 title: Get User Group Users and Admins
 ---
+# <a name="queryUserGroups" class="api-ref-title">Get User-group Users and Admins</a>
+
+**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+
+<hr class="api-ref-rule">
 
 User group information defined for your organization in the [Admin Console](https://adminconsole.adobe.com/enterprise/) is available through the **{orgId}/user-groups** resource.
 
-* [Get a paged list of user groups defined for your organization](usergroup.html#getUserGroups)
-* [Get information for a specific user group](usergroup.html#getUserGroup)
+* [Get a paged list of user groups defined for your organization](getUserGroups.md)
+* [Get information for a specific user group](getUserGroup.md)
 * [Get a paged list of users or admins users who belong to a specific user group](#users)
 
 ### Notation
