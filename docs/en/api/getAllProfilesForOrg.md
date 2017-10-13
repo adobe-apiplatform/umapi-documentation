@@ -1,26 +1,29 @@
 ---
-title: Get All Product Profiles 
+title: Get Product Profiles for Organization
 layout: default
-nav_link: Get All Product Profiles
-nav_order: 451
-nav_level: 3
+nav_order: 472
+nav_level: 4
 lang: en
+nav_link: Get All Profiles
 ---
+
+# <a name="getAllProfiles" class="api-ref-title">Get All Product Profiles for Organization</a>
+
+**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+
+<hr class="api-ref-rule">
 
 ```
 GET /v2/usermanagement/{orgId}/products/{productId}/configurations
 ```
+This API retrieves a paged list of all product profiles that have been defined for your organization in the [Admin Console](https://adminconsole.adobe.com/enterprise/).
 
-* [Overview](#intro)
+__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#throttle) for full details.
+
 * [Parameters](#parameters)
 * [Responses](#responses)
 * [Example Requests](#exampleRequests)
 * [Throttling Limits](#throttle)
-
-<a name="intro" class="api-ref-subtitle"></a>
-This API retrieves a paged list of all product profiles that have been defined for your organization in the [Admin Console](https://adminconsole.adobe.com/enterprise/).
-
-__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#throttle) for full details.
 
 ## <a name="parameters" class="api-ref-subtitle">Parameters</a>
 

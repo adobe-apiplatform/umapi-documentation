@@ -2,19 +2,18 @@
 title: User Access APIs
 layout: default
 nav_link: User Access APIs
-nav_order: 430
+nav_order: 410
 nav_level: 2
 lang: en
 ---
-
+# <a name="userGroup" class="api-ref-title">User Access APIs</a>
 An application can use the User Management API to access Adobe users and manage their identities.
 
 ## Retrieving Users
 
-You can retrieve information for individual users, and lists of all users, and of members of user groups and product profile groups.
+You can retrieve information for individual users, and list members of user groups and product profile groups.
 
 * [Get user information -- `organizations/{orgId}/users/{userString}`](getUser.md)
-* [Get all users in org -- `{orgId}/users/` or `/users/{orgId}/{page}`](getUsers.md)
 * [Get all member users in a user group](getUsersByGroup.md)
 * [Get all member users in a product profile group](getUsersByGroup.md)
 

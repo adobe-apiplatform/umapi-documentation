@@ -2,25 +2,27 @@
 title: Get Product Profile
 layout: default
 nav_link: Get Product Profile
-nav_order: 452
-nav_level: 3
+nav_order: 473
+nav_level: 4
 lang: en
 ---
+# <a name="getProfile" class="api-ref-title">Get Product Profile</a>
 
+**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+
+<hr class="api-ref-rule">
 ```
 GET /v2/usermanagement/{orgId}/products/{productId}/configurations/{profileId}
 ```
 
-* [Overview](#intro)
+Retrieves details of a single product profile withing a specified organization by searching for product ID and configuration ID. Successful queries return a 200 response whose body is a single JSON response representing the product profile information. 
+
+__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#throttle) for full details.
+
 * [Parameters](#parameters)
 * [Responses](#responses)
 * [Example Requests](#exampleRequests)
 * [Throttling Limits](#throttle)
-
-<a name="intro" class="api-ref-subtitle"></a>
-This API retrieves details of a single product profile withing a specified organization by searching for product id and configuration id. Successful queries will return a 200 response whose body is a single JSON response representing the product profile information. 
-
-__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#throttle) for full details.
 
 ## <a name="parameters" class="api-ref-subtitle">Parameters</a>
 

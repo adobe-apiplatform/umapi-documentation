@@ -2,30 +2,28 @@
 title: User Management Action Requests    
 layout: default   
 nav_link: User Management Action API  
-nav_order: 420    
+nav_order: 400    
 nav_level: 2    
 lang: en    
 ---   
 
-
-* [Overview](#intro)
-* [Parameters](#parameters)
-* [Request Body](#actionRequestBody)
-* [Responses](#responses)
-* [Throttling Limits](#getUsersRESTThrottle)
-
-## <a name="intro" class="api-ref-subtitle">Overview</a>
+# User Management Action API
 
 Use an HTTPS **POST** request to the `action` resource for your organization to request most user-management actions.
 ```
 https://usermanagement.adobe.io/v2/usermanagement/action/{orgId}
 ```
 
-The body of this request contains a JSON _commands_ structure that you use to specify which actions to perform for which user or user group. You can create, update, entitle, and remove users or [user-groups](glossary.md#usergroup) in an organization.
+The body of this request contains a JSON _commands_ structure that you use to specify which actions to perform for which user or user group. You can create, update, entitle, and remove users or user groups in an organization.
 
 When a request has been understood and at least partially completed, it returns with HTTP status 200.
 
 __Throttle Limits__: Maximum 10 requests per minute per a client. See [Throttling Limits](#actionThrottle) for full details.
+
+* [Parameters](#parameters)
+* [Request Body](#actionRequestBody)
+* [Responses](#responses)
+* [Throttling Limits](#actionThrottle)
 
 ## <a name="parameters" class="api-ref-subtitle">Parameters</a>
 
@@ -88,10 +86,10 @@ The following table shows the behavior of test mode for particular test cases.
 
 ## <a name="actionRequestBody" class="api-ref-subtitle">Request Body</a>
 
-The JSON _commands_ structure contained in your POST request specifies a sequence of commands. Each command entry specifies a user or a [user-group](glossary.md#usergroup) and a sequence of _steps_ to be performed for that user/user-group.
+The JSON _commands_ structure contained in your POST request specifies a sequence of commands. Each command entry specifies a user or user-group, and a sequence of _steps_ to be performed for that user or user-group.
 
-* The JSON commands structure allows a maximum of 10 users or user-groups to be operated on per request.
-* For a detailed description of the command structure and syntax, including details of all user-management _actions_ that can be performed, see [User Management Action Commands](ActionsCmds.md)
+* The JSON commands structure allows a maximum of 10 users or user groups to be operated on per request.
+* For a detailed description of the command structure and syntax, and details of all action steps that can be performed, see [User Action Commands](ActionsCmds.md).
 
 ******
 ## <a name="responses" class="api-ref-subtitle">Responses</a>
@@ -300,6 +298,6 @@ If the response has a status other than 200, the request was not processed.  The
 
 {% include_relative partials/forbidden.md anchor="403" %}
 
-## Throttling
+## <a name="actionThrottle" class="api-ref-subtitle">Throttling Limits</a>
 
 {% include_relative partials/throttling.md client=10 global=100 %}

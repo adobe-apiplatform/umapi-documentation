@@ -2,25 +2,28 @@
 title: Get User Groups
 layout: default
 nav_link: Get User Groups
-nav_order: 441
-nav_level: 3
+nav_order: 461
+nav_level: 4
 lang: en
 ---
+# <a name="getUserGroups" class="api-ref-title">Get User Groups</a>
+
+**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+
+<hr class="api-ref-rule">
 
 ```
 GET /v2/usermanagement/{orgId}/user-groups
 ```
 
-* [Overview](#intro)
+Retrieves all of the user groups for the given organization. Successful queries return a 200 response whose body is a JSON response representing an array of [user groups](glossary.md#usergroup). The response is paginated and specific pages are requested by using query parameter `page=x`, where x is a number.   
+
+__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#getUserGroupsThrottle) for full details.
+
 * [Parameters](#parameters)
 * [Responses](#responses)
 * [Example Requests](#exampleRequests)
 * [Throttling Limits](#getUserGroupsThrottle)
-
-<a name="intro" class="api-ref-subtitle"></a>
-This API returns all the user-groups for the given organization. Successful queries will return a 200 response whose body is a JSON response representing an array of [user-groups](glossary.html#usergroup). The response is paginated and specific pages are requested by using query parameter `page=x`, where x is a number.   
-
-__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#getUserGroupsThrottle) for full details.
 
 ## <a name="parameters" class="api-ref-subtitle">Parameters</a>
 
@@ -47,7 +50,7 @@ __Content-Type:__ _application/json_
 - [429: Too Many Requests](#getUserGroupsThrottle)
 
 ### <a name="200getUserGroups" class="api-ref-subtitle">200 OK</a>
-The response body contains a list of user-groups in JSON format including the groupId, name and userCount. Please note that fields can be missing if there are no values. [User-groups can have administrators](glossary.html#usergroupAdmin) who have the ability to manage the user membership of the user-group. In these scenarios, the details of the admin group and member count will be included in the response. 
+The response body contains a list of user-groups in JSON format including the groupId, name and userCount. Please note that fields can be missing if there are no values. [User-groups can have administrators](glossary.md#usergroupAdmin) who have the ability to manage the user membership of the user-group. In these scenarios, the details of the admin group and member count will be included in the response. 
 
 #### Headers
 
@@ -144,6 +147,6 @@ curl -ivs -X GET \
    -H 'x-request-id: user-assigned-request-id'
 ```
 
-## <a name="getUserGroupsThrottle" class="api-ref-subtitle">Throttling</a>
+## <a name="getUserGroupsThrottle" class="api-ref-subtitle">Throttling Limits</a>
 
 {% include_relative partials/throttling.md client=5 global=50 %}

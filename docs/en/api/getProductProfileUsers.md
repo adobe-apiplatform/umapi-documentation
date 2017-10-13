@@ -2,25 +2,27 @@
 title: Get Users in Product Profile
 layout: default
 nav_link: Get Users in Product Profile
-nav_order: 453
-nav_level: 3
+nav_order: 475
+nav_level: 4
 lang: en
 ---
+# <a name="getProfileUsers" class="api-ref-title">Get Users in Product Profile</a>
+
+**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+
+<hr class="api-ref-rule">
 
 ```
 GET /v2/usermanagement/{orgId}/products/{productId}/configurations/{profileId}/users
 ```
+Retrieves a list of users, including information about them, who are associated with the specified product profile. Fields can be missing if values were never supplied.
 
-* [Overview](#intro)
+__Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#throttle) for full details.
+
 * [Parameters](#parameters)
 * [Responses](#responses)
 * [Example Requests](#exampleRequests)
 * [Throttling Limits](#throttle)
-
-<a name="intro" class="api-ref-subtitle"></a>
-This API retrieves a list of users, including information about them, who are associated with the specified product profile. Fields can be missing if values were never supplied.
-
-__Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#throttle) for full details.
 
 ## <a name="parameters" class="api-ref-subtitle">Parameters</a>
 
@@ -52,7 +54,7 @@ __Content-Type:__ _application/json_
 The response body contains a list of users for the product profile in JSON format. Fields can be missing if values were never supplied or are not applicable for a particular account type.
 
 #### Examples
-Response returning three different user types associated with the product profile. Possible user types returned are [adobeID](glossary.html#adobeId), [enterpriseID](glossary.html#enterpriseId), [FederatedID](glossary.html#federatedId) and [unknown](glossary.html#unknownUserType). 
+Response returning three different user types associated with the product profile. Possible user types returned are [adobeID](glossary.md#adobeId), [enterpriseID](glossary.md#enterpriseId), [FederatedID](glossary.md#federatedId) and [unknown](glossary.md#unknownUserType). 
 
 ```json
 [
@@ -97,7 +99,7 @@ Response returning no users associated with the product profile.
 * __firstName:_ _string_
 * __lastName:__ _string_
 * __domain:__ _string_; The user's domain.
-* __userType:__ _string_; possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.html#identity) for more information.
+* __userType:__ _string_; possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.md#identity) for more information.
 
 #### Schema Model
 
@@ -129,6 +131,6 @@ curl -X GET https://usermanagement-stage.adobe.io/v2/usermanagement/12345@AdobeO
  --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
 ```
 
-## <a name="throttle" class="api-ref-subtitle">Throttling</a>
+## <a name="throttle" class="api-ref-subtitle">Throttling Limits</a>
 
 {% include_relative partials/throttling.md client=25 global=100 %}

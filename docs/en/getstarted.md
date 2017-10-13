@@ -50,7 +50,7 @@ Before you can use the User Management API (directly or indirectly through User 
 
 * If you think your enterprise can use the ready-made API client, User Sync, read more about the tool: [Synchronize User Data with UserSync](https://adobe-apiplatform.github.io/user-sync.py/).
 
-* If you plan to build your own API client, learn about the user-management operations that are available through the [Introduction to User Management APIs](API_introduction.md)
+* If you plan to build your own API client, learn about the user-management operations that are available through the [API Overview](API_introduction.md)
 * Get complete reference details for all API calls: [User Management API Reference](RefOverview.md)
 * See a sample Python script and examples of representative requests: [Examples and Samples](samples/index.md)
 

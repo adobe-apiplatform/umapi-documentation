@@ -1,32 +1,31 @@
 ---
 layout: default
-nav_link: List All Profiles for Organization
-nav_order: 453
-nav_level: 3
+nav_link: Get Groups and Profiles
+nav_order: 420
+nav_level: 2
 lang: en
+title: Get User Groups and Product Profiles
 ---
 
-# <a class="api-ref-title" name="getGroups">List All Profiles for Organization</a>
+# <a class="api-ref-title" name="getGroups">Get User Groups and Product Profiles</a>
 
 ```
 GET /v2/usermanagement/groups/{orgId}/{page}
 ```
 
-* [Overview](#intro)
+Retrieves a paged list of all user groups and product profiles in your organization along with information about them. You can make multiple paginated calls to retrieve the full list of product profiles.
+
+__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#throttle) for full details.
+
 * [Parameters](#parameters)
 * [Responses](#responses)
 * [Request Examples](#exampleRequests)
 * [Throttling Limits](#throttle)
 
-<a name="intro" class="api-ref-subtitle"></a>
-This API retrieves a paged list of all product profiles in your organization along with information about them. You can make multiple paginated calls to retrieve the full list of product profiles.
-
-__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#throttle) for full details.
-
 ## <a name="parameters" class="api-ref-subtitle">Parameters</a>
 
 | Name | Type | Required | Description |
-| :--- | :------ | :--- | :--- | --- |
+| :--- | :------ | :---: | :------ |
 | orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
 | X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
 | page | path | true | The page number being requested. |
@@ -43,7 +42,7 @@ __Content-Type:__ _application/json_
 - [400: Bad Request](#400getGroupsWithPage)
 - [401: Unauthorized](#401getGroupsWithPage)
 - [403: Forbidden](#403getGroupsWithPage)
-- [429: Too Many Requests](#getGroupsWithPageThrottle)
+- [429: Too Many Requests](#throttle)
 
 ### <a name="200getGroupsWithPage" class="api-ref-subtitle">__200 OK__</a>
 A successful request returns a response body with the requested group data in JSON format. When the response contains the last paged entry, the response includes the field `lastPage : true`. If the returned page is not the last page, make additional paginated calls to retrieve the full list.
