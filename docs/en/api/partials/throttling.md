@@ -3,7 +3,26 @@ To protect the availability of the Adobe back-end user identity systems, the Use
 - Maximum calls per a client: **{{ include.client }} requests per a minute**
 - Maximum calls for the application: **{{ include.global }} requests per a minute**
 
-When the client or global access limit is reached, further calls fail with HTTP error status **429 Too Many Requests**.
+When the client or global access limit is reached, further calls fail with HTTP error status **429 Too Many Requests**. The **Retry-After** header is included in the 429 response, and provides the minimum number of seconds to wait before retry:
+
+```
+========================= RESPONSE =========================
+Status code: 429
+-------------------------- header --------------------------
+Content-Type: application/json
+Date: Fri, 19 Jan 2018 10:31:43 GMT
+Retry-After: 38
+Server: APIP
+X-Request-Id: iEUtsLiFgj3R4xsbirAyZlMyaxRTo8Xo
+Content-Length: 54
+Connection: keep-alive
+--------------------------- body ---------------------------
+{
+  "error_code" : "429050",
+  "message" : "Too many requests"
+}
+============================================================
+```
 
 Because of the global limits, and because the specific limits may change, you cannot simply limit the rate at which you make your own calls. You **must** handle rate-limit errors by retrying the failed calls. We recommend an _exponential backoff retry_ technique for handling such errors.
 
