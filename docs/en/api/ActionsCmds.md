@@ -25,35 +25,35 @@ For a given command entry, the API attempts to perform the steps in the order th
 
 # <a name="actionRequestBodyProperties" class="api-ref-subtitle">Command entries</a>
 
-Each _command_ entry begins with a _root command_ that specifies whether a set of actions applies to an individual user, or to a user group. The JSON commands structure allows a maximum of 10 users or user-groups to be operated on per request.
+Each _command_ entry begins with a _root command_ that specifies whether a set of actions applies to an individual user, or to a user group. The JSON commands structure allows a maximum of 10 users or user groups to be operated on per request.
 
 ## Root commands
 
 <a name="userRootCommand" class="api-ref-subtitle">__user:__</a> _string_
-The user field is usually an email address with a UID and domain component `jdoe@example.com`. Organizations can be configured to accept usernames that are not email addresses. In these cases, the `domain` property must be provided in order to identify the user. [Identity Types](glossary.md#identity) explains the different account types available. 
+The user field is usually an email address with a UID and domain component `jdoe@example.com`. Organizations can be configured to accept usernames that are not email addresses. In these cases, the `domain` property must be provided in order to identify the user. [Identity Types](glossary.md#identity) explains the different account types available.
 
 <a name="usergroupRootCommand" class="api-ref-subtitle">__usergroup:__</a> _string_
-To update the membership list for a given [user group](glossary.md#usergroup), specify `add` and `remove` actions in the `do` list for the `usergroup`. See [Step Actions for User Groups](#groupStepActions).
+To update the membership list specify `add` and `remove` actions in the `do` list for the `usergroup`. See [User Group Action Commands](usergroupActionCommands.md) for details.
 
 __do:__
-Within a command's `do` entry, a set of _step actions_ specify what management operations to perform for the root user or user group.
+Each root command has a single `do` entry. Within a command's `do` entry, a set of _step actions_ specify what management operations to perform for the root user or user group.
 
 <hr class="api-ref-rule">
 
 ## Step actions for users
 
-This section describes step actions that can be performed for a [user](#userRootCommand). For steps that can be performed for a [user group](#usergroupRootCommand), see [User Group Step Actions](#groupStepActions).
+This section describes step actions that can be performed for a [user](#userRootCommand). For steps that can be performed for a [user group](#usergroupRootCommand), see [User Group Action Commands](usergroupActionCommands.md).
 
 The following properties apply to a [user](#userRootCommand):
 
 __requestID:__ _string_
 Arbitrary string to be returned in the response payload. This is to help identify the response that corresponds to a particular command entry.
 
-__domain:__ _string_ 
+__domain:__ _string_
 [Federated IDs](glossary.md#federatedId) that are not email addresses, must supply the domain the user belongs to in order to identify the user. This is required for all operations; create, update, add, remove, and removeFromOrg.
 The domain field must be at the same level as the user field. The domain field is ignored if the user has an [Adobe](glossary.md#adobeId) or [Enterprise](glossary.md#enterpriseId) ID. [Identity Types](glossary.md#identity) explains the different account types available.
 
-__useAdobeID:__ _boolean_ 
+__useAdobeID:__ _boolean_
 When true, the user ID is interpreted to refer to an existing [Adobe ID](glossary.md#adobeId) even if a [Enterprise](glossary.md#enterpriseId) or [Federated ID](glossary.md#federatedId) exists with the same name.
 
 __do:__
@@ -61,7 +61,7 @@ Lists the series of _steps_ to complete for this command entry. For a single use
 
 
 ### <a name="addAdobeID" class="api-ref-subtitle">__addAdobeID:__</a>
-Adds a user who has an existing [Adobe ID](glossary.md#adobeId). User-information fields such as `firstname` and `lastname` can be included.   
+Adds a user who has an existing [Adobe ID](glossary.md#adobeId). User-information fields such as `firstname` and `lastname` can be included.
 
 >Previously, when an Adobe ID user was added, the user would receive an email inviting them to join the organization.
 
@@ -78,7 +78,7 @@ See [user-information](#user-information) for individual field descriptions.
 }
 ```
 
-### <a name="createEnterpriseID" class="api-ref-subtitle">__createEnterpriseID:__</a> 
+### <a name="createEnterpriseID" class="api-ref-subtitle">__createEnterpriseID:__</a>
 Creates an [Enterprise ID](glossary.md#enterpriseId). See [user-information](#user-information) for individual field descriptions.
 ```json
 {
@@ -92,7 +92,7 @@ Creates an [Enterprise ID](glossary.md#enterpriseId). See [user-information](#us
 }
 ```
 
-### <a name="createFederatedID" class="api-ref-subtitle">__createFederatedID:__</a> 
+### <a name="createFederatedID" class="api-ref-subtitle">__createFederatedID:__</a>
 Creates a [Federated ID](glossary.md#federatedId). See [user-information](#user-information) for individual field descriptions.
 ```json
 {
@@ -114,7 +114,7 @@ Creates a [Federated ID](glossary.md#federatedId). See [user-information](#user-
   - `ignoreIfAlreadyExists`: If the ID already exists, ignore the _create_ step but process any other steps in the command entry for this user.
   - `updateIfAlreadyExists`: If the ID already exists, perform an _update_ action using the parameters in the create step. After updating all fields present in the step, process any other steps in the command entry for this user.
 
-### <a name="update" class="api-ref-subtitle">__update:__</a> 
+### <a name="update" class="api-ref-subtitle">__update:__</a>
 The `update` action writes new personal information to the user's account details. You can update [Enterprise](glossary.md#enterpriseId) and [Federated IDs](glossary.md#federatedId) that are managed by your organization.
 Independent [Adobe IDs](glossary.md#adobeId) are managed by the individual user and cannot be updated through the User Management API. Attempting to update information for a user who has an [Adobe ID](glossary.md#adobeId) will result in error [error.update.adobeid.no](ErrorRef.md#adobeidno).
 For [Federated IDs](glossary.md#federatedId), the `update` request can only change the information that is stored by Adobe. You cannot change information your organization stores outside of Adobe through the User Management API. You can, however, include a `username` field for users whose email address is in your domain. The `username` value must not include an at-sign character (@). The parameters of an update step specify the changed fields and their new values. If you do not specify a field, its value remains unchanged.
@@ -244,60 +244,7 @@ Removes the user's membership in the organization, and optionally from membershi
 
 <hr class="api-ref-rule">
 
-## <a name="groupStepActions" class="api-ref-subtitle">Step Actions for User Groups</a>
-
-To change provisioning through user-group and profile membership, use the root command  __usergroup:__ in an action request.  In the `do` list for the group, use the `add` and `remove` actions to update the membership lists for the group. 
-
-A group has two membership lists: users who are members of the group, and product profiles for which the group has access. In the `add` and `remove` actions, supply the `user` option with a list of users to update the group membership, and the `productConfiguration` option with a list of product profiles to update the group's entitlements. 
-
-* When you add a user to the group, that user gains access to that group's product profiles.   
-When you add a profile to the group, all of the group members gain access to that profile.
-
-* When you remove a member from the group, that member loses access to the group's profiles.  
-When you remove a profile from the group, all of the group's members lose access to the profile (unless they have individual access).
-
-### Adding and removing memberships for a user group
-
-When the root command is "usergroup", the "do" list can contain "add" and "remove" steps. Each step can add or remove a set of  "user" entries specified by email, and a set of "productConfiguration" (profile) entries, specified by name. 
-
-Up to 10 memberships can be added or removed in one command entry using the `user` and `productConfiguration` options.
-
-```json
-{
-  "usergroup": "DevOps",
-  "do": [
-    {
-      "add": {
-        "productConfiguration": [
-          "Profile1_Name"
-        ],
-        "user": [
-          "user1@myCompany.com"
-        ]
-      },
-      "remove": {
-        "productConfiguration": [
-          "Profile2_Name"
-        ],
-        "user": [
-          "user2@myCompany.com"
-        ]
-      }
-    }
-  ]
-}
-```
-
-<hr class="api-ref-rule">
-
-## <a name="actionRequestBodyExamples" class="api-ref-subtitle">Request Body Schemas and Examples</a>
-
-The following sections provide examples of request bodies for user and user-group management actions.
-
-* [User action schema and examples](#userExamples)
-* [User-group action schema and examples](#groupExamples)
-
-### <a name="userExamples" class="api-ref-subtitle">User command request body schema</a> 
+## <a name="userExamples" class="api-ref-subtitle">User command request body schema</a>
 ```json
 [
   {
@@ -310,14 +257,18 @@ The following sections provide examples of request bodies for user and user-grou
           "usergroup": [
             "string"
           ]
-        },
+        }
+      },
+      {
         "addAdobeID": {
           "country": "string",
           "email": "string",
           "firstname": "string",
           "lastname": "string",
           "option": "string"
-        },
+         }
+       }.
+       {
         "addRoles": {
           "admin": [
             "string"
@@ -325,25 +276,35 @@ The following sections provide examples of request bodies for user and user-grou
           "productAdmin": [
             "string"
           ]
-        },
+         }
+       },
+       {
         "createEnterpriseID": {
           "country": "string",
           "email": "string",
           "firstname": "string",
           "lastname": "string",
           "option": "string"
+         }
         },
+       {
         "createFederatedID": {
           "country": "string",
           "email": "string",
           "firstname": "string",
           "lastname": "string",
           "option": "string"
+         }
         },
+       {
         "remove": {},
+        },
+       {
         "removeFromOrg": {
           "deleteAccount": boolean
+         }
         },
+       {
         "removeRoles": {
           "admin": [
             "string"
@@ -351,7 +312,9 @@ The following sections provide examples of request bodies for user and user-grou
           "productAdmin": [
             "string"
           ]
+         }
         },
+       {
         "update": {
           "country": "string",
           "email": "string",
@@ -369,8 +332,9 @@ The following sections provide examples of request bodies for user and user-grou
 ]
 
 ```
+<hr class="api-ref-rule">
 
-### User action examples
+## User action examples
 
 Create a [Federated ID](glossary.md#federatedId) and add the user to the Product Profiles 'Photoshop' and 'Illustrator', then remove them from the user group 'devOps'. The user is identified by passing the username and domain.
 ```json
@@ -493,56 +457,3 @@ Remove the admin role for the user for a given product config:
 ]
 ```
 
-## <a name="groupExamples" class="api-ref-subtitle">Usergroup command request body schema</a> 
- 
-```json
-[
-  {
-    "do": [
-      {
-        "add": {
-          "productConfiguration": [
-            "string"
-          ],
-          "user": [
-            "string"
-          ]
-        },
-        "remove": {}
-      }
-    ],
-    "requestID": "string",
-    "usergroup": "string"
-  }
-]
-```
-
-### User-group action examples </a>
-
-Add a product profile and a user to a user group, and remove another product profile and user.
-
-```json
-{
-  "usergroup": "DevOps",
-  "do": [
-    {
-      "add": {
-        "productConfiguration": [
-          "Profile1_Name"
-        ],
-        "user": [
-          "user1@myCompany.com"
-        ]
-      },
-      "remove": {
-        "productConfiguration": [
-          "Profile2_Name"
-        ],
-        "user": [
-          "user2@myCompany.com"
-        ]
-      }
-    }
-  ]
-}
-```
