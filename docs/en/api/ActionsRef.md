@@ -76,13 +76,12 @@ The test behavior generally reflects the normal behavior of a command set, but t
 The following table shows the behavior of test mode for particular test cases.
 
 | Command Types | Test Behavior |
-| --- | --- |
-| Create user | Reports errors in command syntax, organization or user type mismatches, conflicting users.Does not create user. |
-| Update user info | Reports syntax or field errors. Checks user validity, except non-existent user.Does not make any changes to an existing user or report an error for non-existent user. |
-| Add or remove product access | Checks validity of product profile names. Reports error in syntax and limits.Does not make any membership changes for an existing user or report an error for non-existent user. |
-| Remove user | Reports errors in command syntax, organization mismatches.Does not remove an existing user or report an error for non-existent user. |
-| Reset password | Reports errors in command syntax, organization and user mismatches.Does not send password email or disable the user account. |
-
+| :--------------- | :------------------------ |
+| Create user | Reports errors in command syntax, organization or user type mismatches, conflicting users. Does not create user. |
+| Update user info | Reports syntax or field errors. Checks user validity, except non-existent user. Does not make any changes to an existing user or report an error for non-existent user. |
+| Add or remove product access | Checks validity of product profile names. Reports error in syntax and limits. Does not make any membership changes for an existing user or report an error for non-existent user. |
+| Remove user | Reports errors in command syntax, organization mismatches. Does not remove an existing user or report an error for non-existent user. |
+{:.bordertablestyle}
 
 ## <a name="actionRequestBody" class="api-ref-subtitle">Request Body</a>
 
