@@ -41,9 +41,9 @@ https://usermanagement.adobe.io/v2/usermanagement/...
 
 | Task | Operation | Endpoint | Description |
 | :--- | :--- | :---| :---------- |
-| [Create and Add Users](#add) | POST | `actions/{orgId}`  | Create or add users to an organization by specifying a _command_ in the request body.  |
-| [Update User Records](#update) | POST | `actions/{orgId}`  | Update existing user records  |
-| [Remove Users](#remove) |  DELETE | `actions/{orgId}`  | Remove users from your organization |
+| [Create and Add Users](#add) | POST | `action/{orgId}`  | Create or add users to an organization by specifying a _command_ in the request body.  |
+| [Update User Records](#update) | POST | `action/{orgId}`  | Update existing user records  |
+| [Remove Users](#remove) |  DELETE | `action/{orgId}`  | Remove users from your organization |
 | [Access Users](#users) | GET | various endpoints | List users in organization or in group, get individual user records  |
 {:.bordertablestyle}
 
@@ -84,7 +84,7 @@ Retrieve user information for an organization or for members of user-groups and 
 | Task | Operation | Endpoint | Description |
 | :--- | :--- | :---| :---------- |
 | [Access User Groups](#usergroups_access)| GET | `users/{orgId}/usergroups` | Get information about user groups |
-| [Manage User Groups](#usergroups) | POST | `actions/{orgId}`  | Manage group membership by performing actions on a _usergroup_ in the _commands_ structure.  |
+| [Manage User Groups](#usergroups) | POST | `action/{orgId}`  | Manage group membership by performing actions on a _usergroup_ in the _commands_ structure.  |
 {:.bordertablestyle}
 
 ### <a name="usergroups_access" class="api-ref-subtitle"> Access User Groups
@@ -108,9 +108,9 @@ Use the POST [action](api/ActionsRef.md) to manage user group membership and adm
 
 | Task | Operation | Endpoint | Description |
 | :--- | :--- | :---| :---------- |
-| [Provision Users](#provision) | POST | `actions/{orgId}`  | Manage group memberships to control user access to products |
+| [Provision Users](#provision) | POST | `action/{orgId}`  | Manage group memberships to control user access to products |
 | [Access Products and Product Profiles](api/product.md) | GET | `{orgId}/products`  | List products  |
-| [Manage Product Admin Rights](#admin) | POST | `actions/{orgId}`  | Manage permissions by setting user roles  |
+| [Manage Product Admin Rights](#admin) | POST | `action/{orgId}`  | Manage permissions by setting user roles  |
 {:.bordertablestyle}
 
 ### <a name="provision" class="api-ref-subtitle">Provision Users</a>
