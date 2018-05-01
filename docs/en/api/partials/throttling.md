@@ -1,6 +1,6 @@
 To protect the availability of the Adobe back-end user identity systems, the User Management API imposes limits on client access to the data. Limits apply to the number of calls that an individual client can make within a time interval, and global limits apply to access by all clients within the time period. For this API the throttling limits are as follows:
 
-- Maximum calls per a client: **{{ include.client }} requests per a minute**
+- Maximum calls per client: **{{ include.client }} requests per a minute**
 - Maximum calls for the application: **{{ include.global }} requests per a minute**
 
 When the client or global access limit is reached, further calls fail with HTTP error status **429 Too Many Requests**. The **Retry-After** header is included in the 429 response, and provides the minimum amount of time that the client should wait until retrying. See [RFC 7231](https://tools.ietf.org/html/rfc7231#section-7.1.3) for full information.

@@ -31,6 +31,6 @@ To manage product access for individual users, use the [Action API](ActionsRef.m
 * Use the _addRole_ and _removeRole_ actions on a _user_ to control administrative rights in groups.
  
 ## Manage Product Admin Rights
-See [Summary of Provisioning Actions](../RefOverview.md#summary-of-provisioning-actions)
+See [Manage Entitlements](../RefOverview.md#provision)
 
 <hr class="api-ref-rule">

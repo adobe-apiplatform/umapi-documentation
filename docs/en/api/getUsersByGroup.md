@@ -10,7 +10,12 @@ lang: en
 ```
 GET /v2/usermanagement/users/{orgId}/{page}/{groupName}
 ```
-Gets a paged list of users in a specific group of an organization along with information about them. If you pass the `directOnly` flag, only users that have a direct membership to the group are returned.  
+Gets a paged list of users in a specific group of an organization along with information about them. Groups can be named user groups, product profiles, or group-specific administrative groups.
+
+For product profiles: 
+* Pass the `directOnly` flag to return only those users who have a direct membership in the product profile.
+* Pass the `status` parameter to return only those users who have the "active" or "inactive" status in the product profile.
+
 __Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#getUsersByGroupThrottle) for full details.
 
 * [Parameters](#parameters)
@@ -23,13 +28,14 @@ __Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling
 | Name | Type | Required | Description |
 | :--- | :------ | :---: | :------ |
 | orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
-| groupName | path | true | The user group or product profile name. |
+| groupName | path | true | The user group, product profile name or an administrative group. For an admin group, the name can be one of the fixed groups `_org_admin`, `_deployment_admin`, or `_support_admin`; or a group-specific admin group. These are identified with a prefix on the group name `_admin_groupName` , `_product_admin_productName`. If the group exists but the admin group does not, returns an empty list. |
 | X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
 | Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
-| page | path | false | The page number being requested. If greater than existing number of pages, returns the last page of users. |
+| page | path | false | The 0-based index of the page number being requested. If greater than existing number of pages, returns the last page of users. Page size is 200 at time of writing. |
 | content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
 | X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
 | directOnly | query | false | {% include_relative partials/directOnlyDescription.md %} |
+| status | query | false | For product profiles only, return only active or inactive members. Pass `active` to list users that have been provisioned for the product and have an active license. Pass `inactive` to list users who have been added to the product profile but do not have an _active_ license. When not provided, lists all member users regardless of their entitlement status.|
 {:.bordertablestyle}
 
 ## <a name="responses" class="api-ref-subtitle">Responses</a>
@@ -42,18 +48,20 @@ __Content-Type:__ _application/json_
 - [403: Forbidden](#403getUsersByGroup)
 - [429: Too Many Requests](#getUsersByGroupThrottle)
 
+:warning: Use only those properties that are documented in the [Response Properties](#ResponseProps) section. Additional fields can appear in the response, but should not be relied upon.
+
 ### <a name="200getUsersByGroup" class="api-ref-subtitle">200 OK</a>
 A successful request returns a response body with the requested user data in JSON format. When the response contains the last paged entry, the response includes the field `lastPage : true`. If the returned page is not the last page, make additional paginated calls to retrieve the full list.
 
 [Identity Types](glossary.md#identity) explains the different account types available.
 
-#### Headers
+### Headers
 
 {% include_relative partials/pagedResponseHeaders.md object="users" %}
 
-#### Examples
+### Examples
 
-<a name="getUsersExample" class="api-ref-subtitle">Response returning three users with different group membership and administrative rights:</a>
+<a name="getUsersExample" class="api-ref-subtitle">Response returning three members of the Document Cloud 1 group, showing their various other group memberships:</a>
 
 ```json
 {
@@ -77,16 +85,14 @@ A successful request returns a response body with the requested user data in JSO
             "status": "active",
             "groups": [
                 "Document Cloud 1",
-                "Support for AEM Mobile"
+                "Support for AEM Mobile",
+                "_admin_Document Cloud 1",
+                "_admin_Support for AEM Mobile",
+                "_admin_Default Support profile",
+                "_admin_Creative Cloud 1",
+                "_deployment_admin"
             ],
             "username": "jane",
-            "adminRoles": [
-                "deployment",
-                "Document Cloud 1",
-                "Support for AEM Mobile",
-                "Default Support profile",
-                "Creative Cloud 1"
-            ],
             "domain": "example.com",
             "country": "US",
             "type": "federatedID"
@@ -103,9 +109,12 @@ A successful request returns a response body with the requested user data in JSO
             "country": "US",
             "type": "federatedID"
         }
+        ...
+      ]
+}
 ```
 
-<a name="getUsersExampleLastPage" class="api-ref-subtitle">Response that is the last page:
+<a name="getUsersExampleLastPage" class="api-ref-subtitle">Response to request for the last page:
 
 ```json
 {
@@ -128,10 +137,11 @@ A successful request returns a response body with the requested user data in JSO
 }
 ```
 
-#### Schema Properties
+## <a name="ResponseProps" class="api-ref-subtitle">Response Properties</a>
 
-__message:__ _string_  
-Only returned if initial validation of the request fails. It is not populated when a 200 status is returned.
+__result:__ _string_, The status of the request. One of `success` or an error key: `{ "success", "error", "error.apikey.invalid", "error.user.email.invalid", "error.api.user.not.parent.org", "error.organization.invalid_id" }`  
+  
+__message:__ _string_ An error message, returned only if initial validation of the request fails. It is not populated when a 200 status is returned.
 
 ```json
 {
@@ -140,30 +150,23 @@ Only returned if initial validation of the request fails. It is not populated wh
 }
 ```
 
-__result:__ _string_, possible values: `{ "success", "error", "error.apikey.invalid", "error.user.email.invalid", "error.api.user.not.parent.org", "error.organization.invalid_id" }`  
-The status of the request. Can be used to manage error handling; the value is either `success` or a corresponding error.
-
-__user:__  
-Represents a _User_ object. Properties that are not populated are returned in the response. Some properties are not applicable for particular account types.
-
-* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. Possible roles include:
-  * "org": The user is a [System Administrator](glossary.md#orgAdmin).
-  * "deployment": The user is a [Deployment Administrator](glossary.md#deployment).
-  * "{product-profile-name}": The user is a [Product Profile Administrator](glossary.md#productProfileAdmin).
-  * "{user-group-name}": The user is a [UserGroup Administrator](glossary.md#usergroupAdmin).
-  * "support": The user is a [Support Administator](glossary.md#supportAdmin). 
+__users:__  Contains a list of _User_ objects. Properties that are not populated are not returned in the response. Some properties are not applicable for particular account types.
 * __country:__ _string_; A valid ISO 2-character country code.
 * __domain:__ _string_; The user's domain.
-* __email:__ _string_
-* __firstname:__ _string_
-* __groups:__ _string[]_; The list of groups in which the user is a current member, including both user groups and product profiles. 
-* __id:__ _string_
-* __lastname:__ _string_
+* __email:__ _string_; The user's email address.
+* __firstname:__ _string_; The user's first name.
+* __groups:__ _string[]_; The list of groups in which the user is a current member, including, user groups, product profiles, product admin groups, and group-specific admin groups. Administrative groups are named with a prefix and the group name. For example, `_product_admin_Photoshop`, `_admin_DesignTools`, or `_admin_Marketing`. Organization-wide admin groups are:
+  * `_org_admin`: The user is a [System Administrator](glossary.md#orgAdmin).
+  * `_deployment_admin`: The user is a [Deployment Administrator](glossary.md#deployment).
+  * `_support_admin`: The user is a [Support Administator](glossary.md#supportAdmin).
+* __id:__ _string_; The user's unique identifier.
+* __lastname:__ _string_; The user's last name.
 {% include_relative partials/statusDescription.md %}
-* __type:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.md#identity) for more information.
+* __type:__ _string_, The user type, one of: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`. See [Identity Types](glossary.md#identity) for more information.
 * __username:__ _string_; The user's username (applicable for [Enterprise](glossary.md#enterpriseId) and [Federated](glossary.md#federatedId) users). For most Adobe ID users, this value is the same as the email address.
+* **adminRoles:** _string[]_; Deprecated. Administrative roles are reflected in group memberships, returned in the `groups` field.
 
-#### Schema Model
+### Schema Model
 
 ```json
 {
@@ -173,9 +176,6 @@ Represents a _User_ object. Properties that are not populated are returned in th
   "result": "string",
   "users": [
     {
-      "adminRoles": [
-        "string"
-      ],
       "country": "string",
       "domain": "string",
       "email": "string",
@@ -208,9 +208,15 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeO
   --header 'Authorization: Bearer ey...' \
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
  ```
-Retrieve the fourth page of users for user-group DevOps:
+Retrieve the fifth page of users for user group DevOps:
 ```
 curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeOrg/4/DevOps \
+  --header 'Authorization: Bearer ey...' \
+  --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
+ ```
+ Retrieve a list of active users using the `status` parameter. This query will return all direct members that have an active license for _Photoshop_.
+ ```
+ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeOrg/0/photoshop?status=active \
   --header 'Authorization: Bearer ey...' \
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
  ```

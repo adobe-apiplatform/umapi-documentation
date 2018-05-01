@@ -67,7 +67,7 @@ You can update personal information for a user who has an Enterprise or Federate
 
 #### <a name="remove" class="api-ref-subtitle">Remove Users</a>
 
-UM API allows an organization to remove a user from an organization, or from a Trusted Domain through the POST [action](api/ActionsRef.md) API. The _removeFromOrg command_ removes the user from the organization and from any product profiles and user-groups in the organization. An organization can also delete user accounts of type Enterprise and Federated ID, if the caller is from the owning organization and has delete access. This will also remove them from all product profiles and user-groups in a given domain.
+You can remove a user from your organization, or from a Trusted Domain, through the POST [action](api/ActionsRef.md) API. The _removeFromOrg command_ removes the user from the organization and from any product profiles, user groups, and administrative groups in the organization. An organization can also delete user accounts of type Enterprise and Federated ID, if the caller is from the owning organization and has delete access. This will also remove them from all groups in a given domain.
 
 * [Remove a user from the organization](api/ActionsCmds.md#removeFromOrg)
 
@@ -81,69 +81,46 @@ Retrieve user information for an organization or for members of user-groups and 
 
 ## Summary of Actions on Groups
 
-| Task | Operation | Endpoint | Description |
-| :--- | :--- | :---| :---------- |
-| [Access User Groups](#usergroups_access)| GET | `users/{orgId}/usergroups` | Get information about user groups |
-| [Manage User Groups](#usergroups) | POST | `action/{orgId}`  | Manage group membership by performing actions on a _usergroup_ in the _commands_ structure.  |
-{:.bordertablestyle}
+Groups include user groups, product profiles, organization-wide administrative groups, and administrative groups associated with specific products, user groups, and product profiles.
 
-### <a name="usergroups_access" class="api-ref-subtitle"> Access User Groups
+* To list all types of groups, send a GET request to the  `groups/{orgId}/{page}` endpoint.
+  + [Get all user groups in an Organization](api/QueryUserGroups.md)  
+* To retrieve information about a particular group, send a GET request to `users/{orgId}/{page}/{groupName}`:
+  + [Get details of a particular group](api/group.md)
+  + [Get a list of users in a group](api/getUsersByGroup.md)
+ 
+You can manage user groups and user-group memberships with a POST request to the `actions/{orgId}` endpoint, using the  _usergroup_ root command in the _commands_ structure. 
+* [Manage user groups](api/usergroupActionCommands.md#user-group-information) with the _createUserGroup_, _deleteUserGroup_, and _updateUserGroup_ actions for a _usergroup_.
+* [Add or remove user-group members](api/usergroupActionCommands.md#addRemove) with the _add_ and _remove_ actions for a _usergroup_. You can add and remove individual users and product profiles.
 
-Use a GET request to `users/{orgId}/{page}/{groupName}`
+## <a name="admingroups" class="api-ref-subtitle">Manage Entitlements and Administrative Rights</a>
 
-* [Get all user groups in an Organization](api/QueryUserGroups.md)  
-* [Get details of a particular user group](api/group.md)
-* [Get a list of users in a user group](api/getUsersByGroup.md)
+Use a POST [action](api/ActionsRef.md) request to manage entitlements and administrative rights. Entitlements are granted through membership in product profiles, and administrative rights are granted through membership in the specially named administrative groups.   
 
-### <a name="usergroups" class="api-ref-subtitle">Manage User-Groups</a>
-
-Use the POST [action](api/ActionsRef.md) to manage user group membership and administrative rights.  
-
-* [Add a user to a user group](api/ActionsCmds.md#add) in the _users_ field of the _add_ action for a _usergroup_
-* [Remove a user from a user group](api/ActionsCmds.md#remove) with the _remove_ action for a _user_, in the _users_ field of a _remove_ action for a _usergroup_
-* [Add User-group Administrator permissions for a user](api/ActionsCmds.md#addRoles) with the _addRoles_ action for a _user_
-* [Remove User-group Administrator permissions for a user](api/ActionsCmds.md#removeRoles) with the _removeRoles_ action for a _user_
-
-## Summary of Provisioning Actions
-
-| Task | Operation | Endpoint | Description |
-| :--- | :--- | :---| :---------- |
-| [Provision Users](#provision) | POST | `action/{orgId}`  | Manage group memberships to control user access to products |
-| [Access Products and Product Profiles](api/product.md) | GET | `{orgId}/products`  | List products  |
-| [Manage Product Admin Rights](#admin) | POST | `action/{orgId}`  | Manage permissions by setting user roles  |
-{:.bordertablestyle}
-
-### <a name="provision" class="api-ref-subtitle">Provision Users</a>
+### <a name="provision" class="api-ref-subtitle">Manage Entitlements</a>
 
 {% include_relative partials/manageProductAccess.md %}
 
-Use the POST [action](api/ActionsRef.md) API to manage provisioning by adding and removing users to and from User Groups and Product Profiles.
+Use the POST [action](api/ActionsRef.md) API to manage entitlements by adding and removing users to and from user groups and product profiles. 
 
-* [Provision a user to a product profile](api/ActionsCmds.md#add)
-* [Remove provisioning of a user from a product profile](api/ActionsCmds.md#remove)
-* [Add a user-group to a product profile](api/ActionsCmds.md#add)
-* [Remove a user-group from a product profile](api/ActionsCmds.md#remove)
-* [Add a user to a user-group](api/ActionsCmds.md#add)
-* [Remove a user from a user-group](api/ActionsCmds.md#remove)
+You can give users access to a product directly by adding them to a product profile for that product,
+or indirectly by adding them to a user group which itself has been added to a product profile for that product.
+In either case, a user might not get access if there are not enough licenses or other resources. You can tell if access was granted by using the status parameter to [get users by group](api/getUsersByGroup.md) and see if the user is listed for the product profile. 
 
-### <a name="admin" class="api-ref-subtitle">Manage Administrative Rights for Products</a>
+* [Add a user to a product profile](api/ActionsCmds.md#add)
+* [Remove a user from a product profile](api/ActionsCmds.md#remove)
+* [Add a user group to a product profile](api/usergroupActionCommands.md#addRemove)
+* [Remove a user group from a product profile](api/usergroupActionCommands.md#addRemove)
 
-Use the POST [action](api/ActionsRef.md) API to manage administrative rights for Adobe users in your organization. Possible roles include:
-  * "org": The user is a [System Administrator](api/glossary.md#orgAdmin).
-  * "deployment": The user is a [Deployment Administrator](api/glossary.md#deployment).
-  * "{product-profile-name}": The user is a [Product Profile Administrator](api/glossary.md#productProfileAdmin).
-  * "{user-group-name}": The user is a [UserGroup Administrator](api/glossary.md#usergroupAdmin).
-  * "support": The user is a [Support Administator](api/glossary.md#supportAdmin). 
+### <a name="adminAccess" class="api-ref-subtitle">Manage Administrative Permissions</a>
 
-Use the _addRoles_ and _removeRoles_ actions in a _user_ command to manage administrator rights:
+Use the POST [action](api/ActionsRef.md) API to manage permissions by adding and removing users to and from administrative groups. There are three administrative groups with fixed names:
 
-* [Add System Administrator permissions to a user](api/ActionsCmds.md#addRoles)
-* [Remove System Administrator permissions to a user](api/ActionsCmds.md#removeRoles)
-* [Add Deployment Administrator permissions to a user](api/ActionsCmds.md#addRoles)
-* [Remove Deployment Administrator permissions to a user](api/ActionsCmds.md#removeRoles)
-* [Add Support Administrator permissions to a user](api/ActionsCmds.md#addRoles)
-* [Remove Support Administrator permissions to a user](api/ActionsCmds.md#removeRoles)
-* [Add Product Administrator permissions to a user](api/ActionsCmds.md#addRoles)
-* [Remove Product Administrator permissions to a user](api/ActionsCmds.md#removeRoles)
-* [Add Product Profile Administrator permissions to a user](api/ActionsCmds.md#addRoles)
-* [Remove Product Profile Administrator permissions to a user](api/ActionsCmds.md#removeRoles)
+* Administrators: `_org_admin`
+* Support Administrators: `_support_admin`
+* Deployment Administrators: `_deployment_admin`
+
+In addition, there are administrative groups for each user group and product profile. These are named with a prefix and the group name. For example, `_admin_Marketing` or `_product_admin_Adobe Document Cloud for business`.
+
+* [Add Administrator permissions for a user](api/ActionsCmds.md#add) with the _add_ action for a _user_
+* [Remove Administrator permissions for a user](api/ActionsCmds.md#remove) with the _remove_ action for a _user_

@@ -405,10 +405,6 @@ The possible error codes and messages are listed with their context and descript
     * update to admin user list for product
     * The admin user list was not updated.
 
-* **FAILED_TO_ADD_TO_PLC<br>FAILED_TO_REMOVE_FROM_PLC**
-    * add or remove user to profile
-    * Attempt to add or remove user failed
-
 * **<a name="adobeidno" class="api-ref-subtitle">error.update.adobeid.no</a>**
     * update action workflows
     * The operation in the command cannot be applied to an Adobe ID.

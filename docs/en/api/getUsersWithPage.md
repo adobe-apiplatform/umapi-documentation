@@ -13,7 +13,7 @@ lang: en
 GET /v2/usermanagement/users/{orgId}/{page}
 ```
 
-Retrieve a paged list of all users in your organization along with information about them. The number of users returned in each call is subject to change but never exceeds 200 entries. You can make multiple paginated calls to retrieve the full list of users. The `domain` query parameter filters the results to only return users within a specified domain.  
+Retrieve a paged list of all users in your organization along with information about them. The number of users returned in each call is subject to change but never exceeds 200 entries. You can make multiple paginated calls to retrieve the full list of users. The `domain` query parameter filters the results to only return users within a specified domain.
 
 __Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#getUsersWithPageThrottle) for full details.
 
@@ -28,7 +28,7 @@ __Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttlin
 | :--- | :------ | :---: | :------ |
 | orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
 | X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
-| page | path | true | The page number being requested. Page numbers greater than what exist will return the last page of users. |
+| page | path | true | The 0-based index of the page number being requested. If greater than last page number, returns the last page of users. Page size is 200 at time of writing. |
 | Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
 | content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
 | X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
@@ -46,16 +46,20 @@ __Content-Type:__ _application/json_
 - [403: Forbidden](#403getUsersWithPage)
 - [429: Too Many Requests](#getUsersWithPageThrottle)
 
+:warning: Use only those properties that are documented in the [Response Properties](#ResponseProps) section. Additional fields can appear in the response, but should not be relied upon.
+
 ### <a name="200getUsersWithPage" class="api-ref-subtitle">200 OK</a>
+
 A successful request returns a response body with the requested user data in JSON format. When the response contains the last paged entry, the response includes the field `lastPage : true`. If the returned page is not the last page, make additional paginated calls to retrieve the full list.
 
 [Identity Types](glossary.md#identity) explains the different account types available.
 
-#### Headers
+### Headers 
 
 {% include_relative partials/pagedResponseHeaders.md object="users" %}
 
-#### Examples
+### Examples 
+
 <a name="getUsersExample" class="api-ref-subtitle">Response returning three users with different group membership and administrative rights:</a>
 ```json
 {
@@ -66,12 +70,6 @@ A successful request returns a response body with the requested user data in JSO
             "email": "psmith@example.com",
             "status": "active",
             "username": "psmith",
-            "adminRoles": [
-                "Document Cloud 1",
-                "Support for AEM Mobile",
-                "Default Support configuration",
-                "Creative Cloud 1"
-            ],
             "domain": "example.com",
             "country": "US",
             "type": "federatedID"
@@ -83,7 +81,11 @@ A successful request returns a response body with the requested user data in JSO
                 "Marketing Cloud 1",
                 "Marketing Cloud 2",
                 "Creative Cloud 1",
-                "Document Cloud 1"
+                "Document Cloud 1",
+                "_admin_Document Cloud 1",
+                "_admin_Support for AEM Mobile",
+                "_admin_Default Support configuration",
+                "_admin_Creative Cloud 1"
             ],
             "username": "jane",
             "domain": "example.com",
@@ -97,16 +99,14 @@ A successful request returns a response body with the requested user data in JSO
             "status": "active",
             "groups": [
                 "Document Cloud 1",
-                "Support for AEM Mobile"
+                "Support for AEM Mobile",
+                "_admin_Document Cloud 1",
+                "_admin_Support for AEM Mobile",
+                "_admin_Default Support configuration",
+                "_admin_Creative Cloud 1",
+                "_deployment_admin"
             ],
             "username": "joe",
-            "adminRoles": [
-                "deployment",
-                "Document Cloud 1",
-                "Support for AEM Mobile",
-                "Default Support configuration",
-                "Creative Cloud 1"
-            ],
             "domain": "example.com",
             "firstname": "First",
             "lastname": "Last",
@@ -116,7 +116,7 @@ A successful request returns a response body with the requested user data in JSO
     ]
 }
 ```
-<a name="getUsersExampleLastage" class="api-ref-subtitle">Response that is the last page:
+<a name="getUsersExampleLastPage" class="api-ref-subtitle">Response that is the last page:
 ```json
 {
     "lastPage": true,
@@ -134,10 +134,11 @@ A successful request returns a response body with the requested user data in JSO
 }
 ```
 
-#### Schema Properties
+## <a name="ResponseProps" class="api-ref-subtitle">Response Properties</a> 
 
-__message:__ _string_  
-Only returned if initial validation of the request fails. It is not populated when a 200 status is returned.
+__result:__ _string_, The status of the request. One of `success` or an error key: `{ "success", "error", "error.apikey.invalid", "error.user.email.invalid", "error.api.user.not.parent.org", "error.organization.invalid_id" }`  
+  
+__message:__ _string_ An error message, returned only if initial validation of the request fails. It is not populated when a 200 status is returned.
 
 ```json
 {
@@ -146,30 +147,23 @@ Only returned if initial validation of the request fails. It is not populated wh
 }
 ```
 
-__result:__ _string_, possible values: `{ "success", "error", "error.apikey.invalid", "error.user.email.invalid", "error.api.user.not.parent.org", "error.organization.invalid_id" }`  
-The status of the request. This property can be used to manage error handling as the value will either be `success` or a corresponding error.
-
-__users:__  
-Represents a list of _User_ objects. Properties that are not populated __will not__ be returned in the response. Some properties are not applicable for particular account types.
-
-* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. Possible roles include:
-  * "org": The user is a [System Administrator](glossary.md#orgAdmin).
-  * "deployment": The user is a [Deployment Administrator](glossary.md#deployment).
-  * "{product-profile-name}": The user is a [Product Profile Administrator](glossary.md#productProfileAdmin).
-  * "{user-group-name}": The user is a [UserGroup Administrator](glossary.md#usergroupAdmin).
-  * "support": The user is a [Support Administator](glossary.md#supportAdmin). 
+__users:__  Contains a list of _User_ objects. Properties that are not populated are not returned in the response. Some properties are not applicable for particular account types.
 * __country:__ _string_; A valid ISO 2-character country code.
 * __domain:__ _string_; The user's domain.
-* __email:__ _string_
-* __firstname:__ _string_
-* __groups:__ _string[]_; The list of groups that the user is a current member of including user-groups and product profiles. 
-* __id:__ _string_
-* __lastname:__ _string_
+* __email:__ _string_; The user's email address.
+* __firstname:__ _string_; The user's first name.
+* __groups:__ _string[]_; The list of groups that the user is a current member of, including user groups, product profiles, product-specific admin groups, and group-specific admin groups. Administrative groups are named with a prefix and the group name. For example, `_admin_DesignTools`, or `_admin_Marketing`. Organization-wide admin groups are:
+  * `_org_admin`: The user is a [System Administrator](glossary.md#orgAdmin).
+  * `_deployment_admin`: The user is a [Deployment Administrator](glossary.md#deployment).
+  * `_support_admin`: The user is a [Support Administator](glossary.md#supportAdmin).
+* __id:__ _string_; The user's unique identifier.
+* __lastname:__ _string_; The user's last name.
 {% include_relative partials/statusDescription.md %}
-* __type:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.md#identity) for more information.
+* __type:__ _string_; The user type, one of: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`. See [Identity Types](glossary.md#identity) for more information.
 * __username:__ _string_; The user's username (applicable for [Enterprise](glossary.md#enterpriseId) and [Federated](glossary.md#federatedId) users). For most [AdobeID](glossary.md#adobeId) users, this value will be the same as the email address.
+* **adminRoles:** _string[]_; Deprecated. Administrative roles are reflected in group memberships, returned in the `groups` field.
 
-#### Schema Model
+### Schema Model 
 
 ```json
 {
@@ -178,9 +172,6 @@ Represents a list of _User_ objects. Properties that are not populated __will no
   "result": "string",
   "users": [
     {
-      "adminRoles": [
-        "string"
-      ],
       "country": "string",
       "domain": "string",
       "email": "string",
@@ -214,7 +205,7 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeO
   --header 'Authorization: Bearer ey...' \
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
 ```
-Retrieve the fourth page of users:
+Retrieve the fifth page of users:
 ```
 curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeOrg/4 \
   --header 'Authorization: Bearer ey...' \
@@ -222,16 +213,16 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeO
 ```
 Retrieve the first page of users with domain _my-domain.com_:
 ```
-curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeOrg/4?domain=my-domain.com \
+curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeOrg/0?domain=my-domain.com \
   --header 'Authorization: Bearer ey...' \
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
 ```
 Retrieve the first page of users including details of all the memberships (direct and indirect) for each user:
 ```
-curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeOrg/1?directOnly=false \
+curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeOrg/0?directOnly=false \
   --header 'Authorization: Bearer ey...' \
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
- ```
+```
 
 ## <a name="getUsersWithPageThrottle" class="api-ref-subtitle">Throttling Limits</a>
 

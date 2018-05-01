@@ -7,6 +7,8 @@ docs/_config.yml
 docs/en/api/updateUserGroup.md
 docs/en/api/createUserGroup.md
 docs/en/api/deleteUserGroup.md
+docs/_includes/head.html
+docs/_layouts/default.html
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

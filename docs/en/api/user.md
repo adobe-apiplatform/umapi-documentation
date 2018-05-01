@@ -11,17 +11,17 @@ An application can use the User Management API to access Adobe users and manage 
 
 ## Retrieving Users
 
-You can retrieve information for individual users, and list members of user groups and product profile groups.
+You can list all users, retrieve information for individual users, and list members of user groups and product profile groups.
 
-* [Get user information -- `organizations/{orgId}/users/{userString}`](getUser.md)
-* [Get all member users in a user group](getUsersByGroup.md)
-* [Get all member users in a product profile group](getUsersByGroup.md)
+* [List all users](getUsersWithPage.md) : `GET /v2/usermanagement/users/{orgId}/{page}`
+* [Get user information](getUser.md) : `GET /v2/usermanagement/organizations/{orgId}/users/{userString}`
+* [Get all member users in a group](getUsersByGroup.md) : `GET /v2/usermanagement/users/{orgId}/{page}/{groupName}`
 
 ## User Actions
 
 You can create and remove user accounts for your organization, modify a user’s personal information (depending on the account type).
 
-Request these user-management actions from the [`action` resource](ActionsRef.md) for your organization.
+Request these user-management actions for your organization using the [`action` API](ActionsRef.md). 
 ```
 POST v2/usermanagement/action/{orgId}
 ```
