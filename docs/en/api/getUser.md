@@ -10,7 +10,7 @@ lang: en
 ```
 GET /v2/usermanagement/organizations/{orgId}/users/{userString}
 ```
-Retrieves the details of a single user within a specified organization by searching for them using their email address or a username and domain combination. Successful queries return a 200 response whose body is a single JSON structure containing the user information.
+Retrieves the details of a single user within a specified organization, identified by email address or username and domain. Successful queries return a 200 response whose body is a single JSON structure containing the user information.
 
 __Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#getUserThrottle) for full details.
 
@@ -42,12 +42,14 @@ __Content-Type:__ _application/json_
 - [403: Forbidden](#403getUser)
 - [429: Too Many Requests](#getUserThrottle)
 
+:warning: Use only those properties that are documented in the [Response Properties](#ResponseProps) section. Additional fields can appear in the response, but should not be relied upon.
+
 ### <a name="200getUser" class="api-ref-subtitle">200 OK</a>
 The response body contains the requested user data in JSON format including any of the user's group membership and admin roles. Fields can be missing if values were never supplied or are not applicable for a particular account type.
 
 [Identity Types](glossary.md#identity) explains the different account types available.
 
-#### Examples
+### Examples
 <a name="getUserAdminRolesExample" class="api-ref-subtitle">Response for an Adobe ID user with System Administrator role:</a>
 ```json
 {
@@ -61,13 +63,13 @@ The response body contains the requested user data in JSON format including any 
     "lastname": "Doe",
     "country": "US",
     "type": "adobeID",
-    "adminRoles": [
-      "org"
+    "groups": [
+      "_org_admin"
     ]
   }
 }
 ```
-<a name="getUserGroupsExample" class="api-ref-subtitle">[Enterprise](glossary.md#enterpriseId) User with membership</a> to 2 user-groups but no administrative roles. If the fields are not populated (`firstname` and`lastname` in this example), they are excluded from the response.
+<a name="getUserGroupsExample" class="api-ref-subtitle">[Enterprise](glossary.md#enterpriseId) User with membership</a> in two  user-groups but no administrative roles. If the fields are not populated (`firstname` and`lastname` in this example), they are excluded from the response.
 ```json
 {
   "result": "success",
@@ -101,10 +103,11 @@ The response body contains the requested user data in JSON format including any 
   }
 }
 ```
-#### Schema Properties
+## <a name="ResponseProps" class="api-ref-subtitle">Response Properties</a>
 
-__message:__ _string_  
-Only returned if initial validation of the request fails. It is not populated when a 200 status is returned.
+__result:__ _string_, The status of the request. One of `success` or an error key: `{ "success", "error", "error.apikey.invalid", "error.user.email.invalid", "error.api.user.not.parent.org", "error.organization.invalid_id" }`  
+  
+__message:__ _string_ An error message, returned only if initial validation of the request fails. It is not populated when a 200 status is returned.
 
 ```json
 {
@@ -113,34 +116,30 @@ Only returned if initial validation of the request fails. It is not populated wh
 }
 ```
 
-__result:__ _string_, possible values: `{ "success", "error", "error.apikey.invalid", "error.user.email.invalid", "error.api.user.not.parent.org", "error.organization.invalid_id" }`  
-The status of the request. This property can be used to manage error handling; the value is `success` or a corresponding error.
+__user:__  A _user_ object containing relevant properties. Properties that are not populated are not returned in the response. Some properties are not applicable for particular account types.
 
-__user:__  
-Represents a _User_ object. Properties that are not populated in the request are not returned in the response. Some properties are not applicable for particular account types.
-
-* **adminRoles:** _string[]_; The list of groups or roles that the user holds an administrative role. For example if a user is an System Administrator then `org` will be returned. If the user is an administrator for a user-group or product, the name of the group will be returned. See [AdminRoles example](#getUserAdminRolesExample).
 * __country:__ _string_; A valid ISO 2-character country code.
 * __domain:__ _string_; The user's domain.
-* __email:__ _string_
-* __firstname:__ _string_
-* __groups:__ _string[]_; The list of groups that the user is a current member of including user-groups and product profiles. See [Groups example](#getUserGroupsExample).
-* __id:__ _string_
-* __lastname:__ _string_
+* __email:__ _string_; The user's email address.
+* __firstname:__ _string_; The user's first name.
+* __groups:__ _string[]_; The list of groups that the user is a current member of, including user groups, product profiles, product admin groups, and group-specific admin groups. Administrative groups are named with a prefix and the group name. For example, `_product_admin_Photoshop`, `_admin_DesignTools`, or `_admin_Marketing`. Organization-wide admin groups are:
+  * `_org_admin`: The user is a [System Administrator](glossary.md#orgAdmin).
+  * `_deployment_admin`: The user is a [Deployment Administrator](glossary.md#deployment).
+  * `_support_admin`: The user is a [Support Administator](glossary.md#supportAdmin).
+* __id:__ _string_; The user's unique identifier.
+* __lastname:__ _string_; The user's last name.
 {% include_relative partials/statusDescription.md %}
-* __type:__ _string_, possible values: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`; The user type. See [Identity Types](glossary.md#identity) for more information.
-* __username:__ _string_; The user's username (applicable for [Enterprise](glossary.md#enterpriseId) and [Federated](glossary.md#federatedId) users). For most [AdobeID](glossary.md#adobeId) users, this value will be the same as the email address.
+* __type:__ _string_; The user type, one of: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`;  See [Identity Types](glossary.md#identity) for more information.
+* __username:__ _string_; The user's username (applicable for [Enterprise](glossary.md#enterpriseId) and [Federated](glossary.md#federatedId) users). For most [AdobeID](glossary.md#adobeId) users, this value is the same as the email address.
+* **adminRoles:** _string[]_; Deprecated. Administrative roles are reflected in group memberships, returned in the `groups` field.
 
-#### Schema Model
+### Schema Model
 
 ```json
 {
   "message": "string",
   "result": "string",
   "user": {
-    "adminRoles": [
-      "string"
-    ],
     "country": "string",
     "domain": "string",
     "email": "string",
@@ -190,12 +189,8 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/organizations/1234
   --header 'Authorization: Bearer ey...' \
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
 ```
- Searching for users in a multi-domain directory:
-```
- curl -X GET https://usermanagement.adobe.io/v2/usermanagement/organizations/12345@AdobeOrg/users/jdoe@example.com?domain=my-domain.com \
-  --header 'Authorization: Bearer ey...' \
-  --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
-```
+Note that the authorization directory, which is specified by the "domain" parameter, can contain more than one domain name.
+This means that the "domain" value does not necessarily match the domain portion of user email addresses.
 
 ## <a name="getUserThrottle" class="api-ref-subtitle">Throttling Limits</a>
 

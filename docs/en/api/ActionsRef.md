@@ -9,12 +9,17 @@ lang: en
 
 # User Management Action API
 
-Use an HTTPS **POST** request to the `action` resource for your organization to request most user-management actions.
+Use an HTTPS **POST** request to the `action` API for your organization to create, update, provision, and remove users or user groups, and add or remove administrative privileges for users.
 ```
 https://usermanagement.adobe.io/v2/usermanagement/action/{orgId}
 ```
 
-The body of this request contains a JSON _commands_ structure that you use to specify which actions to perform for which user or user group. You can create, update, entitle, and remove users or user groups in an organization.
+The body of this request contains a JSON _commands_ structure that you use to specify which actions to perform
+for which user or user group. This page describes the general usage of the `action` API. 
+The payload command structure and syntax, and details of all action steps that can be performed are discussed separately.
+
+* For a detailed description of actions that affect __users__, see [User Action Commands](ActionsCmds.md).
+* For a detailed description of actions that affect __user groups__, see [User Group Action Commands](usergroupActionCommands.md).
 
 When a request has been understood and at least partially completed, it returns with HTTP status 200.
 
@@ -87,11 +92,12 @@ The following table shows the behavior of test mode for particular test cases.
 
 The JSON _commands_ structure contained in your POST request specifies a sequence of commands. Each command entry specifies a user or user-group, and a sequence of _steps_ to be performed for that user or user-group.
 
-* The JSON commands structure allows a maximum of 10 users or user groups to be operated on per request.
-* For a detailed description of the command structure and syntax, and details of all action steps that can be performed, see [User Action Commands](ActionsCmds.md).
+The JSON commands structure allows a maximum of 10 users or user groups to be operated on per request.
 
 ******
 ## <a name="responses" class="api-ref-subtitle">Responses</a>
+
+__Content-Type:__ _application/json_
 
 - [200: OK](#200)
 - [400: Bad Request](#400)
@@ -99,7 +105,7 @@ The JSON _commands_ structure contained in your POST request specifies a sequenc
 - [403: Forbidden](#403)
 - [429: Too Many Requests](#actionThrottle)
 
-__Content-Type:__ _application/json_
+:warning: Use only those properties that are documented in the [Response Properties](#ResponseProps) section. Additional fields can appear in the response, but should not be relied upon.
 
 ### <a name="200" class="api-ref-subtitle">200 OK</a>
 The request was understood and at least partially completed. The response body returns a more complete description of the result in JSON format.
@@ -209,7 +215,7 @@ Success status:
 }
 ```
 
-#### Schema Properties
+### Response Properties
 
 __message:__ _string_  
 Only returned if initial validation of the request fails. It is not populated when a 200 status is returned.

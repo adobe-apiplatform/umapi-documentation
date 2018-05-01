@@ -13,7 +13,7 @@ title: Get User Groups and Product Profiles
 GET /v2/usermanagement/groups/{orgId}/{page}
 ```
 
-Retrieves a paged list of all user groups and product profiles in your organization along with information about them. You can make multiple paginated calls to retrieve the full list of product profiles.
+Retrieves a paged list of all user groups and product profiles in your organization along with information about them. You can make multiple paginated calls to retrieve the full list.
 
 __Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#throttle) for full details.
 
@@ -28,7 +28,7 @@ __Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling
 | :--- | :------ | :---: | :------ |
 | orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
 | X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
-| page | path | true | The page number being requested. |
+| page | path | true | The 0-based index of the page number being requested. If greater than last page number, returns the last page of groups. Page size is 200 at time of writing. |
 | Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
 | content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
 | X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
@@ -44,34 +44,49 @@ __Content-Type:__ _application/json_
 - [403: Forbidden](#403getGroupsWithPage)
 - [429: Too Many Requests](#throttle)
 
+:warning: Use only those properties that are documented in the [Response Properties](#ResponseProps) section. Additional fields can appear in the response, but should not be relied upon.
+
 ### <a name="200getGroupsWithPage" class="api-ref-subtitle">__200 OK__</a>
 A successful request returns a response body with the requested group data in JSON format. When the response contains the last paged entry, the response includes the field `lastPage : true`. If the returned page is not the last page, make additional paginated calls to retrieve the full list.
 
 
-#### Example
-<a name="getGroupsExample" class="api-ref-subtitle">Response returning three groups which is also the past page.</a>
+### Examples 
+<a name="getGroupsExample" class="api-ref-subtitle">Response returning three groups, which is also the last page.</a>
 ```json
 {
   "lastPage": true,
   "result": "success",
   "groups": [
         {
+          "type": "SYSADMIN_GROUP",
           "groupName": "Administrators",
           "memberCount": 11
         },
         {
+          "type": "USER_GROUP",
           "groupName": "Document Cloud 1",
-          "memberCount": 26
+          "memberCount": 26,
+          "adminGroupName": "_admin_Document Cloud 1",
+          "licenseQuota": "2"
         },
         {
+          "type": "PRODUCT_PROFILE",
           "groupName": "Default Support Profile",
-          "memberCount": 0
+          "memberCount": 0,
+          "productName": "All Apps plan - 100 GB",
+          "licenseQuota": "8"
+        },
+        {
+          "type": "PRODUCT_ADMIN_GROUP",
+          "groupName": "_product_admin_Adobe Document Cloud for business",
+          "memberCount": 2,
+          "productProfileName": "Adobe Document Cloud for business",
         }
     ]
 }
 ```
 
-<a name="getGroupsBeyondPageBoundaryExample" class="api-ref-subtitle">Request for page number beyond the page for which group data is available.</a>
+<a name="getGroupsBeyondPageBoundaryExample" class="api-ref-subtitle">Response to request for an out-of-bounds page number.</a>
 ```json
 {
     "lastPage": true,
@@ -79,17 +94,58 @@ A successful request returns a response body with the requested group data in JS
 }
 ```
 
-#### __Schema Properties__
+## Response Properties 
 
-* __groupName:__ _string_
+A group entry can represent a product profile, a user group, or an administrative group. Different fields are returned for the different types of group. The `type` field identifies the group type:
+
+* __type:__ _string_; The group type. One of:
+  * USER_GROUP
+  * PRODUCT_PROFILE
+  * SYSADMIN_GROUP
+  * DEPLOYMENT_ADMIN_GROUP
+  * SUPPORT_ADMIN_GROUP
+  * PRODUCT_ADMIN_GROUP
+  * PROFILE_ADMIN_GROUP
+  * USER_ADMIN_GROUP
+ 
+The following fields are present for all group types: 
+
 * __memberCount:__ _integer_; The count of all members of the group.
+* __adminGroupName__ _string_; The name of the group that lists the administrators for this user group or product profile. Field absent if there are no administrators for this user group or product profile. The name is in the format `_admin_user-group-name` or `_admin_product-profile-name`.
+* __groupName:__ _string_; The name of the group (assigned in the Admin Console). There are three administrative groups with fixed names:
+  * Administrators: `_org_admin` 
+  * Support Administrators: `_support_admin` 
+  * Deployment Administrators: `_deployment_admin` 
 
-#### __Schema Model__
+  In addition, there are administrative groups for each user group and product profile. 
+  These are named with a prefix and the group name. For example,
+  `_admin_Marketing Group`, or `_product_admin_Adobe Document Cloud for business`.
+
+The following field is returned for groups of type `USER_ADMIN_GROUP`:
+
+* __userGroupName__ _string_; The name of the user group for which this group grants admin rights. 
+
+The following field is returned for groups of type `PROFILE_ADMIN_GROUP`:
+
+* __productProfileName__ _string_; The name of the product profile for which this group grants admin rights. 
+
+The following fields are returned for groups of type `PRODUCT_PROFILE`:
+
+* __productName__ _string_; The name of the product associated with this product profile. 
+* __licenseQuota:__ _string_; The number of user licenses or the amount of resources alloted to this product profile.
+ 
+### __Schema Model__
 
 ```json
 {
+  "type": "string",
+  "memberCount": 0,
+  "adminGroupName": "string",
   "groupName": "string",
-  "memberCount": integer
+  "userGroupName": "string",
+  "productProfileName": "string",
+  "productName": "string",
+  "licenseQuota": "string"
 }
 ```
 
