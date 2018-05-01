@@ -30,11 +30,14 @@ github_username: adobe-apiplatform
 # Build settings
 markdown: kramdown
 theme: minima
-gems:
+plugins:
+  - jemoji
 exclude:
   - Gemfile
   - Gemfile.lock
   - art
+  - start.sh
+  - README.md
 
 relative_links:
   enabled:     true
