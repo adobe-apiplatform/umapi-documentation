@@ -6,8 +6,8 @@
   <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
 
-  <link rel="stylesheet" href="{{ "/assets/css/style.css" | absolute_url }}" type="text/css">
-  <link rel="stylesheet" href="{{ "/assets/css/print.css" | absolute_url }}" type="text/css" media="print" />
+  <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+  <link rel="stylesheet" href="{{ "/assets/css/print.css" | relative_url }}" type="text/css" media="print" />
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
   
   {% if site.adobe_analytics %}
