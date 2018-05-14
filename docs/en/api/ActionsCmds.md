@@ -116,10 +116,10 @@ Creates a [Federated ID](glossary.md#federatedId). See [user-information](#user-
   - `updateIfAlreadyExists`: If the ID already exists, perform an _update_ action using the parameters in the create step. After updating all fields present in the step, process any other steps in the command entry for this user.
 
 ### <a name="update" class="api-ref-subtitle">__update:__</a>
-The `update` action writes new personal information to the user's account details. You can update [Enterprise](glossary.md#enterpriseId) and [Federated IDs](glossary.md#federatedId) that are managed by your organization.
-Independent [Adobe IDs](glossary.md#adobeId) are managed by the individual user and cannot be updated through the User Management API. Attempting to update information for a user who has an [Adobe ID](glossary.md#adobeId) will result in error [error.update.adobeid.no](ErrorRef.md#adobeidno).
-
-[Identity Types](glossary.md#identity) explains the different account types available. See [user-information](#user-information) for individual field descriptions.
+The `update` action writes new personal information to the user's account details. You can update [Enterprise](glossary.md#enterpriseId) and [Federated IDs](glossary.md#federatedId) that are managed by your organization. 
+* Independent [Adobe IDs](glossary.md#adobeId) are managed by the individual user and cannot be updated through the User Management API. Attempting to update information for a user who has an [Adobe ID](glossary.md#adobeId) will result in an error: [error.update.adobeid.no](ErrorRef.md#adobeidno).
+* For Federated IDs, the `update` request can only change the information that is stored by Adobe. You cannot use the User Management API to change information your organization stores outside of Adobe.
+* [Identity Types](glossary.md#identity) explains the different account types available. See [user-information](#user-information) for individual field descriptions.
 
 The parameters of an update step specify the changed fields and their new values. If you do not specify a field, its value remains unchanged.
 
@@ -137,9 +137,9 @@ The parameters of an update step specify the changed fields and their new values
 ```
 #### Emails and usernames
 
-For Adobe IDs and Enterprise IDs, the username is always the same as the email address, and the same is true by default for Federated IDs. 
+For all account types, the email address is used as a case-sensitive unique identifier. You cannot use the `update` request to change the case of the email address, once it has been set. There is an additional `username` field: for Adobe IDs and Enterprise IDs, the `username` is always the same as the email address, and the same is true by default for Federated IDs. 
 
-For Federated IDs, the `update` request can only change the information that is stored by Adobe. You cannot use the User Management API to change information your organization stores outside of Adobe. You can, however, include a `username` field for users whose email address is in your domain. The `username` value can also be an email address, but you can never use it to identify a user in requests.
+For Federated IDs, you can update the `username` field for users whose email address is in your domain. The `username` value can also be an email address, but you can never use it to identify a user in requests.
 
 For example, if you use an `update` command to change a user's email, the username is automatically updated to match:
 
