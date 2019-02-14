@@ -81,6 +81,12 @@ A successful request returns a response body with the requested group data in JS
           "groupName": "_product_admin_Adobe Document Cloud for business",
           "memberCount": 2,
           "productProfileName": "Adobe Document Cloud for business",
+        },
+        {
+          "type": "DEVELOPER_GROUP",
+          "groupName": "_developer_Adobe Document Cloud for business",
+          "memberCount": 5,
+          "productProfileName": "Adobe Document Cloud for business",
         }
     ]
 }
@@ -107,6 +113,7 @@ A group entry can represent a product profile, a user group, or an administrativ
   * PRODUCT_ADMIN_GROUP
   * PROFILE_ADMIN_GROUP
   * USER_ADMIN_GROUP
+  * DEVELOPER_GROUP
  
 The following fields are present for all group types: 
 
@@ -117,9 +124,9 @@ The following fields are present for all group types:
   * Support Administrators: `_support_admin` 
   * Deployment Administrators: `_deployment_admin` 
 
-  In addition, there are administrative groups for each user group and product profile. 
+  In addition, there are administrative groups for each user group and product profile. There are also developer groups for product profiles.
   These are named with a prefix and the group name. For example,
-  `_admin_Marketing Group`, or `_product_admin_Adobe Document Cloud for business`.
+  `_admin_Marketing Group`, `_product_admin_Adobe Document Cloud for business` or `_developer_Marketing Group`.
 
 The following field is returned for groups of type `USER_ADMIN_GROUP`:
 

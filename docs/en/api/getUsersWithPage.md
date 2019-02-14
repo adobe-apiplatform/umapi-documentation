@@ -104,7 +104,8 @@ A successful request returns a response body with the requested user data in JSO
                 "_admin_Support for AEM Mobile",
                 "_admin_Default Support configuration",
                 "_admin_Creative Cloud 1",
-                "_deployment_admin"
+                "_deployment_admin",
+                "_developer_Document Cloud 1"
             ],
             "username": "joe",
             "domain": "example.com",
@@ -152,7 +153,7 @@ __users:__  Contains a list of _User_ objects. Properties that are not populated
 * __domain:__ _string_; The user's domain.
 * __email:__ _string_; The user's email address.
 * __firstname:__ _string_; The user's first name.
-* __groups:__ _string[]_; The list of groups that the user is a current member of, including user groups, product profiles, product-specific admin groups, and group-specific admin groups. Administrative groups are named with a prefix and the group name. For example, `_admin_DesignTools`, or `_admin_Marketing`. Organization-wide admin groups are:
+* __groups:__ _string[]_; The list of groups that the user is a current member of, including user groups, product profiles, product-specific admin groups, and group-specific admin groups. Administrative groups are named with a prefix and the group name. For example, `_admin_DesignTools`, `_admin_Marketing`, `_product_admin_Creative Cloud` or `_developer_Marketing`. Organization-wide admin groups are:
   * `_org_admin`: The user is a [System Administrator](glossary.md#orgAdmin).
   * `_deployment_admin`: The user is a [Deployment Administrator](glossary.md#deployment).
   * `_support_admin`: The user is a [Support Administator](glossary.md#supportAdmin).

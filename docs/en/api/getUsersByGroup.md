@@ -28,7 +28,7 @@ __Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling
 | Name | Type | Required | Description |
 | :--- | :------ | :---: | :------ |
 | orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
-| groupName | path | true | The user group, product profile name or an administrative group. For an admin group, the name can be one of the fixed groups `_org_admin`, `_deployment_admin`, or `_support_admin`; or a group-specific admin group. These are identified with a prefix on the group name `_admin_groupName` , `_product_admin_productName`. If the group exists but the admin group does not, returns an empty list. |
+| groupName | path | true | The user group, product profile name or an administrative group. For an admin group, the name can be one of the fixed groups `_org_admin`, `_deployment_admin`, or `_support_admin`; or a group-specific admin group. These are identified with a prefix on the group name `_admin_groupName` , `_product_admin_productName`, `_developer_groupName`. If the group exists but the admin group does not, an empty list is returned. |
 | X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
 | Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
 | page | path | false | The 0-based index of the page number being requested. If greater than existing number of pages, returns the last page of users. Page size is 200 at time of writing. |
@@ -90,7 +90,8 @@ A successful request returns a response body with the requested user data in JSO
                 "_admin_Support for AEM Mobile",
                 "_admin_Default Support profile",
                 "_admin_Creative Cloud 1",
-                "_deployment_admin"
+                "_deployment_admin",
+                "_developer_Document Cloud 1"
             ],
             "username": "jane",
             "domain": "example.com",
@@ -155,7 +156,7 @@ __users:__  Contains a list of _User_ objects. Properties that are not populated
 * __domain:__ _string_; The user's domain.
 * __email:__ _string_; The user's email address.
 * __firstname:__ _string_; The user's first name.
-* __groups:__ _string[]_; The list of groups in which the user is a current member, including, user groups, product profiles, product admin groups, and group-specific admin groups. Administrative groups are named with a prefix and the group name. For example, `_product_admin_Photoshop`, `_admin_DesignTools`, or `_admin_Marketing`. Organization-wide admin groups are:
+* __groups:__ _string[]_; The list of groups in which the user is a current member, including, user groups, product profiles, product admin groups, and group-specific admin groups. Administrative groups are named with a prefix and the group name. For example, `_product_admin_Photoshop`, `_admin_DesignTools`, or `_developer_Marketing`. Organization-wide admin groups are:
   * `_org_admin`: The user is a [System Administrator](glossary.md#orgAdmin).
   * `_deployment_admin`: The user is a [Deployment Administrator](glossary.md#deployment).
   * `_support_admin`: The user is a [Support Administator](glossary.md#supportAdmin).

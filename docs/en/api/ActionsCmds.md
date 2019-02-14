@@ -222,6 +222,7 @@ Add or remove membership in administrative groups to control administrative righ
 In addition, there are administrative groups for each user group and product profile. 
   * An administrative group for a product is named with the prefix `_product_admin_` and the product name. For example, `_product_admin_Photoshop`.  
   * An administrative group for a product profile or user group is named with the prefix `_admin_` and the product-profile or user-group name. For example, `_admin_MarketingProfile` or `_admin_PhotoshopUserGroup`.  
+  * A developer administrative group for a product profile is named with the prefix `_developer_` and the product-profile name. For example `_developer_MarketingProfile`.
 
 Use the [`group`](group.md) resource to retrieve information about defined groups.
 
@@ -312,7 +313,7 @@ Note that the response always reports a successful result for this action, even 
 
 ## User action examples
 
-Create a [Federated ID](glossary.md#federatedId) and add the user to the Product Profiles 'Photoshop' and 'Illustrator', then remove them from the user group 'devOps'. The user is identified by passing the username and domain.
+Create a [Federated ID](glossary.md#federatedId) and add the user to the Product Profiles 'Photoshop' and 'Illustrator'. The user is identified by passing the username and domain.
 ```json
 {
   "user" : "jdoe",
@@ -330,11 +331,6 @@ Create a [Federated ID](glossary.md#federatedId) and add the user to the Product
   {
     "add" : {
       "group" : [ "Photoshop", "Illustrator"]
-    }
-  },
-  {
-    "remove" : {
-      "group" : ["Photoshop"]
     }
   }]
 }
@@ -432,3 +428,17 @@ Remove the admin role for the user for a given product profile:
   }
 ]
 ```
+Add the developer admin role for the user for a given product profile:
+```json
+[
+  {
+    "user": "jdoe@myCompany.com",
+    "do": [{
+        "add": {
+          "group" : ["_developer_myProductProfile1Name"]
+        }
+    }]
+  }
+]
+```
+

@@ -120,7 +120,7 @@ Use the POST [action](api/ActionsRef.md) API to manage permissions by adding and
 * Support Administrators: `_support_admin`
 * Deployment Administrators: `_deployment_admin`
 
-In addition, there are administrative groups for each user group and product profile. These are named with a prefix and the group name. For example, `_admin_Marketing` or `_product_admin_Adobe Document Cloud for business`.
+In addition, there are administrative groups for each user group and product profile. These are named with a prefix and the group name. For example, `_admin_Marketing`, `_developer_Marketing` or `_product_admin_Adobe Document Cloud for business`.
 
 * [Add Administrator permissions for a user](api/ActionsCmds.md#add) with the _add_ action for a _user_
 * [Remove Administrator permissions for a user](api/ActionsCmds.md#remove) with the _remove_ action for a _user_
