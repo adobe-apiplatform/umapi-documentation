@@ -69,7 +69,7 @@ The response body contains the requested user data in JSON format including any 
   }
 }
 ```
-<a name="getUserGroupsExample" class="api-ref-subtitle">[Enterprise](glossary.md#enterpriseId) User with membership</a> in two  user-groups but no administrative roles. If the fields are not populated (`firstname` and`lastname` in this example), they are excluded from the response.
+<a name="getUserGroupsExample" class="api-ref-subtitle">[Enterprise](glossary.md#enterpriseId) User with membership</a> in two user-groups but no administrative roles. If the fields are not populated (`firstname` and`lastname` in this example), they are excluded from the response.
 ```json
 {
   "result": "success",
@@ -122,7 +122,7 @@ __user:__  A _user_ object containing relevant properties. Properties that are n
 * __domain:__ _string_; The user's domain.
 * __email:__ _string_; The user's email address.
 * __firstname:__ _string_; The user's first name.
-* __groups:__ _string[]_; The list of groups that the user is a current member of, including user groups, product profiles, product admin groups, and group-specific admin groups. Administrative groups are named with a prefix and the group name. For example, `_product_admin_Photoshop`, `_admin_DesignTools`, or `_admin_Marketing`. Organization-wide admin groups are:
+* __groups:__ _string[]_; The list of groups that the user is a current member of, including user groups, product profiles, product admin groups, and group-specific admin groups. Administrative groups are named with a prefix and the group name. For example, `_product_admin_Photoshop`, `_admin_DesignTools`, or `_developer_Marketing`. Organization-wide admin groups are:
   * `_org_admin`: The user is a [System Administrator](glossary.md#orgAdmin).
   * `_deployment_admin`: The user is a [Deployment Administrator](glossary.md#deployment).
   * `_support_admin`: The user is a [Support Administator](glossary.md#supportAdmin).
