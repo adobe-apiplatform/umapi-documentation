@@ -19,11 +19,11 @@ To obtain the credentials you need to access the User Management service, create
 * You will need to create or purchase a digital signing certification, and use it to sign a JSON Web Token (JWT), which you will use to authenticate your requests.
 * Your integration provides an API key that uniquely identifies your client, and other credentials that you need to access the UM API.
 
-For complete details of the entire integration process, see [Service Account Authentication](https://www.adobe.io/apis/cloudplatform/console/authentication/jwt_workflow.html).
+For complete details of the entire integration process, see [Service Account Authentication](https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/JWT/JWT.md).
 
 ## Authorizing API calls
 
-To establish a secure service-to-service API session, you will create a JSON Web Token (JWT) that encapsulates your client credentials, and sign the JWT with the private key for a public-key certificate associated with the integration. For complete details, see [Creating a JSON Web Token](https://www.adobe.io/apis/cloudplatform/console/authentication/createjwt.html).
+To establish a secure service-to-service API session, you will create a JSON Web Token (JWT) that encapsulates your client credentials, and sign the JWT with the private key for a public-key certificate associated with the integration. For complete details, see [Creating a JSON Web Token](https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/JWT/JWT.md#creating-a-json-web-token).
 
 You will exchange the JWT for an access token from the Adobe Identity Management Service (IMS). Every request to an Adobe service must include the access token in the **Authorization** HTTP header, along with the API Key (client  ID) that was generated when you created the integration. Include these headers in all requests:
 
@@ -44,5 +44,5 @@ The response contains an access token that is valid for 24 hours after it is iss
 
 You can request multiple access tokens. Previous tokens are not invalidated when a new one is issued. You can authorize requests with any valid access token. This allows you to overlap access tokens to ensure your integration is always able to connect to Adobe.
 
-* For details of the log-in call, see [JWT Authentication Reference](https://www.adobe.io/apis/cloudplatform/console/authentication/connect.html).
+* For details of the log-in call, see [JWT Authentication Reference](https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/JWT/JWT.md).
 * For an example of a script that creates a JWT and makes a log-in call, see [User Management Walkthrough.](samples/index.md)
