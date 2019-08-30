@@ -60,6 +60,17 @@ When true, the user ID is interpreted to refer to an existing [Adobe ID](glossar
 __do:__
 Lists the series of _steps_ to complete for this command entry. For a single user command entry, there can be only __one__ create user operation ([createEnterpriseID](#createEnterpriseID), [createFederatedID](#createFederatedID) or [addAdobeID](#addAdobeID)) and __one__ delete user operation ([removeFromOrg](#removeFromOrg)).
 
+<hr class="api-ref-rule">  
+
+## <a name="emailVsUsername">Username vs Email user login setting</a>
+
+Based on the Admin Console -> Settings -> Identity -> a Directory's metadata, there can be 2 situations for `User login setting`:  
+
+![image of Directory metadata](images/uVSe.png)  
+
+Based on this setting, the [user](#userRootCommand) actions will differ in the JSON body format. Use-cases in this page will reference one or the other as __email based login__ or __username based login__.
+
+<hr class="api-ref-rule">  
 
 ### <a name="addAdobeID" class="api-ref-subtitle">__addAdobeID:__</a>
 Adds a user who has an existing [Adobe ID](glossary.md#adobeId). User-information fields such as `firstname` and `lastname` can be included.
@@ -67,51 +78,120 @@ Adds a user who has an existing [Adobe ID](glossary.md#adobeId). User-informatio
 >Previously, when an Adobe ID user was added, the user would receive an email inviting them to join the organization.
 
 See [user-information](#user-information) for individual field descriptions.
-```json
+```
 {
   "addAdobeID": {
-    "country": "string",
     "email": "string",
+    "country": "string",
     "firstname": "string",
     "lastname": "string",
     "option": "string"
-  }
+  }        
 }
+```
+Usage:  
+
+```
+[{
+  "user" : "jdoe@domain1.com",
+  "requestID": "action_1",
+  "do" : [{
+    "addAdobeID": {
+      "email": "jdoe@domain1.com",
+      "country": "US",
+      "firstname": "John",
+      "lastname": "Doe",
+      "option": "ignoreIfAlreadyExists"
+    }
+  }]
+}]
 ```
 
 ### <a name="createEnterpriseID" class="api-ref-subtitle">__createEnterpriseID:__</a>
 Creates an [Enterprise ID](glossary.md#enterpriseId). See [user-information](#user-information) for individual field descriptions.
-```json
+```
 {
-  "createEnterpriseID": {
+  "createEnterpriseID": {  
+    "email": "string",
     "country": "string",
     "email": "string",
+    "country": "string",
+    "option": "string"
+  }
+}
+```
+Usage:  
+
+```
+[{
+  "user" : "jdoe@claimed-domain1.com",
+  "requestID": "action_1",
+  "do" : [{
+    "createEnterpriseID": {
+      "email": "jdoe@dclaimed-domain1.com",
+      "country": "US",
+      "firstname": "John",
+      "lastname": "Doe",
+      "option": "ignoreIfAlreadyExists"
+    }
+  }]
+}]
+```
+
+### <a name="createFederatedID" class="api-ref-subtitle">__createFederatedID:__</a>
+Creates a [Federated ID](glossary.md#federatedId). See [user-information](#user-information) for individual field descriptions.  
+```
+{
+  "createFederatedID": {
+    "email": "string",
+    "country": "string",
     "firstname": "string",
     "lastname": "string",
     "option": "string"
   }
 }
 ```
+Sample POST body for [email based login](ActionsCmds.md#emailVsUsername): 
 
-### <a name="createFederatedID" class="api-ref-subtitle">__createFederatedID:__</a>
-Creates a [Federated ID](glossary.md#federatedId). See [user-information](#user-information) for individual field descriptions.
-```json
-{
-  "createFederatedID": {
-    "country": "string",
-    "email": "string",
-    "firstname": "string",
-    "lastname": "string",
-    "option": "string"
-  }
-}
+```
+[{
+  "user" : "jdoe@claimed-domain1.com",
+  "requestID": "action_1",
+  "do" : [{
+    "createFederatedID": {
+      "email": "jdoe@claimed-domain1.com",
+      "country": "US",
+      "firstname": "John",
+      "lastname": "Doe",
+      "option": "ignoreIfAlreadyExists"
+    }
+  }]
+}]
+```
+Sample POST body for [username based login](ActionsCmds.md#emailVsUsername):  
+
+```
+[{
+  "user" : "jdoe,
+  "domain": "claimed-domain1.com",
+  "requestID": "action_1",
+  "do" : [{
+    "createFederatedID": {
+      "email": "jdoe@claimed-domain1.com",
+      "country": "US",
+      "firstname": "John",
+      "lastname": "Doe",
+      "option": "ignoreIfAlreadyExists"
+    }
+  }]
+}]
 ```
 ### <a name="user-information" class="api-ref-subtitle">__User Information Fields__</a>
 * __firstname:__ _string_; Limited to 250 characters. Required for `createEnterpriseID` and `createFederatedID`. Optional for `addAdobeID`.
 * __lastname:__ _string_; Limited to 250 characters. Required for `createEnterpriseID` and `createFederatedID`. Optional for `addAdobeID`.
-* __email:__ _string_; A valid email address. Required for `createEnterpriseID`, `addAdobeID` and `createFederatedID`.
-* __country:__ _string_; A valid ISO 2-character country code. Optional for `createEnterpriseID` and `addAdobeID`. Required for `createFederatedID`. The `country` value cannot be updated after it is set.
-* __option:__ _string_, possible values: `{ignoreIfAlreadyExists, updateIfAlreadyExists}`; In addition to the new user's field values, the parameters can include an _option_ flag that specifies how to perform the create operation when a user with the given ID already exists in the user database. Default behaviour is `ignoreIfAlreadyExists`. Optional property for `createEnterpriseID`, `createFederatedID`, `addAdobeID`.
+* __email:__ _string_; A valid email address. Required for `createEnterpriseID`, `addAdobeID` and `createFederatedID`. Limited to 60 characters.
+* __country:__ _string_; A valid ISO 2 upper-case characters country code. Optional for `createEnterpriseID` and `addAdobeID`. Required for `createFederatedID`. The `country` value cannot be updated after it is set.
+* __option:__ _string_, possible values: `{ignoreIfAlreadyExists, updateIfAlreadyExists}`; In addition to the new user's field values, the parameters can include an _option_ flag that specifies how to perform the create operation when a user with the given ID already exists in the user database. Default behaviour is `ignoreIfAlreadyExists`. Optional property for `createEnterpriseID`, `createFederatedID`, `addAdobeID`. It only affects first name and last name metadata.
   - `ignoreIfAlreadyExists`: If the ID already exists, ignore the _create_ step but process any other steps in the command entry for this user.
   - `updateIfAlreadyExists`: If the ID already exists, perform an _update_ action using the parameters in the create step. After updating all fields present in the step, process any other steps in the command entry for this user.
 
@@ -121,59 +201,148 @@ The `update` action writes new personal information to the user's account detail
 * For Federated IDs, the `update` request can only change the information that is stored by Adobe. You cannot use the User Management API to change information your organization stores outside of Adobe.
 * [Identity Types](glossary.md#identity) explains the different account types available. See [user-information](#user-information) for individual field descriptions.
 
-The parameters of an update step specify the changed fields and their new values. If you do not specify a field, its value remains unchanged.
+The parameters of an update step specify the changed fields and their new values. If you do not specify a field, its value remains unchanged.  
+
+Inside _update_ parameters that need an update should appear.  
 
 ```json
 {
   "update": {
-    "country": "string",
     "email": "string",
     "firstname": "string",
     "lastname": "string",
-    "option": "[ignoreIfAlreadyExists|updateIfAlreadyExists]",
     "username": "string"
   }
 }
-```
-#### Emails and usernames
+```  
+Note: _country_ is not updatable via the UMAPI  
 
-For all account types, the email address is used as a case-sensitive unique identifier. You cannot use the `update` request to change the case of the email address, once it has been set. There is an additional `username` field: for Adobe IDs and Enterprise IDs, the `username` is always the same as the email address, and the same is true by default for Federated IDs. 
+Samples for _update_ use-case scenarios - [email based login](ActionsCmds.md#emailVsUsername):  
+
+* Updating user's _Email_ and _Last Name_ metadata but keeping the domain part constant
+```json
+[{
+  "user": "jdoe@claimed-domain1.com",
+  "requestID": "action_1",
+  "do": [{
+    "update": {
+      "email": "jnew@claimed-domain1.com",
+      "lastname": "new"
+    }
+  }]
+}]
+```
+
+* Updating user's _Email_ metadata but also chnage the domain part  
+>__Requirement__: used domains should be claimed and added to same Admin Console Directory  
+```json
+[{
+  "user": "jdoe@claimed-domain1.com",
+  "requestID": "action_1",
+  "do": [{
+    "update": {
+      "email": "jdoe@claimed-domain2.com"
+    }
+  }]
+}]
+``` 
+
+* Updating user's _Username_ metadata but use a different domain than the _Email_ for it  
+>__Requirement__: used domains should be claimed and added to same Admin Console Directory  
+```json
+[{
+  "user": "jdoe@claimed-domain1.com",
+  "requestID": "action_1",
+  "do": [{
+    "update": {
+      "username": "jdoe@claimed-domain2.com"
+    }
+  }]
+}]
+```
+
+* Updating user's _Username_ and _Email_ metadata using new different domains for each  
+>__Requirement__: used domains should be claimed and added to same Admin Console Directory  
+```json
+[{
+  "user": "jdoe@claimed-domain1.com",
+  "requestID": "action_1",
+  "do": [{
+    "update": {
+      "email": "canBeNew@claimed-domain2.com",
+      "username": "canBeOther@claimed-domain3.com",
+    }
+  }]
+}]
+```  
+
+
+Samples for _update_ use-case scenarios - _update_ use-case scenarios for [username based login](ActionsCmds.md#emailVsUsername):  
+
+* Updating user's _Email_ and _Last Name_ metadata, using same domain for the new email as we had for the old one  
+```json
+[{
+  "user": "jdoe",
+  "domain": "claimed-domain1.com",
+  "requestID": "action_1",
+  "do": [{
+    "update": {
+      "email": "jnew@claimed-domain1.com",
+      "lastname": "new"
+    }
+  }]
+}]
+```  
+
+* Updating user's _Email_ metadata but change domain as well  
+>__Requirement__: used domain should be claimed and added to same Admin Console Directory 
+```json
+[{
+  "user": "jdoe",
+  "domain": "claimed-domain1.com",
+  "requestID": "action_1",
+  "do": [{
+    "update": {
+      "email": "new@claimed-domain2.com"
+    }
+  }]
+}]
+```  
+
+* Updating only user's _Username_ metadata  
+```json
+[{
+  "user": "jdoe",
+  "domain": "claimed-domain1.com",
+  "requestID": "action_1",
+  "do": [{
+    "update": {
+      "username": "jnew"
+    }
+  }]
+}]
+```
+
+#### Updating Email and Username policy
+
+For all account types, the email address is used as a case-sensitive unique identifier. You __cannot__ use the `update` request to __change the letter case of the email address__, once it has been set. There is an additional `username` field: for Adobe IDs and Enterprise IDs, the `username` is always the same as the email address, and the same is true by default for Federated IDs. 
 
 For Federated IDs, you can update the `username` field for users whose email address is in your domain. The `username` value can also be an email address, but you can never use it to identify a user in requests.
 
-For example, if you use an `update` command to change a user's email, the username is automatically updated to match:
+In case of [email based login](ActionsCmds.md#emailVsUsername), if you use an `update` command to change an user's Email metadata, the Username metadata __is automatically updated to match__, provided that all domains being used in the request are claimed. 
 
 ```json
-[
-  {
-    "user": "joesmith@mycompany.com",
-    "do": [
-      {
-        "update": {
-          "email": "joesmith@gmail.com"
-        }
+[{
+  "user": "jdoe@claimed-domain1.com",
+    "do": [{
+      "update": {
+        "email": "jdoe@claimed-domain2.com"
       }
-    ]
-  }
-]
-```
-To change the username to be different from the email, update it explicitly:
+    }]
+}]
+```  
+After the above change, user's Username and Email values in Admin Console will be equal to `jdoe@claimed-domain2.com`  
 
-```json
-[
-  {
-    "user": "joesmith@gmail.com",
-    "do": [
-      {
-        "update": {
-          "username": "joe_smith@mycompany.com",
-          "email": "joesmith@gmail.com"
-        }
-      }
-    ]
-  }
-]
-```
 
 ### <a name="add" class="api-ref-subtitle">__add:__</a>
 Adds a user as a member of a group. You can add a maximum of 10 memberships in one command entry. See [Add/Remove Attributes](#addRemoveAttr) section for full details of the `group` attribute.
@@ -186,7 +355,42 @@ Adds a user as a member of a group. You can add a maximum of 10 memberships in o
     ]
   }
 }
-```
+```  
+
+Sample JSON body for [email based login](ActionsCmds.md#emailVsUsername):   
+
+```json
+[{
+  "user": "jdoe@claimed-domain1.com",
+  "requestID": "action_1",
+  "do": [{
+    "add": {
+      "group": [ 
+        "group_name1", 
+        "group_name2"
+      ]
+    }
+  }]
+}]
+```  
+
+Sample JSON body for [username based login](ActionsCmds.md#emailVsUsername):   
+
+```json
+[{
+  "user": "jdoe",
+  "domain": "claimed-domain1.com",
+  "requestID": "action_1",
+  "do": [{
+    "add": {
+      "group": [ 
+        "group_name"
+      ]
+    }
+  }]
+}]
+```  
+
 
 ### <a name="remove" class="api-ref-subtitle">__remove:__</a>
 Removes the membership of users from groups. You can remove a maximum of 10 memberships in one command entry, unless you use the special  "all" parameter to remove all memberships for the user. See [Add/Remove attributes](#addRemoveAttr) section for full details of the `group` attribute.
@@ -200,12 +404,72 @@ Removes the membership of users from groups. You can remove a maximum of 10 memb
   }
 }
 ```
-Additionally you can pass the attribute `all` to remove the user from all groups including product profiles, user-groups, and administrative groups:
+Additionally you can pass the attribute `all` to remove the user from all groups including product profiles, user-groups, and administrative groups (admin roles):
 ```json
 {
   "remove" : "all"
 }
 ```
+
+Sample JSON body for [email based login](ActionsCmds.md#emailVsUsername):   
+
+* removing an user's membership from 2 groups 
+```json
+[{
+  "user": "jdoe@claimed-domain1.com",
+  "requestID": "action_1",
+  "do": [{
+    "remove": {
+      "group": [ 
+        "group_name1", 
+        "group_name2"
+      ]
+    }
+  }]
+}]
+```  
+
+* remove the user account from all Groups/PLCs/Admin roles in Admin Console  
+```json
+[{
+  "user": "jdoe@claimed-domain1.com",
+  "requestID": "action_1",
+  "do": [{
+    "remove": "all"
+  }]
+}]
+```  
+
+Sample JSON body for  [username based login](ActionsCmds.md#emailVsUsername):   
+
+* removing an user's membership from a group/PLC  
+```json
+[{
+  "user": "jdoe",
+  "domain": "claimed-domain1.com",
+  "requestID": "action_1",
+  "do": [{
+    "add": {
+      "remove": [ 
+        "group_name1"
+      ]
+    }
+  }]
+}]
+```  
+
+* remove the user account from all Groups/PLCs/Admin roles in Admin Console  
+```json
+[{
+  "user": "jdoe",
+  "domain": "claimed-domain1.com",
+  "requestID": "action_1",
+  "do": [{
+    "remove": "all"
+  }]
+}]
+```  
+
 ### <a name="addRemoveAttr" class="api-ref-subtitle">__Add/Remove Attributes__</a>
 
 The following attribute is available in both the [add](#add) and [remove](#remove) operations for a user:
@@ -240,173 +504,226 @@ Note that the response always reports a successful result for this action, even 
 }
 ```
 
-* __deleteAccount:__ _boolean_; If true then if the account is owned by the organization, the account is also deleted. Note that [Adobe IDs](glossary.md#adobeId) are never deleted because they are owned by the user, not the organization. The default value is false.
+* __deleteAccount:__ _boolean_; If true then if the account is owned by the organization, the account is also deleted. Note that [Adobe IDs](glossary.md#adobeId) are never deleted because they are owned by the user, not the organization. The default value is false.  
 
-<hr class="api-ref-rule">
+Corresponding Admin Console actions:  
+`"deleteAccount": false` = removing the user from the __Users__ menu 
+`"deleteAccount": true` = removing the user from the __Directory users__ menu; implies loss of account metadata and associated cloud assets  
 
-## <a name="userExamples" class="api-ref-subtitle">User command request body schema</a>
+Sample JSON body for  [email based login](ActionsCmds.md#emailVsUsername):   
+
 ```json
-[
-  {
-    "do": [
-      {
-        "add": {
-          "group": [
-            "string"
-          ]
-        }
-      },
-      {
-        "addAdobeID": {
-          "country": "string",
-          "email": "string",
-          "firstname": "string",
-          "lastname": "string",
-          "option": "string"
-         }
-       },
-       {
-        "createEnterpriseID": {
-          "country": "string",
-          "email": "string",
-          "firstname": "string",
-          "lastname": "string",
-          "option": "string"
-         }
-        },
-       {
-        "createFederatedID": {
-          "country": "string",
-          "email": "string",
-          "firstname": "string",
-          "lastname": "string",
-          "option": "string"
-         }
-        },
-       {
-        "remove": {},
-        },
-       {
-        "removeFromOrg": {
-          "deleteAccount": boolean
-         }
-        },
-       {
-        "update": {
-          "country": "string",
-          "email": "string",
-          "firstname": "string",
-          "lastname": "string",
-          "option": "string"
-        }
-      }
-    ],
-    "domain": "string",
-    "requestID": "string",
-    "useAdobeID": boolean,
-    "user": "string"
-  }
-]
-
-```
-<hr class="api-ref-rule">
-
-## User action examples
-
-Create a [Federated ID](glossary.md#federatedId) and add the user to the Product Profiles 'Photoshop' and 'Illustrator'. The user is identified by passing the username and domain.
-```json
-{
-  "user" : "jdoe",
-  "domain" : "example.com",
-  "requestID" : "ed2149",
-  "do" :  [
-  {
-    "createFederatedID": {
-      "email": "john.doe@example.com",
-      "country": "US",
-      "firstname": "John",
-      "lastname": "Doe"
-    }
-  },
-  {
-    "add" : {
-      "group" : [ "Photoshop", "Illustrator"]
+[{
+  "user": "jdoe@claimed-domain1.com",
+  "requestID": "action_1",
+  "do": [{
+    "removeFromOrg": {
+      "deleteAccount": false
     }
   }]
-}
-```
-Create an [Enterprise ID](glossary.md#enterpriseId):
+}]
+```  
+
+Sample JSON body for  [username based login](ActionsCmds.md#emailVsUsername):   
 ```json
-{
-  "user": "jane.doe@example.com",
+[{
+  "user": "jdoe",
+  "domain": "claimed-domain1.com",
+  "requestID": "action_1",
+  "do": [{
+    "removeFromOrg": {
+      "deleteAccount": false
+    }
+  }]
+}]
+``` 
+
+<hr class="api-ref-rule">
+
+### <a name="userExamples" class="api-ref-subtitle">User command request body schema for [email based login](ActionsCmds.md#emailVsUsername) scenario</a>
+```json
+[{
+  "user": "string",
+  "requestID": "string",
+  "useAdobeID": boolean,
   "do": [
     {
+      "addAdobeID": {
+        "country": "string",
+        "email": "string",
+        "firstname": "string",
+        "lastname": "string",
+        "option": "string"
+      }
+    },
+    {
       "createEnterpriseID": {
-        "email": "jane.doe@example.com",
-        "country": "JP",
-        "firstname": "Jane",
-        "lastname": "Doe"
+        "country": "string",
+        "email": "string",
+        "firstname": "string",
+        "lastname": "string",
+        "option": "string"
+      }
+    },
+    {
+      "createFederatedID": {
+        "country": "string",
+        "email": "string",
+        "firstname": "string",
+        "lastname": "string",
+        "option": "string"
+       }
+    },
+    {
+      "add": {
+        "group": [
+          "string"
+        ]
+      }
+    },
+    {
+      "remove": {
+        "group": [
+          "string"
+        ]
+      }
+    },
+    {
+      "removeFromOrg": {
+        "deleteAccount": boolean
+      }
+    },
+    {
+      "update": {
+        "email": "string",
+        "firstname": "string",
+        "lastname": "string"
       }
     }
   ]
-}
-```
+}]
+```  
 
-Update an [Enterprise ID](glossary.md#enterpriseId) using the update command:
+### <a name="userExamples" class="api-ref-subtitle">User command request body schema for [username based login](ActionsCmds.md#emailVsUsername) scenario</a>
 ```json
-[
-  {
-    "user": "jdoe@example.com",
-    "do": [
-      {
-        "update": {
-          "email": "jdoe@example.com",
-          "firstname": "Jane",
-          "lastname": "Doe",
-          "username": "jdoe"
-        }
+[{
+  "user": "string",
+  "domain": "string",
+  "requestID": "string",
+  "useAdobeID": boolean,
+  "do": [
+    {
+      "addAdobeID": {
+        "country": "string",
+        "email": "string",
+        "firstname": "string",
+        "lastname": "string",
+        "option": "string"
       }
-    ]
-  }
-]
-```
-Update a user using the [createEnterpriseID](#createEnterpriseID) command and the option flag:
-```json
-[
-  {
-    "user": "jdoe@example.com",
-    "do": [
-      {
-        "createEnterpriseID": {
-          "email": "jdoe@example.com",
-          "firstname": "Jane",
-          "lastname": "Doe",
-          "username": "jdoe",
-          "option": "updateIfAlreadyExists"
-        }
+    },
+    {
+      "createEnterpriseID": {
+        "country": "string",
+        "email": "string",
+        "firstname": "string",
+        "lastname": "string",
+        "option": "string"
       }
-    ]
-  }
-]
-```
-Remove a user from all their product entitlements and user-group memberships:
-```json
-[
-  {
-    "user": "jdoe@example.com",
-    "do": [
-      {
-        "remove": "all"
+    },
+    {
+      "createFederatedID": {
+        "country": "string",
+        "email": "string",
+        "firstname": "string",
+        "lastname": "string",
+        "option": "string"
+       }
+    },
+    {
+      "add": {
+        "group": [
+          "string"
+        ]
       }
-    ]
-  }
-]
-```
-Add the Product Owner Admin role for a user:
+    },
+    {
+      "remove": {
+        "group": [
+          "string"
+        ]
+      }
+    },
+    {
+      "removeFromOrg": {
+        "deleteAccount": boolean
+      }
+    },
+    {
+      "update": {
+        "email": "string",
+        "firstname": "string",
+        "lastname": "string"
+      }
+    }
+  ]
+}]
+```  
+
+<hr class="api-ref-rule">
+
+## Some other action examples  
+
+* Mix of creating a [Federated ID](glossary.md#federatedId) and add the user to the Product License Configurations `Photoshop - 2Gb` and `Illustrator - 20Gb` actions  
+```json
+[{
+  "user" : "jdoe@claimed-domain1.com",
+  "requestID" : "ed2148",
+  "do" : [
+    {
+      "createFederatedID": {
+        "email": "jdoe@claimed-domain1.com",
+        "country": "US",
+        "firstname": "John",
+        "lastname": "Doe"
+      }
+    },
+    {
+      "add" : {
+        "group" : [ "Photoshop - 2Gb", "Illustrator - 20Gb"]
+      }
+    }
+  ]
+}]
+```  
+
+* Mix of creating a [Federated ID](glossary.md#federatedId) and updating the username metadata actions:  
+```json
+[{
+  "user" : "jdoe@claimed-domain1.com",
+  "requestID" : "ed2149",
+  "do" : [
+    {
+      "createFederatedID": {
+        "email": "jdoe@claimed-domain1.com",
+        "country": "US",
+        "firstname": "John",
+        "lastname": "Doe"
+      }
+    },
+    {
+      "update" : {
+        "username" : "jdoe@claimed-domain2.com"
+      }
+    }
+  ]
+}]
+```  
+
+* Add the Product Owner Admin role for a user:  
 ```json
 [
   {
-    "user" : "jdoe@myCompany.com",
+    "user" : "jdoe@claimed-domain1.com",
     "do" : [{
         "add" : {
             "group" : ["_product_admin_myProduct1Name"]
@@ -415,11 +732,12 @@ Add the Product Owner Admin role for a user:
   }
 ]
 ```
-Remove the admin role for the user for a given product profile:
+
+* Remove the admin role for the user for a given product profile:  
 ```json
 [
   {
-    "user": "jdoe@myCompany.com",
+    "user": "jdoe@claimed-domain1.com",
     "do": [{
         "remove": {
           "group" : ["_admin_myProductProfile1Name"]
@@ -427,18 +745,17 @@ Remove the admin role for the user for a given product profile:
     }]
   }
 ]
-```
-Add the developer role for the user for a given product profile:
+```  
+
+* Add the developer role for the user for a given product profile:  
 ```json
-[
-  {
-    "user": "jdoe@myCompany.com",
+[{
+    "user": "jdoe@claimed-domain1.com",
     "do": [{
         "add": {
           "group" : ["_developer_myProductProfile1Name"]
         }
     }]
-  }
-]
+}]
 ```
 
