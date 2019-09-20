@@ -429,7 +429,8 @@ Sample JSON body for [email based login](ActionsCmds.md#emailVsUsername):
 }]
 ```  
 
-* remove the user account from all Groups/PLCs/Admin roles in Admin Console  
+* remove the user account from all Groups/PLCs/Admin roles in Admin Console 
+* org_admin (System Admin) role can't be removed via UM API
 ```json
 [{
   "user": "jdoe@claimed-domain1.com",
