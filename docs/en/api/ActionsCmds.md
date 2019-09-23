@@ -78,7 +78,7 @@ Adds a user who has an existing [Adobe ID](glossary.md#adobeId). User-informatio
 >Previously, when an Adobe ID user was added, the user would receive an email inviting them to join the organization.
 
 See [user-information](#user-information) for individual field descriptions.
-```
+```json
 {
   "addAdobeID": {
     "email": "string",
@@ -91,7 +91,7 @@ See [user-information](#user-information) for individual field descriptions.
 ```
 Usage:  
 
-```
+```json
 [{
   "user" : "jdoe@domain1.com",
   "requestID": "action_1",
@@ -109,7 +109,7 @@ Usage:
 
 ### <a name="createEnterpriseID" class="api-ref-subtitle">__createEnterpriseID:__</a>
 Creates an [Enterprise ID](glossary.md#enterpriseId). See [user-information](#user-information) for individual field descriptions.
-```
+```json
 {
   "createEnterpriseID": {  
     "email": "string",
@@ -122,7 +122,7 @@ Creates an [Enterprise ID](glossary.md#enterpriseId). See [user-information](#us
 ```
 Usage:  
 
-```
+```json
 [{
   "user" : "jdoe@claimed-domain1.com",
   "requestID": "action_1",
@@ -140,7 +140,7 @@ Usage:
 
 ### <a name="createFederatedID" class="api-ref-subtitle">__createFederatedID:__</a>
 Creates a [Federated ID](glossary.md#federatedId). See [user-information](#user-information) for individual field descriptions.  
-```
+```json
 {
   "createFederatedID": {
     "email": "string",
@@ -153,7 +153,7 @@ Creates a [Federated ID](glossary.md#federatedId). See [user-information](#user-
 ```
 Sample POST body for [email based login](ActionsCmds.md#emailVsUsername): 
 
-```
+```json
 [{
   "user" : "jdoe@claimed-domain1.com",
   "requestID": "action_1",
@@ -170,7 +170,7 @@ Sample POST body for [email based login](ActionsCmds.md#emailVsUsername):
 ```
 Sample POST body for [username based login](ActionsCmds.md#emailVsUsername):  
 
-```
+```json
 [{
   "user" : "jdoe,
   "domain": "claimed-domain1.com",
@@ -215,7 +215,7 @@ Inside _update_ parameters that need an update should appear.
   }
 }
 ```  
-Note: _country_ is not updatable via the UMAPI  
+Note: _country_ is not updatable via UMAPI  
 
 Samples for _update_ use-case scenarios - [email based login](ActionsCmds.md#emailVsUsername):  
 
@@ -233,7 +233,7 @@ Samples for _update_ use-case scenarios - [email based login](ActionsCmds.md#ema
 }]
 ```
 
-* Updating user's _Email_ metadata but also chnage the domain part  
+* Updating user's _Email_ metadata but also change the domain part  
 >__Requirement__: used domains should be claimed and added to same Admin Console Directory  
 ```json
 [{
@@ -329,7 +329,7 @@ For all account types, the email address is used as a case-sensitive unique iden
 
 For Federated IDs, you can update the `username` field for users whose email address is in your domain. The `username` value can also be an email address, but you can never use it to identify a user in requests.
 
-In case of [email based login](ActionsCmds.md#emailVsUsername), if you use an `update` command to change an user's Email metadata, the Username metadata __is automatically updated to match__, provided that all domains being used in the request are claimed. 
+In case of [email based login](ActionsCmds.md#emailVsUsername), if you use an `update` command to change a user's Email metadata, the Username metadata __is automatically updated to match__, provided that all domains being used in the request are claimed. 
 
 ```json
 [{
@@ -413,7 +413,7 @@ Additionally you can pass the attribute `all` to remove the user from all groups
 
 Sample JSON body for [email based login](ActionsCmds.md#emailVsUsername):   
 
-* removing an user's membership from 2 groups 
+* removing a user's membership from 2 groups 
 ```json
 [{
   "user": "jdoe@claimed-domain1.com",
@@ -443,7 +443,7 @@ Sample JSON body for [email based login](ActionsCmds.md#emailVsUsername):
 
 Sample JSON body for  [username based login](ActionsCmds.md#emailVsUsername):   
 
-* removing an user's membership from a group/PLC  
+* removing a user's membership from a group/PLC  
 ```json
 [{
   "user": "jdoe",
