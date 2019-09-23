@@ -277,7 +277,7 @@ Samples for _update_ use-case scenarios - [email based login](ActionsCmds.md#ema
 ```  
 
 
-Samples for _update_ use-case scenarios - _update_ use-case scenarios for [username based login](ActionsCmds.md#emailVsUsername):  
+Samples for _update_ use-case scenarios - [username based login](ActionsCmds.md#emailVsUsername):  
 
 * Updating user's _Email_ and _Last Name_ metadata, using same domain for the new email as we had for the old one  
 ```json
