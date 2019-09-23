@@ -172,7 +172,7 @@ Sample POST body for [username based login](ActionsCmds.md#emailVsUsername):
 
 ```json
 [{
-  "user" : "jdoe,
+  "user" : "jdoe",
   "domain": "claimed-domain1.com",
   "requestID": "action_1",
   "do" : [{
