@@ -19,7 +19,7 @@ News:
 </div>
 <hr class="api-ref-rule">
 <p>Starting August 8th 2019, a change in a dependent service of the UMAPI is applied to align with the multiple domains per directory model and tightening the security of the <strong>create</strong> and <strong>update</strong> APIs.</p>
-<p>As a result, any application using the <strong>create</strong> or <strong>update</strong> API statements that contain  domains with no claim in Admin Console will fail.</p>
+<p>As a result, any application using the <strong>create</strong> or <strong>update</strong> API statements using domains for which there's no claim in Admin Console, will start failing.</p>
 </div>
 
 
