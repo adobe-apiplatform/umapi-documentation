@@ -12,7 +12,7 @@ Welcome to the documentation center for User Management APIs from Adobe.
 News:  
 <hr class="api-ref-rule">
 <div class="isa_info">
-<p>Starting August 8th 2019, a change in a dependent service of the UMAPI is applied to align with the multiple domains per directory model and tightening the security of the <strong>create</strong> and <strong>update</strong> APIs.</p>
+<p>Starting August 8th 2019, a change is applied to align with the multiple domains per directory model and tightening the security of the <strong>create</strong> and <strong>update</strong> APIs.</p>
 <p>As a result, any application using the <strong>create</strong> or <strong>update</strong> API statements using domains for which there's no claim in Admin Console, will start failing.</p>
 <hr class="api-ref-rule">
 <p>On April 2nd, 2019, Creative Cloud product names will remove the “CC”. For example, “Photoshop CC” will be renamed “Photoshop”.</p>
