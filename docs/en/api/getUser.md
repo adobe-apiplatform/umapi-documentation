@@ -140,6 +140,9 @@ __user:__  A _user_ object containing relevant properties. Properties that are n
   "message": "string",
   "result": "string",
   "user": {
+    "adminRoles": [
+      "string"
+    ],
     "country": "string",
     "domain": "string",
     "email": "string",
