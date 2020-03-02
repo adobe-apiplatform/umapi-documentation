@@ -17,7 +17,7 @@ lang: en
 GET /v2/usermanagement/{orgId}/users
 ```
 
-Retrieve a paged list of all users in your organization along with information about them. The number of users returned in each call is subject to change but never exceeds 200 entries. You can make multiple paginated calls to retrieve the full list of users.  
+Retrieve a paged list of all users in your organization along with information about them. The number of users returned in each call is subject to change, currently the limit is max 400 entries/page. You can make multiple paginated calls to retrieve the full list of users.  
 
 __Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#getUsersRESTThrottle) for full details.
 

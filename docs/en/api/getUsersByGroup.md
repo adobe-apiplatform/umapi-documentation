@@ -31,7 +31,7 @@ __Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling
 | groupName | path | true | The user group, product profile name or an administrative group. For an admin group, the name can be one of the fixed groups `_org_admin`, `_deployment_admin`, or `_support_admin`; or a group-specific admin group. These are identified with a prefix on the group name `_admin_groupName` , `_product_admin_productName`, `_developer_groupName`. If the group exists but the admin group does not, an empty list is returned. |
 | X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
 | Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
-| page | path | false | The 0-based index of the page number being requested. If greater than existing number of pages, returns the last page of users. Page size is 200 at time of writing. |
+| page | path | false | The 0-based index of the page number being requested. If greater than existing number of pages, returns the last page of users. Page size is 400 at time of writing. |
 | content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
 | X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
 | directOnly | query | false | {% include_relative partials/directOnlyDescription.md %} |

@@ -13,7 +13,7 @@ lang: en
 GET /v2/usermanagement/users/{orgId}/{page}
 ```
 
-Retrieve a paged list of all users in your organization along with information about them. The number of users returned in each call is subject to change but never exceeds 200 entries. You can make multiple paginated calls to retrieve the full list of users. The `domain` query parameter filters the results to only return users within a specified domain.
+Retrieve a paged list of all users in your organization along with information about them. The number of users returned in each call is subject to change, currently the limit is max 400 entries/page. You can make multiple paginated calls to retrieve the full list of users. The `domain` query parameter filters the results to only return users within a specified domain.
 
 __Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#getUsersWithPageThrottle) for full details.
 
@@ -28,7 +28,7 @@ __Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttlin
 | :--- | :------ | :---: | :------ |
 | orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
 | X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
-| page | path | true | The 0-based index of the page number being requested. If greater than last page number, returns the last page of users. Page size is 200 at time of writing. |
+| page | path | true | The 0-based index of the page number being requested. If greater than last page number, returns the last page of users. Page size is 400 at time of writing. |
 | Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
 | content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
 | X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
