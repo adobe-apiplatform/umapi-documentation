@@ -12,6 +12,10 @@ Welcome to the documentation center for User Management APIs from Adobe.
 News:  
 <hr class="api-ref-rule">
 <div class="isa_info">
+<p>Starting March 10th 2020, new property <code>groupId</code> will be returned as part of the response for retrieving [groups and products](api/group.md). Clients are not impacted by this change.</p>
+<hr class="api-ref-rule">
+<p>Since February 11th 2020, the page size for APIs relating to the retrieval of users and/or groups has been increased from 200 to 400. No changes are required by existing clients.</p>
+<hr class="api-ref-rule">
 <p>Starting August 8th 2019, a change is applied to align with the multiple domains per directory model and tightening the security of the <strong>create</strong> and <strong>update</strong> APIs.</p>
 <p>As a result, any application using the <strong>create</strong> or <strong>update</strong> API statements using domains for which there's no claim in Admin Console, will start failing.</p>
 <hr class="api-ref-rule">
