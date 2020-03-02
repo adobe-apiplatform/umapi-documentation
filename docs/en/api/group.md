@@ -127,6 +127,7 @@ The following fields are present for all group types:
   In addition, there are administrative groups for each user group and product profile. There are also developer groups for product profiles.
   These are named with a prefix and the group name. For example,
   `_admin_Marketing Group`, `_product_admin_Adobe Document Cloud for business` or `_developer_Marketing Group`.
+* __groupId:__ _long_; The unique identifier for the group.
 
 The following field is returned for groups of type `USER_ADMIN_GROUP`:
 
@@ -152,7 +153,8 @@ The following fields are returned for groups of type `PRODUCT_PROFILE`:
   "userGroupName": "string",
   "productProfileName": "string",
   "productName": "string",
-  "licenseQuota": "string"
+  "licenseQuota": "string",
+  "groupId": long
 }
 ```
 
