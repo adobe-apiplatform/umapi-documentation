@@ -33,7 +33,7 @@ __Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttlin
 | orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
 | X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
 | Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
-| page | query | false | The page number being requested. Page numbers greater than what exist will return the last page of users. |
+| page | query | false | The page number being requested. Page numbers greater than what exist will return the last page of users. The page size is variable with the current value returned in the X-Page-Size response header.|
 | content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
 | X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
 | directOnly | query | false | {% include_relative partials/directOnlyDescription.md %} |
