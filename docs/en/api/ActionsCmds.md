@@ -31,7 +31,7 @@ Each _command_ entry begins with a _root command_ that specifies whether a set o
 ## Root commands
 
 <a name="userRootCommand" class="api-ref-subtitle">__user:__</a> _string_
-The user field is usually an email address with a UID and domain component `jdoe@example.com`. Organizations can be configured to accept usernames that are not email addresses. In these cases, the `domain` property must be provided in order to identify the user. [Identity Types](glossary.md#identity) explains the different account types available. 
+The user field is an email address with a UID and domain component `jdoe@example.com`. [Identity Types](glossary.md#identity) explains the different account types available. 
 
 <a name="usergroupRootCommand" class="api-ref-subtitle">__usergroup:__</a> _string_
 To create, update or delete a [user group](glossary.md#usergroup), specify `createUserGroup`, `deleteUserGroup`, and `updateUserGroup` actions in the `do` list for the `usergroup`. To update the membership list specify `add` and `remove` actions in the `do` list for the `usergroup`. See [User Group Action Commands](usergroupActionCommands.md) for details.
@@ -59,16 +59,6 @@ When true, the user ID is interpreted to refer to an existing [Adobe ID](glossar
 
 __do:__
 Lists the series of _steps_ to complete for this command entry. For a single user command entry, there can be only __one__ create user operation ([createEnterpriseID](#createEnterpriseID), [createFederatedID](#createFederatedID) or [addAdobeID](#addAdobeID)) and __one__ delete user operation ([removeFromOrg](#removeFromOrg)).
-
-<hr class="api-ref-rule">  
-
-## <a name="emailVsUsername">Username vs Email user login setting</a>
-
-Based on the Admin Console -> Settings -> Identity -> a Directory's metadata, there can be 2 situations for `User login setting`:  
-
-![image of Directory metadata](images/uVSe.png)  
-
-Based on this setting, the [user](#userRootCommand) actions will differ in the JSON body format. Use-cases in this page will reference one or the other as __email based login__ or __username based login__.
 
 <hr class="api-ref-rule">  
 
@@ -151,7 +141,7 @@ Creates a [Federated ID](glossary.md#federatedId). See [user-information](#user-
   }
 }
 ```
-Sample POST body for [email based login](ActionsCmds.md#emailVsUsername): 
+Sample POST body for email based login: 
 
 ```json
 [{
@@ -168,11 +158,11 @@ Sample POST body for [email based login](ActionsCmds.md#emailVsUsername):
   }]
 }]
 ```
-Sample POST body for [username based login](ActionsCmds.md#emailVsUsername):  
+Sample POST body defining the domain:  
 
 ```json
 [{
-  "user" : "jdoe",
+  "user" : "jdoe@claimed-domain1.com",
   "domain": "claimed-domain1.com",
   "requestID": "action_1",
   "do" : [{
@@ -217,7 +207,7 @@ Inside _update_ parameters that need an update should appear.
 ```  
 Note: _country_ is not updatable via UMAPI  
 
-Samples for _update_ use-case scenarios - [email based login](ActionsCmds.md#emailVsUsername):  
+Samples for _update_ use-case scenarios with email based login:  
 
 * Updating user's _Email_ and _Last Name_ metadata but keeping the domain part constant
 ```json
@@ -276,60 +266,13 @@ Samples for _update_ use-case scenarios - [email based login](ActionsCmds.md#ema
 }]
 ```  
 
-
-Samples for _update_ use-case scenarios - [username based login](ActionsCmds.md#emailVsUsername):  
-
-* Updating user's _Email_ and _Last Name_ metadata, using same domain for the new email as we had for the old one  
-```json
-[{
-  "user": "jdoe",
-  "domain": "claimed-domain1.com",
-  "requestID": "action_1",
-  "do": [{
-    "update": {
-      "email": "jnew@claimed-domain1.com",
-      "lastname": "new"
-    }
-  }]
-}]
-```  
-
-* Updating user's _Email_ metadata but change domain as well  
->__Requirement__: used domain should be claimed and added to same Admin Console Directory 
-```json
-[{
-  "user": "jdoe",
-  "domain": "claimed-domain1.com",
-  "requestID": "action_1",
-  "do": [{
-    "update": {
-      "email": "new@claimed-domain2.com"
-    }
-  }]
-}]
-```  
-
-* Updating only user's _Username_ metadata  
-```json
-[{
-  "user": "jdoe",
-  "domain": "claimed-domain1.com",
-  "requestID": "action_1",
-  "do": [{
-    "update": {
-      "username": "jnew"
-    }
-  }]
-}]
-```
-
-#### Updating Email and Username policy
+#### Updating Email Policy
 
 For all account types, the email address is used as a case-sensitive unique identifier. You __cannot__ use the `update` request to __change the letter case of the email address__, once it has been set. There is an additional `username` field: for Adobe IDs and Enterprise IDs, the `username` is always the same as the email address, and the same is true by default for Federated IDs. 
 
 For Federated IDs, you can update the `username` field for users whose email address is in your domain. The `username` value can also be an email address, but you can never use it to identify a user in requests.
 
-In case of [email based login](ActionsCmds.md#emailVsUsername), if you use an `update` command to change a user's Email metadata, the Username metadata __is automatically updated to match__, provided that all domains being used in the request are claimed. 
+In case of email based login, if you use an `update` command to change a user's Email metadata, the Username metadata __is automatically updated to match__, provided that all domains being used in the request are claimed. 
 
 ```json
 [{
@@ -357,7 +300,7 @@ Adds a user as a member of a group. You can add a maximum of 10 memberships in o
 }
 ```  
 
-Sample JSON body for [email based login](ActionsCmds.md#emailVsUsername):   
+Sample JSON body for email based login:   
 
 ```json
 [{
@@ -373,24 +316,6 @@ Sample JSON body for [email based login](ActionsCmds.md#emailVsUsername):
   }]
 }]
 ```  
-
-Sample JSON body for [username based login](ActionsCmds.md#emailVsUsername):   
-
-```json
-[{
-  "user": "jdoe",
-  "domain": "claimed-domain1.com",
-  "requestID": "action_1",
-  "do": [{
-    "add": {
-      "group": [ 
-        "group_name"
-      ]
-    }
-  }]
-}]
-```  
-
 
 ### <a name="remove" class="api-ref-subtitle">__remove:__</a>
 Removes the membership of users from groups. You can remove a maximum of 10 memberships in one command entry, unless you use the special  "all" parameter to remove all memberships for the user. See [Add/Remove attributes](#addRemoveAttr) section for full details of the `group` attribute.
@@ -411,7 +336,7 @@ Additionally you can pass the attribute `all` to remove the user from all groups
 }
 ```
 
-Sample JSON body for [email based login](ActionsCmds.md#emailVsUsername):   
+Sample JSON body for email based login:   
 
 * removing a user's membership from 2 groups 
 ```json
@@ -439,37 +364,7 @@ Sample JSON body for [email based login](ActionsCmds.md#emailVsUsername):
     "remove": "all"
   }]
 }]
-```  
-
-Sample JSON body for  [username based login](ActionsCmds.md#emailVsUsername):   
-
-* removing a user's membership from a group/PLC  
-```json
-[{
-  "user": "jdoe",
-  "domain": "claimed-domain1.com",
-  "requestID": "action_1",
-  "do": [{
-    "add": {
-      "remove": [ 
-        "group_name1"
-      ]
-    }
-  }]
-}]
-```  
-
-* remove the user account from all Groups/PLCs/Admin roles in Admin Console  
-```json
-[{
-  "user": "jdoe",
-  "domain": "claimed-domain1.com",
-  "requestID": "action_1",
-  "do": [{
-    "remove": "all"
-  }]
-}]
-```  
+``` 
 
 ### <a name="addRemoveAttr" class="api-ref-subtitle">__Add/Remove Attributes__</a>
 
@@ -493,7 +388,7 @@ Use the [`group`](group.md) resource to retrieve information about defined group
 
 ### <a name="removeFromOrg" class="api-ref-subtitle">__removeFromOrg:__</a>
 
-Removes the user's membership in the organization, and optionally from membership in a domain that is linked to the given organization through the trusted-domain relationship. This includes any product configs and user-groups in the organization that they are a member of. There can only be a single `removeFromOrg` action in a command entry. If present, the removal action will be the last step invoked. If the user is specified by email address, then the domain of the email address specifies the domain of the account. If the user is specified by Username, the domain must be provided.
+Removes the user's membership in the organization, and optionally from membership in a domain that is linked to the given organization through the trusted-domain relationship. This includes any product configs and user-groups in the organization that they are a member of. There can only be a single `removeFromOrg` action in a command entry. If present, the removal action will be the last step invoked. If the user is specified by email address, then the domain of the email address specifies the domain of the account.
 
 Note that the response always reports a successful result for this action, even if the user did not exist.
 
@@ -511,7 +406,7 @@ Corresponding Admin Console actions:
 `"deleteAccount": false` = removing the user from the __Users__ menu 
 `"deleteAccount": true` = removing the user from the __Directory users__ menu; implies loss of account metadata and associated cloud assets  
 
-Sample JSON body for  [email based login](ActionsCmds.md#emailVsUsername):   
+Sample JSON body for email based login:   
 
 ```json
 [{
@@ -525,91 +420,12 @@ Sample JSON body for  [email based login](ActionsCmds.md#emailVsUsername):
 }]
 ```  
 
-Sample JSON body for  [username based login](ActionsCmds.md#emailVsUsername):   
-```json
-[{
-  "user": "jdoe",
-  "domain": "claimed-domain1.com",
-  "requestID": "action_1",
-  "do": [{
-    "removeFromOrg": {
-      "deleteAccount": false
-    }
-  }]
-}]
-``` 
-
 <hr class="api-ref-rule">
 
-### <a name="userExamples" class="api-ref-subtitle">User command request body schema for [email based login](ActionsCmds.md#emailVsUsername) scenario</a>
+### <a name="userExamples" class="api-ref-subtitle">User command request body schema for email based login scenario</a>
 ```json
 [{
   "user": "string",
-  "requestID": "string",
-  "useAdobeID": boolean,
-  "do": [
-    {
-      "addAdobeID": {
-        "country": "string",
-        "email": "string",
-        "firstname": "string",
-        "lastname": "string",
-        "option": "string"
-      }
-    },
-    {
-      "createEnterpriseID": {
-        "country": "string",
-        "email": "string",
-        "firstname": "string",
-        "lastname": "string",
-        "option": "string"
-      }
-    },
-    {
-      "createFederatedID": {
-        "country": "string",
-        "email": "string",
-        "firstname": "string",
-        "lastname": "string",
-        "option": "string"
-       }
-    },
-    {
-      "add": {
-        "group": [
-          "string"
-        ]
-      }
-    },
-    {
-      "remove": {
-        "group": [
-          "string"
-        ]
-      }
-    },
-    {
-      "removeFromOrg": {
-        "deleteAccount": boolean
-      }
-    },
-    {
-      "update": {
-        "email": "string",
-        "firstname": "string",
-        "lastname": "string"
-      }
-    }
-  ]
-}]
-```  
-
-### <a name="userExamples" class="api-ref-subtitle">User command request body schema for [username based login](ActionsCmds.md#emailVsUsername) scenario</a>
-```json
-[{
-  "user": "string",
-  "domain": "string",
   "requestID": "string",
   "useAdobeID": boolean,
   "do": [
