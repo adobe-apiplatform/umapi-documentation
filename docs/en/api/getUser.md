@@ -24,10 +24,10 @@ __Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttlin
 | Name | Type | Req? | Description |
 | :---- | :--- | :---: | :------ |
 | orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
-| userString | path | true | For [AdobeID](glossary.md#adobeId), [Enterprise](glossary.md#enterpriseId) and _[email-federated](glossary.md#federatedId)_ users this should be the full email address including domain. For _[username-Federated](glossary.md#federatedId)_ users, this should be the username. In both cases the parameter is case-insensitive. [Identity Types](glossary.md#identity) explains the different account types available. |
+| userString | path | true | For [AdobeID](glossary.md#adobeId), [Enterprise](glossary.md#enterpriseId) and _[email-federated](glossary.md#federatedId)_ users this should be the full email address including domain. In all cases the parameter is case-insensitive. [Identity Types](glossary.md#identity) explains the different account types available. |
 | X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
 | Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
-| domain | query | false | Optional parameter but highly recommended including for all user types. For [AdobeID](glossary.md#adobeId) users this would be `AdobeID`. For [Enterprise](glossary.md#enterpriseId) and _[email-federated](glossary.md#federatedId)_ users the domain will either match the email domain or, in the case of multi-domain federations, have any other domain for that directory. For _[username-federated](glossary.md#federatedId)_ users the value must be a claimed domain which contains the user's account |
+| domain | query | false | Optional parameter but highly recommended including for all user types. For [AdobeID](glossary.md#adobeId) users this would be `AdobeID`. For [Enterprise](glossary.md#enterpriseId) and _[email-federated](glossary.md#federatedId)_ users the domain will either match the email domain or, in the case of multi-domain federations, have any other domain for that directory. |
 | content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
 | X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
 {:.bordertablestyle}
@@ -171,13 +171,7 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/organizations/1234
   --header 'Authorization: Bearer ey...' \
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
 ```
- Searching by username for [username-federated](glossary.md#federatedId) users:
-```
- curl -X GET https://usermanagement.adobe.io/v2/usermanagement/organizations/12345@AdobeOrg/users/jdoe?domain=example.com \
-  --header 'Authorization: Bearer ey...' \
-  --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
-```
- Searching for [AdobeID](glossary.md#adobeId) user with domain:
+Searching for [AdobeID](glossary.md#adobeId) user with domain:
 ```
  curl -X GET https://usermanagement.adobe.io/v2/usermanagement/organizations/12345@AdobeOrg/users/jdoe@example.com?domain=AdobeID \
   --header 'Authorization: Bearer ey...' \
