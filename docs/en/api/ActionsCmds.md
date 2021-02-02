@@ -104,8 +104,8 @@ Creates an [Enterprise ID](glossary.md#enterpriseId). See [user-information](#us
   "createEnterpriseID": {  
     "email": "string",
     "country": "string",
-    "email": "string",
-    "country": "string",
+    "firstname": "string",
+    "lastname": "string",
     "option": "string"
   }
 }
@@ -162,7 +162,7 @@ Sample POST body defining the domain:
 
 ```json
 [{
-  "user" : "jdoe@claimed-domain1.com",
+  "user" : "jdoe",
   "domain": "claimed-domain1.com",
   "requestID": "action_1",
   "do" : [{
