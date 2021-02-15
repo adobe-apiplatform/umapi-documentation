@@ -10,8 +10,9 @@ lang: en
 Welcome to the documentation center for User Management APIs from Adobe.  
 
 News:  
-<hr class="api-ref-rule">
 <div class="isa_info">
+<p>Starting in February 2021, Adobe will add controls to the User Sync Tool scheduling feature to prevent running the tool more frequently than the recommended timing of no more than once every 2 hours. Running the calls more frequently can start a new session prior to the completion of the previous session, resulting in syncing delays.  When the access limit is reached, further calls fail with the error message ‘429 Too Many Requests’.</p>
+<hr class="api-ref-rule">
 <p>Since June 8th 2020, the page size for APIs relating to the retrieval of users has been increased from 400 to 1000. No changes are required by existing clients.</p>
 <hr class="api-ref-rule">
 <p>Starting March 10th 2020, new property <code>groupId</code> will be returned as part of the response for retrieving groups and products. Clients are not impacted by this change.</p>
