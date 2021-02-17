@@ -111,4 +111,6 @@ https://usermanagement.adobe.io/v2/usermanagement/{orgId}/product/{productId}/co
 
 To protect the availability of the Adobe back-end user identity systems, the User Management API imposes limits on client access to the data. Limits apply to the number of calls that an individual client can make within a time interval, and global limits apply to access by all clients within the time period.
 
-Refer to the _Throttling_ section of each API to determine its limitations. When the access limit is reached, further calls fail with **429 Too Many Requests**.
+Our recommendation is to run the [User Sync Tool](https://adobe-apiplatform.github.io/user-sync.py/en/user-manual/deployment_best_practices.html) no more than once every 2 hours.  Refer to the _Throttling_ section of each API to determine its limitations. When the access limit is reached, further calls fail with **429 Too Many Requests**.
+
+If you are leveraging the [User Sync Tool](https://adobe-apiplatform.github.io/user-sync.py/en/user-manual/configuring_user_sync_tool.html), you can adjust your call frequency via Administrative access to the tool’s configuration file. 
