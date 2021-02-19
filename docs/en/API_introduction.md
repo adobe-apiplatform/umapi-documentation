@@ -113,4 +113,4 @@ To protect the availability of the Adobe back-end user identity systems, the Use
 
 Please refer to the _Throttling_ section of each API to determine its limitations. When the access limit is reached, further calls fail with **429 Too Many Requests**.
 
-If you are leveraging the [User Sync Tool](https://adobe-apiplatform.github.io/user-sync.py/en/user-manual/configuring_user_sync_tool.html), our recommendation is to run the tool no more than once every 2 hours. Further information on scheduling recommendations can be found in their [Deployment Best Practices](https://adobe-apiplatform.github.io/user-sync.py/en/user-manual/deployment_best_practices.html) section.
+If you are leveraging the [User Sync Tool](https://adobe-apiplatform.github.io/user-sync.py/en/user-manual/configuring_user_sync_tool.html), our recommendation is to run the tool no more than once every 2 hours. Further information on scheduling recommendations can be found in the User Sync Tool [Deployment Best Practices](https://adobe-apiplatform.github.io/user-sync.py/en/user-manual/deployment_best_practices.html) section.
