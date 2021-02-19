@@ -11,7 +11,7 @@ Welcome to the documentation center for User Management APIs from Adobe.
 
 News:  
 <div class="isa_info">
-<p>Starting in February 2021, Adobe will add controls to the User Sync Tool scheduling feature to prevent running the tool more frequently than the recommended timing of no more than once every 2 hours. Running the calls more frequently can start a new session prior to the completion of the previous session, resulting in syncing delays.  Please refer to the _Throttling_ section of each API to determine its limitations. When the access limit is reached, further calls fail with the error message ‘429 Too Many Requests’.</p>
+<p>Starting in February 2021, Adobe will add controls to check the running frequency of each User Sync Tool instance to prevent running the tool more frequently than the recommended timing of no more than once every 2 hours. Running the calls more frequently can start a new session prior to the completion of the previous session, resulting in syncing delays. When the access limit is reached, further calls fail with the error message ‘429 Too Many Requests’ and a Retry-After header containing the delay required before the next call can be made. Please refer to the _Throttling_ section of each API to determine its limitations and, if you are leveraging the User Sync Tool, please check their Deployment Best Practices section for scheduling recommendations.</p>
 <hr class="api-ref-rule">
 <p>Since June 8th 2020, the page size for APIs relating to the retrieval of users has been increased from 400 to 1000. No changes are required by existing clients.</p>
 <hr class="api-ref-rule">
