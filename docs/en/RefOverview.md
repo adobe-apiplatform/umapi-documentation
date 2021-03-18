@@ -43,7 +43,7 @@ https://usermanagement.adobe.io/v2/usermanagement/...
 | :--- | :--- | :---| :---------- |
 | [Create and Add Users](#add) | POST | `action/{orgId}`  | Create or add users to an organization by specifying a _command_ in the request body.  |
 | [Update User Records](#update) | POST | `action/{orgId}`  | Update existing user records  |
-| [Remove Users](#remove) |  DELETE | `action/{orgId}`  | Remove users from your organization |
+| [Remove Users](#remove) |  POST | `action/{orgId}`  | Remove users from your organization |
 | [Access Users](#users) | GET | various endpoints | List users in organization or in group, get individual user records  |
 {:.bordertablestyle}
 
