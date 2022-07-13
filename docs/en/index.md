@@ -11,6 +11,11 @@ Welcome to the documentation center for User Management APIs from Adobe.
 
 News:  
 <div class="isa_info">
+<p>On August 8th, 2022, Document Cloud product names will remove the "DC" suffix. For example, "Acrobat Pro DC" will be renamed “Acrobat Pro".</p>
+<p>As a result, any application directly accessing the User Management API which include logic <strong>dependent on the product name</strong> will need to be updated. If you have not included the product name in the code, then this will not impact your connection to the User Management API. If you use the User Sync Tool, you should see no impact.</p>
+<p>Note: the term "DC" included in the name of a Product Profile <em>will not change</em>. If you rely on the name of the “product admin group” (e.g., <code>_admin_&lt;product name&gt;</code>) you may be impacted and have to update your scripts.</p>
+<p>As a best practice, it is recommended to avoid any logic that expects fixed product names.</p>
+<hr class="api-ref-rule">
 <p>Starting from 20th July 2021, there is an update when retrieving groups for ETLA customers with a Single App plan. When applicable, instead of returning _Single App_ in the <code>productName</code> field it will now be populated with the corresponding product name e.g. _Photoshop_.</p>
 <p>As a result, any application directly accessing the User Management API which includes logic <strong>dependent on the _Single App_ product name</strong> will need to be updated. If you have not included the product name in the code, then this will not impact your connection to the User Management API. If you use the User Sync Tool, you should see no impact.</p>
 <p>As a best practice, it is recommended to avoid any logic that expects fixed product names.</p>
