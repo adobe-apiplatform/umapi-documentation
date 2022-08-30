@@ -211,7 +211,11 @@ def make_call(self, path, body=None):
 The above function definition is taken from the [Connection.py](https://github.com/adobe-apiplatform/umapi-client.py/blob/master/umapi_client/connection.py#L397) class inside [UMAPI-Client](https://github.com/adobe-apiplatform/umapi-client.py). 
 
 
-## Postman collection for UMAPI samples
+
+
+## Postman collection for UMAPI samples  
+
+### Environment configuration  
 
 Download [this](UMAPI_SAMPLES.postman_collection.json) json file locally and import it to your Postman environment.  
 Click Collections menu in Postman and select the `UMAPI SAMPLES` to view its Variables menu in the main page area.  
