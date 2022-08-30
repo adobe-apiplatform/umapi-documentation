@@ -13,6 +13,8 @@ This walkthrough shows you how to set up the environment and make calls into the
 
 The walkthrough integrates with a set of [Python samples]({{ site.github_url }}/tree/master/samples), available in GitHub, which demonstrate using the User Management API. Note that the sample scripts are intended to illustrate technique, and are not warranted for any purpose. 
 
+A Postman collection is also available at the bottom of the page.
+
 | Sample | Description |
 | :--- | :--------- |
 | [ExchangeJWT.py]({{ site.github_url }}/blob/master/samples/JWTExchange.py) | Shows how to construct a JSON Web Token (JWT) and exchange it for an access token. |
