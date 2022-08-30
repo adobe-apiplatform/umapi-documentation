@@ -209,3 +209,13 @@ def make_call(self, path, body=None):
     raise UnavailableError(self.retry_max_attempts, total_time, result)
 ```
 The above function definition is taken from the [Connection.py](https://github.com/adobe-apiplatform/umapi-client.py/blob/master/umapi_client/connection.py#L397) class inside [UMAPI-Client](https://github.com/adobe-apiplatform/umapi-client.py). 
+
+
+## Postman collection for UMAPI samples
+
+Download [this](UMAPI_SAMPLES.postman_collection.json) json file locally and import it to your Postman environment.  
+Click Collections menu in Postman and select the `UMAPI SAMPLES` to view its Variables menu in the main page area.  
+Fill in the `CURRENT VALUE` field the associated values obtained from your [developer portal](https://developer.adobe.com)'s integration/project (at least the first 5 rows)  
+Before running any API in the list, you need to run first the `Auth - Obtain Access Token` to have an active token for this session.  
+
+
