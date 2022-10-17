@@ -35,12 +35,12 @@
 							"    method: 'GET'",
 							"};",
 							"",
-							"if (!pm.environment.get(ENV_JS_RSA_SIGN_LIBRARY)) {",
+							"if (!pm.collectionVariables.get(ENV_JS_RSA_SIGN_LIBRARY)) {",
 							"    console.log(\"Loading JS RSA SIGN library from: \" + JS_RSA_SIGN_LIBRARY_REQUEST.url);",
 							"",
 							"    pm.sendRequest(JS_RSA_SIGN_LIBRARY_REQUEST, function (err, response) {",
 							"        if (err === null) {",
-							"            pm.environment.set(ENV_JS_RSA_SIGN_LIBRARY, response.text());",
+							"            pm.collectionVariables.set(ENV_JS_RSA_SIGN_LIBRARY, response.text());",
 							"            console.log(\"Successfully loaded JS RSA Sign library.\");",
 							"            getAccessToken();",
 							"        } else {",
@@ -58,7 +58,7 @@
 							"    var navigator = {}; //fake a navigator object for the lib",
 							"    var window = {}; //fake a window object for the lib",
 							"",
-							"    if (!pm.environment.get(ENV_JS_RSA_SIGN_LIBRARY)) {",
+							"    if (!pm.collectionVariables.get(ENV_JS_RSA_SIGN_LIBRARY)) {",
 							"        throw new Error(\"Could not load JS RSA Sign Library from https://kjur.github.io/jsrsasign/jsrsasign-latest-all-min.js\");",
 							"    } else if (!pm.collectionVariables.get(\"UMAPI_IMS_ORG\")) {",
 							"        throw new Error(\"UMAPI_IMS_ORG\" + ERROR_MESSAGE);",
@@ -71,10 +71,10 @@
 							"    } else if (!pm.collectionVariables.get(\"UMAPI_META_SCOPE\")) {",
 							"        throw new Error(\"UMAPI_META_SCOPE\" + ERROR_MESSAGE);",
 							"    } else if (!pm.collectionVariables.get(\"UMAPI_PRIVATE_KEY\")) {",
-							"        throw new Error(\"Ensure the Private Key is added to both INITIAL and CURRENT VALUES in the active Postman environment's PRIVATE_KEY variable\");",
+							"        throw new Error(\"Ensure the Private Key is added to both INITIAL and CURRENT VALUES in the active collection environment's UMAPI_PRIVATE_KEY variable\");",
 							"    }",
 							"",
-							"    eval(pm.environment.get(ENV_JS_RSA_SIGN_LIBRARY)); //import javascript jsrsasign",
+							"    eval(pm.collectionVariables.get(ENV_JS_RSA_SIGN_LIBRARY)); //import javascript jsrsasign",
 							"",
 							"    var header = {",
 							"        \"alg\": \"RS256\"",
@@ -86,15 +86,15 @@
 							"        \"sub\": pm.collectionVariables.get(\"UMAPI_TECHNICAL_ACCOUNT_ID\"),",
 							"        \"aud\": \"https://\" + pm.collectionVariables.get(\"UMAPI_IMS\") + \"/c/\" + pm.collectionVariables.get(\"UMAPI_API_KEY\")",
 							"    };",
-							"    ",
-							"    var meta_scope = \"https://ims-na1.adobelogin.com/s/ent_user_sdk\";",
+							"",
+							"    var meta_scope = \"https://\" + pm.collectionVariables.get(\"UMAPI_IMS\") + \"/s/ent_user_sdk\";",
 							"    data[meta_scope] = true;",
 							"    ",
 							"",
 							"    var secret = pm.collectionVariables.get(\"UMAPI_PRIVATE_KEY\");",
 							"",
 							"    if (!secret) {",
-							"        console.log(\"Ensure the Private Key is added to both INITIAL and CURRENT VALUES in the active Postman environment's UMAPI_PRIVATE_KEY variable.\");",
+							"        console.log(\"Ensure the Private Key is added to both INITIAL and CURRENT VALUES in the active collection's UMAPI_PRIVATE_KEY variable.\");",
 							"    }",
 							"",
 							"    console.log(data);",
@@ -184,12 +184,10 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/users/{{UMAPI_IMS_ORG}}/{{UMAPI_PAGE}}",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/users/{{UMAPI_IMS_ORG}}/{{UMAPI_PAGE}}",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -234,12 +232,10 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/users/{{UMAPI_IMS_ORG}}/{{UMAPI_PAGE}}?domain={{UMAPI_DOMAIN}}",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/users/{{UMAPI_IMS_ORG}}/{{UMAPI_PAGE}}?domain={{UMAPI_DOMAIN}}",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -290,12 +286,10 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/groups/{{UMAPI_IMS_ORG}}/{{UMAPI_PAGE}}",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/groups/{{UMAPI_IMS_ORG}}/{{UMAPI_PAGE}}",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -340,12 +334,10 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/organizations/{{UMAPI_IMS_ORG}}/users/{{USER_EMAIL}}",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/organizations/{{UMAPI_IMS_ORG}}/users/{{USER_EMAIL}}",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -391,12 +383,10 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/users/{{UMAPI_IMS_ORG}}/{{UMAPI_PAGE}}/{{UMAPI_GROUP_NAME}}",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/users/{{UMAPI_IMS_ORG}}/{{UMAPI_PAGE}}/{{UMAPI_GROUP_NAME}}",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -442,12 +432,10 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/users/{{UMAPI_IMS_ORG}}/{{UMAPI_PAGE}}/{{UMAPI_PLC_NAME}}?directOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/users/{{UMAPI_IMS_ORG}}/{{UMAPI_PAGE}}/{{UMAPI_PLC_NAME}}?directOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -502,12 +490,10 @@
 					"raw": "[\n  {\n    \"user\": \"user1@claimed-domain.com\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user1@claimed-domain.com\",\n          \"firstname\": \"First\",\n          \"lastname\": \"Last\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      }\n    ]\n  }\n]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -560,12 +546,10 @@
 					"raw": "[\n  {\n    \"user\": \"non email formatted value\",\n    \"domain\": \"claimed-domain.com\",\n    \"requestID\": \"action_2\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user@claimed-domain.com\",\n          \"firstname\": \"First\",\n          \"lastname\": \"Last\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      }\n    ]\n  }\n]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -618,12 +602,10 @@
 					"raw": "[\n  {\n    \"user\": \"SSO Username as email formatted value with claimed domain\",\n    \"requestID\": \"action_3\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"an email value different than SSO Username above, with claimed domain\",\n          \"firstname\": \"First\",\n          \"lastname\": \"Last\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      }\n    ]\n  }\n]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -676,12 +658,10 @@
 					"raw": "[{\n  \"user\" : \"some email goes here\",\n  \"requestID\": \"action_4\",\n  \"do\" : [{\n    \"addAdobeID\": {\n      \"email\": \"same email as above here\",\n      \"country\": \"US\",\n      \"firstname\": \"first\",\n      \"lastname\": \"last\",\n      \"option\": \"ignoreIfAlreadyExists\"\n    }\n  }]\n}]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -734,12 +714,10 @@
 					"raw": "[{\n  \"user\" : \"jdoe@claimed-domain1.com\",\n  \"requestID\": \"action_5\",\n  \"do\" : [{\n    \"createEnterpriseID\": {\n      \"email\": \"jdoe@dclaimed-domain1.com\",\n      \"country\": \"US\",\n      \"firstname\": \"John\",\n      \"lastname\": \"Doe\",\n      \"option\": \"ignoreIfAlreadyExists\"\n    }\n  }]\n}]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -792,12 +770,10 @@
 					"raw": "[{\n  \"user\": \"existing user's email in admin console goes here\",\n  \"requestID\": \"action_6\",\n    \"do\": [{\n      \"update\": {\n        \"email\": \"cane_be_new_value@claimed-domain2.com\",\n        \"firstname\": \"can be new value\",\n        \"lastname\": \"can be new value\",\n        \"username\": \"can be new\"\n      }\n    }]\n}]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -850,12 +826,10 @@
 					"raw": "[{\n  \"user\": \"existing user's email in admin console goes here\",\n  \"requestID\": \"action_7\",\n    \"do\": [{\n      \"add\": {\n        \"group\": [\"group1\", \"group2\", \"etc\", \"add max 10 group names\"]\n      }\n    }]\n}]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -908,12 +882,10 @@
 					"raw": "[{\n  \"user\": \"existing user's email in admin console goes here\",\n  \"requestID\": \"action_8\",\n    \"do\": [{\n      \"remove\": {\n        \"group\": [\"group1\", \"group2\", \"etc\", \"add max 10 group names\"]\n      }\n    }]\n}]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -966,12 +938,10 @@
 					"raw": "[{\n  \"user\": \"existing user's email in admin console goes here\",\n  \"requestID\": \"action_9\",\n    \"do\": [{\n      \"remove\": \"all\"\n      }]\n}]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -1024,12 +994,10 @@
 					"raw": "[{\n  \"user\": \"existing user's email in admin console goes here\",\n  \"requestID\": \"action_10\",\n  \"do\": [{\n    \"removeFromOrg\": {\"deleteAccount\": false}\n  }]\n}]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -1082,12 +1050,10 @@
 					"raw": "[{\n  \"user\": \"existing user's email in admin console goes here\",\n  \"requestID\": \"action_11\",\n  \"do\": [{\n    \"removeFromOrg\": {\"deleteAccount\": true}\n  }]\n}]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -1140,12 +1106,10 @@
 					"raw": "[\n  {\n    \"user\": \"user1@claimed-domain.com\",\n    \"requestID\": \"action_12\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user1@claimed-domain.com\",\n          \"firstname\": \"First\",\n          \"lastname\": \"Last\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      },\n      {\n        \"add\": {\n          \"group\" : [ \"Default Photoshop - 100Gb\",\n                      \"_support_admin\", \n                      \"some user-group name\" ]\n        }\n      },\n      {\n        \"update\": {\n          \"username\": \"new username here\"\n        }\n      }\n    ]\n  }\n]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -1198,12 +1162,10 @@
 					"raw": "[{\n    \"user\": \"user1@claimed-domain.com\",\n    \"requestID\": \"action_13\",\n    \"do\": [\n      {\n        \"add\": {\n          \"group\" : [ \"Default Photoshop - 100Gb\",\n                      \"_support_admin\", \n                      \"some user-group name\" ]\n        }\n      },\n      {\n        \"remove\": {\n          \"group\" : [ \"Default InDesign - 100Gb\",\n                      \"_product_admin_myProduct1Name\", \n                      \"some other user-group name\" ]\n        }\n      },\n      {\n        \"update\": {\n          \"username\": \"new username here\",\n          \"lastname\": \"new last name here\"\n        }\n      }\n    ]\n}]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -1256,12 +1218,10 @@
 					"raw": "[\n  {\n    \"user\": \"user1@claimed-domain.com\",\n    \"requestID\": \"action_14_1\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user1@claimed-domain.com\",\n          \"firstname\": \"First\",\n          \"lastname\": \"Last\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      },\n      {\n        \"add\": {\n          \"group\" : [ \"Default Acrobat Pro DC configuration\"]\n        }\n      }  \n    ]\n  },\n  {\"user\": \"user2@claimed-domain.com\",\n   \"requestID\": \"action_14_2\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user2@claimed-domain.com\",\n          \"firstname\": \"First2\",\n          \"lastname\": \"Last2\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      },\n      {\n        \"add\": {\n          \"group\" : [ \"Default Acrobat Pro DC configuration\"]\n        }\n      }  \n    ]\n  },\n  {\"user\": \"user3@claimed-domain.com\",\n   \"requestID\": \"action_14_3\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user3@claimed-domain.com\",\n          \"firstname\": \"First3\",\n          \"lastname\": \"Last3\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      },\n      {\n        \"add\": {\n          \"group\" : [ \"Default Acrobat Pro DC configuration\"]\n        }\n      }  \n    ]\n  },\n  {\"user\": \"user4@claimed-domain.com\",\n   \"requestID\": \"action_14_4\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user4@claimed-domain.com\",\n          \"firstname\": \"First4\",\n          \"lastname\": \"Last4\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      },\n      {\n        \"add\": {\n          \"group\" : [ \"Default Acrobat Pro DC configuration\"]\n        }\n      }  \n    ]\n  },\n  {\"user\": \"user5@claimed-domain.com\",\n   \"requestID\": \"action_14_5\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user5@claimed-domain.com\",\n          \"firstname\": \"First5\",\n          \"lastname\": \"Last5\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      },\n      {\n        \"add\": {\n          \"group\" : [ \"Default Acrobat Pro DC configuration\"]\n        }\n      }  \n    ]\n  }\n\n]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -1314,12 +1274,10 @@
 					"raw": "[{\n  \"usergroup\": \"user-group name to create here\",\n  \"requestID\": \"unique string here\",\n  \"do\": [\n     {\n      \"createUserGroup\" : {\n         \"description\": \"edit here\"\n       }\n     }\n  ]\n}]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -1372,12 +1330,10 @@
 					"raw": "[{\n  \"usergroup\": \"existing group name here\",\n  \"requestID\": \"unique string here\",\n  \"do\": [\n     {\n      \"updateUserGroup\" : {\n        \"description\": \"new description here\",\n        \"name\": \"new name here\"\n      }\n     }\n  ]\n}]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -1430,12 +1386,10 @@
 					"raw": "[{\n  \"usergroup\": \"new WWDS\",\n  \"requestID\": \"action_16\",\n  \"do\": [\n    {\n      \"deleteUserGroup\" : {}\n    }\n  ]\n}]"
 				},
 				"url": {
-					"raw": "https://usermanagement.adobe.io/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
 					"protocol": "https",
 					"host": [
-						"usermanagement",
-						"adobe",
-						"io"
+						"{{UMAPI_ENDPOINT}}"
 					],
 					"path": [
 						"v2",
@@ -1503,6 +1457,11 @@
 		{
 			"key": "UMAPI_IMS",
 			"value": "ims-na1.adobelogin.com",
+			"type": "default"
+		},
+		{
+			"key": "UMAPI_ENDPOINT",
+			"value": "usermanagement.adobe.io",
 			"type": "default"
 		},
 		{
