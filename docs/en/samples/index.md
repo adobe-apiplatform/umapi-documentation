@@ -223,6 +223,3 @@ The above function definition is taken from the [Connection.py](https://github.c
  Fill in the `CURRENT VALUE` field with the associated values obtained from your [developer portal](https://developer.adobe.com)'s integration/project (at least the first 5 rows)  
  Before running any API in the list, you need to run `Auth - Obtain Access Token` first to have an active token generated for the session.  
  
- 
- 
- 
