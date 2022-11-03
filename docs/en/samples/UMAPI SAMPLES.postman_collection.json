@@ -1,0 +1,1502 @@
+{
+	"info": {
+		"name": "UMAPI SAMPLES",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth - Obtain Access Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"",
+							"if (data.access_token) {",
+							"    pm.collectionVariables.set(\"UMAPI_ACCESS_TOKEN\", data.access_token);",
+							"} else {",
+							"    console.log(\"Unable to acquire ACCESS_TOKEN from Adobe IMS to make further calls to Adobe I/O APIs.\")",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"",
+							"const ERROR_MESSAGE = \" not found in active environment. Please ensure the correct environment is selected and populated.\";",
+							"const ENV_JS_RSA_SIGN_LIBRARY = \"ADOBE_IO_ACCESS_TOKEN__JS_RSA_SIGN_LIBRARY\";",
+							"",
+							"const JS_RSA_SIGN_LIBRARY_REQUEST = {",
+							"    url: 'https://kjur.github.io/jsrsasign/jsrsasign-latest-all-min.js',",
+							"    method: 'GET'",
+							"};",
+							"",
+							"if (!pm.collectionVariables.get(ENV_JS_RSA_SIGN_LIBRARY)) {",
+							"    console.log(\"Loading JS RSA SIGN library from: \" + JS_RSA_SIGN_LIBRARY_REQUEST.url);",
+							"",
+							"    pm.sendRequest(JS_RSA_SIGN_LIBRARY_REQUEST, function (err, response) {",
+							"        if (err === null) {",
+							"            pm.collectionVariables.set(ENV_JS_RSA_SIGN_LIBRARY, response.text());",
+							"            console.log(\"Successfully loaded JS RSA Sign library.\");",
+							"            getAccessToken();",
+							"        } else {",
+							"            console.log(\"Could not load JS RSA Sign Library.\");",
+							"        }",
+							"    });",
+							"} else {",
+							"    // Already have the JS RSA Sign library loaded, so generate token immediately",
+							"    getAccessToken();",
+							"}",
+							"",
+							"// Tips from: https://github.com/kjur/jsrsasign/issues/199",
+							"// https://github.com/kjur/jsrsasign/wiki/Tutorial-for-JWT-generation",
+							"function getAccessToken() {",
+							"    var navigator = {}; //fake a navigator object for the lib",
+							"    var window = {}; //fake a window object for the lib",
+							"",
+							"    if (!pm.collectionVariables.get(ENV_JS_RSA_SIGN_LIBRARY)) {",
+							"        throw new Error(\"Could not load JS RSA Sign Library from https://kjur.github.io/jsrsasign/jsrsasign-latest-all-min.js\");",
+							"    } else if (!pm.collectionVariables.get(\"UMAPI_IMS_ORG\")) {",
+							"        throw new Error(\"UMAPI_IMS_ORG\" + ERROR_MESSAGE);",
+							"    } else if (!pm.collectionVariables.get(\"UMAPI_TECHNICAL_ACCOUNT_ID\")) {",
+							"        throw new Error(\"UMAPI_TECHNICAL_ACCOUNT_ID\" + ERROR_MESSAGE);",
+							"    } else if (!pm.collectionVariables.get(\"UMAPI_IMS\")) {",
+							"        throw new Error(\"UMAPI_IMS\" + ERROR_MESSAGE);",
+							"    } else if (!pm.collectionVariables.get(\"UMAPI_API_KEY\")) {",
+							"        throw new Error(\"UMAPI_API_KEY\" + ERROR_MESSAGE);",
+							"    } else if (!pm.collectionVariables.get(\"UMAPI_META_SCOPE\")) {",
+							"        throw new Error(\"UMAPI_META_SCOPE\" + ERROR_MESSAGE);",
+							"    } else if (!pm.collectionVariables.get(\"UMAPI_PRIVATE_KEY\")) {",
+							"        throw new Error(\"Ensure the Private Key is added to both INITIAL and CURRENT VALUES in the active collection environment's UMAPI_PRIVATE_KEY variable\");",
+							"    }",
+							"",
+							"    eval(pm.collectionVariables.get(ENV_JS_RSA_SIGN_LIBRARY)); //import javascript jsrsasign",
+							"",
+							"    var header = {",
+							"        \"alg\": \"RS256\"",
+							"    };",
+							"",
+							"    var data = {",
+							"        \"exp\": Math.round(87000 + Date.now() / 1000),",
+							"        \"iss\": pm.collectionVariables.get(\"UMAPI_IMS_ORG\"),",
+							"        \"sub\": pm.collectionVariables.get(\"UMAPI_TECHNICAL_ACCOUNT_ID\"),",
+							"        \"aud\": \"https://\" + pm.collectionVariables.get(\"UMAPI_IMS\") + \"/c/\" + pm.collectionVariables.get(\"UMAPI_API_KEY\")",
+							"    };",
+							"",
+							"    var meta_scope = \"https://\" + pm.collectionVariables.get(\"UMAPI_IMS\") + \"/s/ent_user_sdk\";",
+							"    data[meta_scope] = true;",
+							"    ",
+							"",
+							"    var secret = pm.collectionVariables.get(\"UMAPI_PRIVATE_KEY\");",
+							"",
+							"    if (!secret) {",
+							"        console.log(\"Ensure the Private Key is added to both INITIAL and CURRENT VALUES in the active collection's UMAPI_PRIVATE_KEY variable.\");",
+							"    }",
+							"",
+							"    console.log(data);",
+							"",
+							"    var sHeader = JSON.stringify(header);",
+							"    var sPayload = JSON.stringify(data);",
+							"    var sJWT = KJUR.jws.JWS.sign(\"RS256\", sHeader, sPayload, secret);",
+							"",
+							"    console.log(sJWT);",
+							"",
+							"    pm.collectionVariables.set(\"UMAPI_JWT_TOKEN\", sJWT);",
+							"}",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "client_id",
+							"value": "{{UMAPI_API_KEY}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{UMAPI_CLIENT_SECRET}}",
+							"type": "text"
+						},
+						{
+							"key": "jwt_token",
+							"value": "{{UMAPI_JWT_TOKEN}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{UMAPI_IMS}}/ims/exchange/jwt/",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_IMS}}"
+					],
+					"path": [
+						"ims",
+						"exchange",
+						"jwt",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Org users page 0",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/users/{{UMAPI_IMS_ORG}}/{{UMAPI_PAGE}}",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"users",
+						"{{UMAPI_IMS_ORG}}",
+						"{{UMAPI_PAGE}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Org users of given domain page 0",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/users/{{UMAPI_IMS_ORG}}/{{UMAPI_PAGE}}?domain={{UMAPI_DOMAIN}}",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"users",
+						"{{UMAPI_IMS_ORG}}",
+						"{{UMAPI_PAGE}}"
+					],
+					"query": [
+						{
+							"key": "domain",
+							"value": "{{UMAPI_DOMAIN}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Org groups and profiles page 0",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/groups/{{UMAPI_IMS_ORG}}/{{UMAPI_PAGE}}",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"groups",
+						"{{UMAPI_IMS_ORG}}",
+						"{{UMAPI_PAGE}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET user information",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/organizations/{{UMAPI_IMS_ORG}}/users/{{USER_EMAIL}}",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"organizations",
+						"{{UMAPI_IMS_ORG}}",
+						"users",
+						"{{USER_EMAIL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET user by group page 0",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/users/{{UMAPI_IMS_ORG}}/{{UMAPI_PAGE}}/{{UMAPI_GROUP_NAME}}",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"users",
+						"{{UMAPI_IMS_ORG}}",
+						"{{UMAPI_PAGE}}",
+						"{{UMAPI_GROUP_NAME}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET only direct PLC members page 0",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/users/{{UMAPI_IMS_ORG}}/{{UMAPI_PAGE}}/{{UMAPI_PLC_NAME}}?directOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"users",
+						"{{UMAPI_IMS_ORG}}",
+						"{{UMAPI_PAGE}}",
+						"{{UMAPI_PLC_NAME}}"
+					],
+					"query": [
+						{
+							"key": "directOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_FederatedID_of_format1",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"user\": \"user1@claimed-domain.com\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user1@claimed-domain.com\",\n          \"firstname\": \"First\",\n          \"lastname\": \"Last\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      }\n    ]\n  }\n]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_FederatedID_of_format2",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"user\": \"non email formatted value\",\n    \"domain\": \"claimed-domain.com\",\n    \"requestID\": \"action_2\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user@claimed-domain.com\",\n          \"firstname\": \"First\",\n          \"lastname\": \"Last\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      }\n    ]\n  }\n]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_FederatedID_of_format3",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"user\": \"SSO Username as email formatted value with claimed domain\",\n    \"requestID\": \"action_3\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"an email value different than SSO Username above, with claimed domain\",\n          \"firstname\": \"First\",\n          \"lastname\": \"Last\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      }\n    ]\n  }\n]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_AdobeID",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n  \"user\" : \"some email goes here\",\n  \"requestID\": \"action_4\",\n  \"do\" : [{\n    \"addAdobeID\": {\n      \"email\": \"same email as above here\",\n      \"country\": \"US\",\n      \"firstname\": \"first\",\n      \"lastname\": \"last\",\n      \"option\": \"ignoreIfAlreadyExists\"\n    }\n  }]\n}]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_EntepriseID",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n  \"user\" : \"jdoe@claimed-domain1.com\",\n  \"requestID\": \"action_5\",\n  \"do\" : [{\n    \"createEnterpriseID\": {\n      \"email\": \"jdoe@dclaimed-domain1.com\",\n      \"country\": \"US\",\n      \"firstname\": \"John\",\n      \"lastname\": \"Doe\",\n      \"option\": \"ignoreIfAlreadyExists\"\n    }\n  }]\n}]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_FederatedID",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n  \"user\": \"existing user's email in admin console goes here\",\n  \"requestID\": \"action_6\",\n    \"do\": [{\n      \"update\": {\n        \"email\": \"cane_be_new_value@claimed-domain2.com\",\n        \"firstname\": \"can be new value\",\n        \"lastname\": \"can be new value\",\n        \"username\": \"can be new\"\n      }\n    }]\n}]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add_to_group",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n  \"user\": \"existing user's email in admin console goes here\",\n  \"requestID\": \"action_7\",\n    \"do\": [{\n      \"add\": {\n        \"group\": [\"group1\", \"group2\", \"etc\", \"add max 10 group names\"]\n      }\n    }]\n}]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove_from_group",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n  \"user\": \"existing user's email in admin console goes here\",\n  \"requestID\": \"action_8\",\n    \"do\": [{\n      \"remove\": {\n        \"group\": [\"group1\", \"group2\", \"etc\", \"add max 10 group names\"]\n      }\n    }]\n}]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove_all_roles_and_groups",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n  \"user\": \"existing user's email in admin console goes here\",\n  \"requestID\": \"action_9\",\n    \"do\": [{\n      \"remove\": \"all\"\n      }]\n}]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove_from_org_soft_delete",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n  \"user\": \"existing user's email in admin console goes here\",\n  \"requestID\": \"action_10\",\n  \"do\": [{\n    \"removeFromOrg\": {\"deleteAccount\": false}\n  }]\n}]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove_from_org_hard_delete",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n  \"user\": \"existing user's email in admin console goes here\",\n  \"requestID\": \"action_11\",\n  \"do\": [{\n    \"removeFromOrg\": {\"deleteAccount\": true}\n  }]\n}]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "mix_of_actions_for_one_user",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"user\": \"user1@claimed-domain.com\",\n    \"requestID\": \"action_12\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user1@claimed-domain.com\",\n          \"firstname\": \"First\",\n          \"lastname\": \"Last\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      },\n      {\n        \"add\": {\n          \"group\" : [ \"Default Photoshop - 100Gb\",\n                      \"_support_admin\", \n                      \"some user-group name\" ]\n        }\n      },\n      {\n        \"update\": {\n          \"username\": \"new username here\"\n        }\n      }\n    ]\n  }\n]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "mix_of_actions_for_one_user_2",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n    \"user\": \"user1@claimed-domain.com\",\n    \"requestID\": \"action_13\",\n    \"do\": [\n      {\n        \"add\": {\n          \"group\" : [ \"Default Photoshop - 100Gb\",\n                      \"_support_admin\", \n                      \"some user-group name\" ]\n        }\n      },\n      {\n        \"remove\": {\n          \"group\" : [ \"Default InDesign - 100Gb\",\n                      \"_product_admin_myProduct1Name\", \n                      \"some other user-group name\" ]\n        }\n      },\n      {\n        \"update\": {\n          \"username\": \"new username here\",\n          \"lastname\": \"new last name here\"\n        }\n      }\n    ]\n}]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "multiple_create_actions_max10",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"user\": \"user1@claimed-domain.com\",\n    \"requestID\": \"action_14_1\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user1@claimed-domain.com\",\n          \"firstname\": \"First\",\n          \"lastname\": \"Last\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      },\n      {\n        \"add\": {\n          \"group\" : [ \"Default Acrobat Pro DC configuration\"]\n        }\n      }  \n    ]\n  },\n  {\"user\": \"user2@claimed-domain.com\",\n   \"requestID\": \"action_14_2\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user2@claimed-domain.com\",\n          \"firstname\": \"First2\",\n          \"lastname\": \"Last2\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      },\n      {\n        \"add\": {\n          \"group\" : [ \"Default Acrobat Pro DC configuration\"]\n        }\n      }  \n    ]\n  },\n  {\"user\": \"user3@claimed-domain.com\",\n   \"requestID\": \"action_14_3\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user3@claimed-domain.com\",\n          \"firstname\": \"First3\",\n          \"lastname\": \"Last3\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      },\n      {\n        \"add\": {\n          \"group\" : [ \"Default Acrobat Pro DC configuration\"]\n        }\n      }  \n    ]\n  },\n  {\"user\": \"user4@claimed-domain.com\",\n   \"requestID\": \"action_14_4\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user4@claimed-domain.com\",\n          \"firstname\": \"First4\",\n          \"lastname\": \"Last4\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      },\n      {\n        \"add\": {\n          \"group\" : [ \"Default Acrobat Pro DC configuration\"]\n        }\n      }  \n    ]\n  },\n  {\"user\": \"user5@claimed-domain.com\",\n   \"requestID\": \"action_14_5\",\n    \"do\": [\n      {\n        \"createFederatedID\": {\n          \"country\": \"US\",\n          \"email\": \"user5@claimed-domain.com\",\n          \"firstname\": \"First5\",\n          \"lastname\": \"Last5\",\n          \"option\": \"ignoreIfAlreadyExists\"\n        }\n      },\n      {\n        \"add\": {\n          \"group\" : [ \"Default Acrobat Pro DC configuration\"]\n        }\n      }  \n    ]\n  }\n\n]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_user_group",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n  \"usergroup\": \"user-group name to create here\",\n  \"requestID\": \"unique string here\",\n  \"do\": [\n     {\n      \"createUserGroup\" : {\n         \"description\": \"edit here\"\n       }\n     }\n  ]\n}]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update_user_group",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n  \"usergroup\": \"existing group name here\",\n  \"requestID\": \"unique string here\",\n  \"do\": [\n     {\n      \"updateUserGroup\" : {\n        \"description\": \"new description here\",\n        \"name\": \"new name here\"\n      }\n     }\n  ]\n}]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove_user_group",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true,
+					"accept": true,
+					"accept-encoding": true,
+					"connection": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "x-api-key",
+						"value": "{{UMAPI_API_KEY}}"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{UMAPI_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n  \"usergroup\": \"new WWDS\",\n  \"requestID\": \"action_16\",\n  \"do\": [\n    {\n      \"deleteUserGroup\" : {}\n    }\n  ]\n}]"
+				},
+				"url": {
+					"raw": "https://{{UMAPI_ENDPOINT}}/v2/usermanagement/action/{{UMAPI_IMS_ORG}}?testOnly=true",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_ENDPOINT}}"
+					],
+					"path": [
+						"v2",
+						"usermanagement",
+						"action",
+						"{{UMAPI_IMS_ORG}}"
+					],
+					"query": [
+						{
+							"key": "testOnly",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "UMAPI_API_KEY",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "UMAPI_CLIENT_SECRET",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "UMAPI_TECHNICAL_ACCOUNT_ID",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "UMAPI_PRIVATE_KEY",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "UMAPI_IMS_ORG",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "UMAPI_IMS",
+			"value": "ims-na1.adobelogin.com",
+			"type": "default"
+		},
+		{
+			"key": "UMAPI_ENDPOINT",
+			"value": "usermanagement.adobe.io",
+			"type": "default"
+		},
+		{
+			"key": "UMAPI_META_SCOPE",
+			"value": "ent_user_sdk",
+			"type": "default"
+		},
+		{
+			"key": "UMAPI_PAGE",
+			"value": "0",
+			"type": "default"
+		},
+		{
+			"key": "USER_EMAIL",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "UMAPI_DOMAIN",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "UMAPI_GROUP_NAME",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "UMAPI_PLC_NAME",
+			"value": "Default Acrobat Pro DC configuration",
+			"type": "default"
+		},
+		{
+			"key": "UMAPI_ACCESS_TOKEN",
+			"value": ""
+		}
+	]
+}

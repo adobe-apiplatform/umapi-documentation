@@ -13,6 +13,8 @@ This walkthrough shows you how to set up the environment and make calls into the
 
 The walkthrough integrates with a set of [Python samples]({{ site.github_url }}/tree/master/samples), available in GitHub, which demonstrate using the User Management API. Note that the sample scripts are intended to illustrate technique, and are not warranted for any purpose. 
 
+A Postman collection is also available at the bottom of the page.  
+
 | Sample | Description |
 | :--- | :--------- |
 | [ExchangeJWT.py]({{ site.github_url }}/blob/master/samples/JWTExchange.py) | Shows how to construct a JSON Web Token (JWT) and exchange it for an access token. |
@@ -208,4 +210,16 @@ def make_call(self, path, body=None):
     if self.logger: self.logger.error("UMAPI timeout...giving up after %d attempts (%d seconds).", self.retry_max_attempts, total_time)
     raise UnavailableError(self.retry_max_attempts, total_time, result)
 ```
-The above function definition is taken from the [Connection.py](https://github.com/adobe-apiplatform/umapi-client.py/blob/master/umapi_client/connection.py#L397) class inside [UMAPI-Client](https://github.com/adobe-apiplatform/umapi-client.py). 
+The above function definition is taken from the [Connection.py](https://github.com/adobe-apiplatform/umapi-client.py/blob/master/umapi_client/connection.py#L397) class inside [UMAPI-Client](https://github.com/adobe-apiplatform/umapi-client.py).  
+
+
+
+## Postman collection for UMAPI samples  
+
+### Environment configuration  
+
+ Download [this](UMAPI_SAMPLES.postman_collection.json) json file locally and import it to your Postman environment.  
+ Click Collections menu in Postman and select the `UMAPI SAMPLES` to view its Variables menu in the main page area.  
+ Fill in the `CURRENT VALUE` field with the associated values obtained from your [developer portal](https://developer.adobe.com)'s integration/project (at least the first 5 rows)  
+ Before running any API in the list, you need to run `Auth - Obtain Access Token` first to have an active token generated for the session.  
+ 
