@@ -37,7 +37,7 @@ Creates a user group, or updates the description if the named group already exis
 * __name:__ _string_; Required. The name of the user group.
 * __description:__ _string_; Optinal. The description of the usergroup.
 * __option:__ _string_, possible values: `{ignoreIfAlreadyExists, updateIfAlreadyExists}`; Optional for `createUserGroup` action. Specifies how to perform the create operation when a user group with the given name already exists in the user database.  
-  - `ignoreIfAlreadyExists`: Default. If the user group already exists, ignore the _create_ step but process any other steps in the command entry for this user.
+  - `ignoreIfAlreadyExists`: If the user group already exists, ignore the _create_ step but process any other steps in the command entry for this user.
   - `updateIfAlreadyExists`: If the user group already exists, update the `description` of the existing group with the provided value (if any), but ignore the `name`  value. After the update, process any other steps in the command entry for this group.
 
 ### <a name="updateUserGroup" class="api-ref-subtitle">__updateUserGroup:__</a>
