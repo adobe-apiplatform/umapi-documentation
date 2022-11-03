@@ -221,7 +221,7 @@ The above function definition is taken from the [Connection.py](https://github.c
  Download [this](UMAPI_SAMPLES.postman_collection.json) json file locally and import it to your Postman environment.  
  Click Collections menu in Postman and select the `UMAPI SAMPLES` to view its Variables menu in the main page area.  
  Fill in the `CURRENT VALUE` field with the associated values obtained from your [developer portal](https://developer.adobe.com)'s integration/project (at least the first 5 rows)  
- Before running any API in the list, you need to run first the `Auth - Obtain Access Token` to have an active token for this session.  
+ Before running any API in the list, you need to run `Auth - Obtain Access Token` first to have an active token generated for the session.  
  
  
  
