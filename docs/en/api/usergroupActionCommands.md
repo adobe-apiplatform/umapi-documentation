@@ -73,7 +73,7 @@ A group has two membership lists: users who are members of the group, and produc
 When you remove a user from the group, that user loses the associated entitlements (unless they have individual access).
 
 * When you add a product profile, all of the member users gain the associated entitlements.
-When you remove a product profile, all of the users in the user group lose the associated entitlements (unless they have individual access).
+When you remove a product profile, all of the users in the user group lose the associated entitlements (unless they have individual access). Please note that you cannot use the add command if the user-group has more than 200,000 users.
 
 >NOTE: Use the [`group`](group.md) resource to retrieve information about defined groups.
 
