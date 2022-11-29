@@ -13,7 +13,6 @@ The following APIs have been deprecated. These APIs will continue to function bu
 
 | Deprecated | Current |
 | :--- | :------ |
-| [Manage Pending User Invitations](ManageInvites.md) | _New Adobe ID users are now added immediately._ |
 | Get All Users through [GET /v2/usermanagement/{orgId}/users](getUsersREST.md)| _See [Get Users in Organization](getUsersWithPage.md)_ |
 | Separate [User Group APIs](usergroup.md) and [Product Information APIs](product.md) | _See [Get Groups and Product Profiles](group.md)_ |
 | [GET /v2/usermanagement/organizations/{orgId}/users/{userString}](getUser.md) | The `adminRoles` property is now deprecated, and administrative roles are reflected in group memberships, returned in the [`groups`](getUser.md#ResponseProps) field. |
