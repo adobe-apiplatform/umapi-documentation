@@ -1,22 +1,22 @@
 ---
 layout: default
-nav_link: Get User Group Users and Admins
+nav_link: Get User Group Users
 nav_order: 463
 nav_level: 4
 lang: en
-title: Get User Group Users and Admins
+title: Get User Group Users
 ---
-# <a name="queryUserGroups" class="api-ref-title">Get User-group Users and Admins</a>
+# <a name="queryUserGroups" class="api-ref-title">Get User-group Users</a>
 
 **DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
 
 <hr class="api-ref-rule">
 
-User group information defined for your organization in the [Admin Console](https://adminconsole.adobe.com/enterprise/) is available through the **{orgId}/user-groups** resource.
+User group information defined for your organization in the [Admin Console](https://adminconsole.adobe.com/enterprise/) is available through the **{orgId}/user-groups** resource.
 
 * [Get a paged list of user groups defined for your organization](getUserGroups.md)
 * [Get information for a specific user group](getUserGroup.md)
-* [Get a paged list of users or admins users who belong to a specific user group](#users)
+* [Get a paged list of users who belong to a specific user group](#users)
 
 ### Notation
 
@@ -37,11 +37,10 @@ You must include these headers in all requests:
 
 ## <a name="users" class="api-ref-subtitle">List Users in a User Group</a>
 
-A GET request to the **/users** or **/admins** endpoint under a specific user group retrieves a paged list of users who belong to the group, or of users with the administrative role for the group.
+A GET request to the **/users** endpoint under a specific user group retrieves a paged list of users who belong to the group.
 
 ```
 GET [UM_Server]/{orgId}/user-groups/{groupId}/users[?page={n}]
-GET [UM_Server]/{orgId}/user-groups/{groupId}/admins[?page={n}]
 ```
 
 * **{orgId}** : Required. The unique ID of your organization.
@@ -62,14 +61,13 @@ A successful request returns a response with **HTTP status 200**. The response b
     "status": "active",
     "userType": "federatedID"
    },
-  {
+   {
     "email": "anksharm@adobe.com",
     "firstName": "ankush",
     "lastName": "kumar",
     "countryCode": "IN",
     "status": "active",
     "userType": "adobeID"
-   },
-   ...
+   }
   ]
 ```
