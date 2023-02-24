@@ -224,4 +224,4 @@ curl -X GET https://usermanagement.adobe.io/v2/usermanagement/users/12345@AdobeO
 
 ## <a name="getUsersByGroupThrottle" class="api-ref-subtitle">Throttling Limits</a>
 
-{% include_relative partials/throttling.md client=25 global=100 %}
+{% include_relative partials/throttling.md client=5 global=100 %}
