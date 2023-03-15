@@ -382,7 +382,7 @@ Add or remove membership in administrative groups to control administrative righ
  Please note that you cannot assign or remove the administrative role `_org_admin` using the User Management API.
 
 In addition, there are administrative groups for each user group and product profile. 
-  * An administrative group for a product is named with the prefix `_product_admin_` and the product name. For example, `_product_admin_Photoshop`. Please note that it is recommended to avoid any logic that expects fixed product names.  
+  * An administrative group for a product is named with the prefix `_product_admin_` and the product name. For example, `_product_admin_Photoshop`. You should avoid any logic that expects fixed group names as these are liable to change without notice.  
   * An administrative group for a product profile or user group is named with the prefix `_admin_` and the product-profile or user-group name. For example, `_admin_MarketingProfile` or `_admin_PhotoshopUserGroup`.  
   * A developer group for a product profile is named with the prefix `_developer_` and the product-profile name. For example `_developer_MarketingProfile`.
 
