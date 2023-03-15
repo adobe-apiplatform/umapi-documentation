@@ -115,15 +115,17 @@ Each step can add or remove up to 10 memberships in one command entry using the 
 [
   {
     "do": [
-       {
-         "createUserGroup" :
+      {
+         "createUserGroup": {
            "option": "string",
            "description": "string"
-       },
+         }
+      },
       {
-        "updateUserGroup" :
+        "updateUserGroup": {
           "name": "string",
           "description": "string"
+        }
       },
       {
         "deleteUserGroup" : {}
@@ -137,6 +139,7 @@ Each step can add or remove up to 10 memberships in one command entry using the 
             "string"
            ]
        },
+      }
       {
         "remove": {}
       }
