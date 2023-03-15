@@ -16,7 +16,7 @@ For product profiles:
 * Pass the `directOnly` flag to return only those users who have a direct membership in the product profile.
 * Pass the `status` parameter to return only those users who have the "active" or "inactive" status in the product profile.
 
-__Throttle Limits__: Maximum 5 requests per minute per a client. See [Throttling Limits](#getUsersByGroupThrottle) for full details.
+__Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttling Limits](#getUsersByGroupThrottle) for full details.
 
 * [Parameters](#parameters)
 * [Responses](#responses)
