@@ -141,6 +141,8 @@ The following fields are returned for groups of type `PRODUCT_PROFILE`:
 
 * __productName__ _string_; The name of the product associated with this product profile. 
 * __licenseQuota:__ _string_; The number of user licenses or the amount of resources alloted to this product profile.
+
+You should avoid any logic that expects fixed group names as these are liable to change without notice.
  
 ### __Schema Model__
 

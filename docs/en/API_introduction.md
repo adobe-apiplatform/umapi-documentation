@@ -74,11 +74,9 @@ You can also use this POST request to manage administrative rights for users in 
 
 ### Adding Users with Adobe ID Identity Type
 
-You can add users with any of the three identity types: Enterprise, Federated ID, or Adobe ID. See a full discussion at [Identity Types](https://helpx.adobe.com/enterprise/help/identity.html).  
+You can add users with any of the three identity types: Enterprise ID, Federated ID, or Adobe ID. See a full discussion at [Identity Types](https://helpx.adobe.com/enterprise/help/identity.html).  
 
 When you create a new user of the Adobe ID type, the user is identified by email address. The Adobe ID can already exist or be created. The new user is immediately added to your organization, and sent an email that gives them the option to be removed from the organization, or to update their user profile.
-
- > Previously, users were required to accept an email invitation before being added to your organization. A deprecated API allowed you to [manage pending new-user invites](api/ManageInvites.md). Please discontinue use of this API in your applications.
  
 ### <a name="query-users" class="api-ref-subtitle">Query Users</a>
 
@@ -101,9 +99,9 @@ You cannot create product profiles through the API. You must create them in the 
 ```
 https://usermanagement.adobe.io/v2/usermanagement/action/{orgId}
 ```
-* To manage product profile membership and administrative rights, use the `user` root command in a POST request to the [Action API](api/ActionsCmds.md) for your organization. Use the [Product Information APIs](api/product.md) to find products and profiles for your organization.  
+* To manage product profile membership and administrative rights, use the `user` root command in a POST request to the [Action API](api/ActionsCmds.md) for your organization. Use the [Product Information APIs](api/group.md) to find groups and product profiles for your organization.  
 ```
-https://usermanagement.adobe.io/v2/usermanagement/{orgId}/product/{productId}/configurations/{profileId}
+https://usermanagement.adobe.io/v2/usermanagement/groups/{orgId}/{page}
 ```
 
 ***********

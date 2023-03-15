@@ -35,6 +35,6 @@ The _commands_ in the body of your POST request specify _action steps_ to take f
 * [update](ActionsCmds.md#update) Update an existing user in an organization
 * [remove](ActionsCmds.md#removeFromOrg) Remove a user from an organization
 
-You can also use `action` requests to modify users' memberships and administrative roles. See [User Group APIs](group.md) and [Product APIs](product.md) for details.
+You can also use `action` requests to modify users' memberships and administrative roles. See [User Group APIs](group.md) for details.
 
 <hr class="api-ref-rule">

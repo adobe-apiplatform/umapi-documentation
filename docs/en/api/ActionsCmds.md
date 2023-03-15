@@ -379,8 +379,10 @@ Add or remove membership in administrative groups to control administrative righ
  * Support Administrators: `_support_admin` 
  * Deployment Administrators: `_deployment_admin` 
 
+ Please note that you cannot assign or remove the administrative role `_org_admin` using the User Management API.
+
 In addition, there are administrative groups for each user group and product profile. 
-  * An administrative group for a product is named with the prefix `_product_admin_` and the product name. For example, `_product_admin_Photoshop`.  
+  * An administrative group for a product is named with the prefix `_product_admin_` and the product name. For example, `_product_admin_Photoshop`. You should avoid any logic that expects fixed group names as these are liable to change without notice.  
   * An administrative group for a product profile or user group is named with the prefix `_admin_` and the product-profile or user-group name. For example, `_admin_MarketingProfile` or `_admin_PhotoshopUserGroup`.  
   * A developer group for a product profile is named with the prefix `_developer_` and the product-profile name. For example `_developer_MarketingProfile`.
 
@@ -403,8 +405,8 @@ Note that the response always reports a successful result for this action, even 
 * __deleteAccount:__ _boolean_; If true then if the account is owned by the organization, the account is also deleted. Note that [Adobe IDs](glossary.md#adobeId) are never deleted because they are owned by the user, not the organization. The default value is false.  
 
 Corresponding Admin Console actions:  
-`"deleteAccount": false` = removing the user from the __Users__ menu 
-`"deleteAccount": true` = removing the user from the __Directory users__ menu; implies loss of account metadata and associated cloud assets  
+* `"deleteAccount": false` = removing the user from the __Users__ menu
+* `"deleteAccount": true` = removing the user from the __Directory users__ menu; implies loss of account metadata and associated cloud assets  
 
 Sample JSON body for email based login:   
 

@@ -122,5 +122,7 @@ Use the POST [action](api/ActionsRef.md) API to manage permissions by adding and
 
 In addition, there are administrative groups for each user group and product profile. These are named with a prefix and the group name. For example, `_admin_Marketing`, `_developer_Marketing` or `_product_admin_Adobe Document Cloud for business`.
 
+Please note that you cannot assign or remove the administrative role `_org_admin` using User Management API.
+
 * [Add Administrator permissions for a user](api/ActionsCmds.md#add) with the _add_ action for a _user_
 * [Remove Administrator permissions for a user](api/ActionsCmds.md#remove) with the _remove_ action for a _user_
