@@ -22,7 +22,7 @@ To obtain the credentials you need to access the User Management service, create
 ## Authorizing API calls
 
 **Using OAuth Server-to-Server credentials**  
-Obtain an access token by calling the Adobe's IMS endpoint using your Client ID and Client Secret (from the OAuth S2S enabled project on developer portal), along with with the client credentials and scope parameters.
+Obtain an access token by calling the Adobe's IMS endpoint using your Client ID and Client Secret (from the OAuth Server-to-Server enabled project on developer portal), along with with the client credentials and scope parameters.
 
 Sample curl command:
 ```
