@@ -5,7 +5,78 @@
 	},
 	"item": [
 		{
-			"name": "Auth - Obtain Access Token",
+			"name": "OAuth S2S - Obtain Access Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"",
+							"if (data.access_token) {",
+							"    pm.collectionVariables.set(\"UMAPI_ACCESS_TOKEN\", data.access_token);",
+							"} else {",
+							"    console.log(\"Unable to acquire ACCESS_TOKEN from Adobe IMS to make further calls to Adobe I/O APIs.\")",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "client_id",
+							"value": "{{UMAPI_API_KEY}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{UMAPI_CLIENT_SECRET}}",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "openid,AdobeID,user_management_sdk",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{UMAPI_IMS}}/ims/token/v2",
+					"protocol": "https",
+					"host": [
+						"{{UMAPI_IMS}}"
+					],
+					"path": [
+						"ims",
+						"token",
+						"v2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "JWT Auth - Obtain Access Token",
 			"event": [
 				{
 					"listen": "test",
@@ -1451,7 +1522,7 @@
 		},
 		{
 			"key": "UMAPI_IMS_ORG",
-			"value": "",
+			"value": "1D336B9D58F6BAC40A495DCB@AdobeOrg",
 			"type": "default"
 		},
 		{

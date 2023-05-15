@@ -15,6 +15,9 @@ News:
 <p>If you rely on the name of the “product admin group” (e.g., <code>_product_admin_&lt;product name&gt;</code>) you will also be impacted and have to update your scripts.</p>
 <p>You should avoid any logic that expects fixed group names as these are liable to change without notice. We recommend using the Get Groups and Profiles API to fetch the latest group information.</p>
 <hr class="api-ref-rule">
+<p>Since May 6th, 2023, UMAPI supports OAuth Server-to-Server workflows; JWT one is deprecated and it will be removed on 1st of January 2025, but existing integrations based on this authorization scheme will continue to work as usual until that date. Migrate your project to use OAuth instead before 2025. 
+<p>For UST users, wait for the v2.9.0 release before mirgating to OAuth S2S.</p>
+<hr class="api-ref-rule">
 <p>On August 8th, 2022, Document Cloud product names will remove the "DC" suffix. For example, "Acrobat Pro DC" will be renamed “Acrobat Pro".</p>
 <p>As a result, any application directly accessing the User Management API which include logic <strong>dependent on the product name</strong> will need to be updated. If you have not included the product name in the code, then this will not impact your connection to the User Management API. If you use the User Sync Tool, you should see no impact.</p>
 <p>Note: the term "DC" included in the name of a Product Profile <em>will not change</em>. If you rely on the name of the “product admin group” (e.g., <code>_admin_&lt;product name&gt;</code>) you may be impacted and have to update your scripts.</p>

@@ -1,0 +1,3 @@
+upn,mail,firstname,lastname,country_code,groups
+user1@domain.com,user1@domain.com,first1,last1,US,"Group name 1,Group name 2"
+user2@domain.com,user2@domain.com,first2,last2,US,"Group name 3"

@@ -17,16 +17,19 @@ A Postman collection is also available at the bottom of the page.
 
 | Sample | Description |
 | :--- | :--------- |
-| [ExchangeJWT.py]({{ site.github_url }}/blob/master/samples/JWTExchange.py) | Shows how to construct a JSON Web Token (JWT) and exchange it for an access token. |
-| [AddAdobeIDUser.py]({{ site.github_url }}/blob/master/samples/AddAdobeIDUser.py) | Adds an Adobe ID user. |
-| [CreateEnterpriseUser.py]({{ site.github_url }}/blob/master/samples/CreateEnterpriseUser.py) | Creates an Enterprise ID user. |
-| [CreateFederatedUser.py]({{ site.github_url }}/blob/master/samples/CreateFederatedUser.py) | Creates a Federated ID user. |
-| [UpdateUser.py]({{ site.github_url }}/blob/master/samples/UpdateUser.py) | Updates a Federated user. |
-| [GroupInformation.py]({{ site.github_url }}/blob/master/samples/GroupInformation.py) | Retrieve information about user-groups and product profiles defined for your organization. |
-| [UserInformation.py]({{ site.github_url }}/blob/master/samples/UserInformation.py) | Retrieve information about users in for your organization. |
-| [UserInformationByGroup.py]({{ site.github_url }}/blob/master/samples/UserInformationByGroup.py) | Retrieve a list of users within a specified group. |
-| [RemoveFromOrg.py]({{ site.github_url }}/blob/master/samples/RemoveFromOrg.py) | Remove a user from membership in your organization. |
-| [UserMultipleOperations.py]({{ site.github_url }}/blob/master/samples/UserMultipleOperations.py) | Create an Enterprise user and add them to a user-group and provision access to a product profile. |
+| [get_oauth_token.py]({{ site.github_url }}/blob/master/samples/get_oauth_token.py) | Shows how to obtain an access token using OAuth Server-to-Server credentials. |
+| [get_jwt_token.py]({{ site.github_url }}/blob/master/samples/get_jwt_token.py) | Shows how to obtain an access token using a locally constructed JWT and exchanging it for an access token. |
+| [add_Adobe_ID.py]({{ site.github_url }}/blob/master/samples/add_Adobe_ID.py) | Creates an Adobe ID user. |
+| [add_Enteprise_ID.py]({{ site.github_url }}/blob/master/samples/add_Enteprise_ID.py) | Creates an Enterprise ID user. |
+| [add_federated_id.py]({{ site.github_url }}/blob/master/samples/add_federated_id.py) | Creates a Federated ID user. |
+| [update_account.py]({{ site.github_url }}/blob/master/samples/update_account.py) | Updates an account's metadata. |
+| [get_groups_and_profiles.py]({{ site.github_url }}/blob/master/samples/get_groups_and_profiles.py) | Retrieve information about user-groups and product profiles defined for your organization. |
+| [get_users_in_org.py]({{ site.github_url }}/blob/master/samples/get_users_in_org.py) | Retrieve information about all accounts in for your organization. |
+| [get_users_by_group.py]({{ site.github_url }}/blob/master/samples/get_users_by_group.py) | Retrieve members' list of a specified group. |
+| [get_user_info.py]({{ site.github_url }}/blob/master/samples/get_user_info.py) | Retrieve details on the a specific account.|
+| [remove_account.py]({{ site.github_url }}/blob/master/samples/RemoveFromOrg.py) | Soft or hard removal of an account from the Organization. |
+| [multi_action.py]({{ site.github_url }}/blob/master/samples/UserMultipleOperations.py) | Demo multi action request |
+| [source.csv]({{ site.github_url }}/blob/master/samples/UserMultipleOperations.py) | Sample csv file for the multi_action.py script. |
 {:.bordertablestyle}  
 
 ***
@@ -43,43 +46,39 @@ A Postman collection is also available at the bottom of the page.
 ### Prerequisites
 
 * Download [Python 3](https://www.python.org)
-* 'Pip' is included as part of the download but it is recommended that you update it:
+* 'pip' is included as part of the download but it is recommended that you update it:
 ```
-pip3 install --upgrade pip
+pip install --upgrade pip
 ```
+* create a vitual environment (optional)
+```
+python -m venv path/to/ENV
+```
+activate it:
+```
+source path/to/ENV/bin/activate
+```
+* install dependencies
 
 All sample scripts use the Python packages `PyJWT`, `cryptography`, and `requests`. You must install these packages before running the scripts. You can install the packages with the following commands:
 ```
-pip3 install pyjwt
-pip3 install cryptography
-pip3 install requests
+pip install requests
 ```
+For DEPRECATED JWT workflows this modules need to be installed as well: _PyJWT_ and _cryptography_
 
 ### Setting Up the Environment
 
-Our sample directory includes a sample **usermanagement.config**. To make all the scripts more readable and adaptable, we use variables defined in this separate configuration file. To produce and send requests, the file defines the following values which you must update before attempting to run any of the samples:
+Each sample file contains at the top some variables that need to be initialised based on the information generated at Project creation phase, or specific to the action needed (like sample account info, or existing account's email):
 ```
-[server]
-host = usermanagement.adobe.io
-endpoint = /v2/usermanagement
-ims_host = ims-na1.adobelogin.com
-ims_endpoint_jwt = /ims/exchange/jwt
-
-[enterprise]
-domain = <my enterprise domain>
-fed_domain = <my federated domain>
-org_id = my organization id
-api_key = my api key/client id
-client_secret = my api client secret
-tech_acct = my api client technical account
-priv_key_filename = my private key filename
+ACCESS_TOKEN = ''
+CLIENT_ID = ''
+ORG_ID = ''
+# add below an existing account's email from Admin Console
+USER_EMAIL = ''
 ```
 
-### Constructing User Management Requests
 
-All of the samples have been simplified to demonstrate interacting with the User Management API. We construct a JSON body for the request, send the request and then output the response. We do not attempt to deal with failures, retries or managing request limits but this **must** be considered by our clients.
-
-#### Constructing the Request
+#### Constructing a Request
 
 The first part of each script constructs a request using the variables that we defined to set the URL and headers.
 
@@ -96,29 +95,26 @@ headers = {
 
 #### Constructing a JSON command
 
-The body of the request contains the JSON command structure. First, we create the JSON array:
+The body of the request is a list of JSON objects. You can add maximum 10 such objects in this list. Sample  for 
 
 ```python
-json_data = \
+body = \
 [
   {
-    "user" : "john.doe@" + domain,
+    "user" : "john.doe@domain.com",
     "do" : [
       {
         "addAdobeID" : {
-          "email" : "john.doe@" + domain
+          "email" : "john.doe@domain.com",
+          "firstname": "John",
+          "lastname": "Doe",
+          "country": "US"
+          "option": "ignoreIfAlreadyExists"
         }
       }
     ]
   }
 ]
-```
-
-Next, we convert the JSON array to a string to be included in the request body:
-
-```python
-# prepare body
-body = json.dumps(json_data)
 ```
 
 #### Making a request
@@ -127,23 +123,32 @@ Finally, we connect to the server, send the request we have created, and receive
 
 ```python
 # send http request
-res = requests.post(url, headers=headers, data=body)
+r = requests.request(method, url, data=body, headers=headers)
 ```
 
-This very simple call is an illustration of the basic technique. In a real application, you would make a more robust call that includes error handling and recovery. See [Retrying requests](#retrying-requests) below for details of handling the throttling limitations.
+This very simple call is an illustration of the basic technique. In a real application, you would make a more robust call that includes error handling and recovery.  
+See [Retrying requests](#retrying-requests) below for details of handling the throttling limitations.
+The main function in the sample will rely on the execution of the `make_call` function
 
 ```python
 # send request with retrying
-send_request_retry("POST", url, headers, body)
+r = make_call(method, url, body)
 ```
 
-Finally, to see the result of our request, we print the response.
+All samples will use these default call management settings:
+```
+UMAPI_URL = <API specific url here>
+MAX_RETRIES = 4
+TIMEOUT = 120.0
+RANDOM_MAX = 5
+FIRST_DELAY = 3
+```
+Finally, for convenience and demo, we print to the screen output for body of the request, headers used and URL plus the result of the API response as a dict.
 
 ```python
-# print response
-print(res.status_code)
-print(res.headers)
-print(res.text)
+if __name__ == '__main__':
+    rez = add_adobe_id(MAIL,FIRST,LAST,COUNTRY)
+    print(rez)
 ```
 
 
@@ -158,68 +163,49 @@ When making calls over the internet, other transient errors can occur so it is a
 The following function definition shows a technique for handling such errors that we call *exponential backoff*. If the Retry-After header is not found then we retry sending the request after a certain number of seconds, and increase that interval with each attempt.
 
 ```python
-def make_call(self, path, body=None):
+def make_call(method, url, body={}):
+    # call manager function with retry mechanism
+    # returns the API response
+    retry_wait = 0
+    h = {'Accept' : 'application/json',
+         'x-api-key' : CLIENT_ID,
+         'Authorization' : 'Bearer ' + ACCESS_TOKEN}
     if body:
-        request_body = json.dumps(body)
-        def call():
-            return self.session.post(self.endpoint + path, auth=self.auth, data=request_body, timeout=self.timeout)
-    else:
-        def call():
-            return self.session.get(self.endpoint + path, auth=self.auth, timeout=self.timeout)
-
-    start_time = time()
-    result = None
-    for num_attempts in range(1, self.retry_max_attempts + 1):
+        h['Content-type']  = 'application/json'
+        body = json.dumps(body)
+        method = 'POST'
+    for num_attempt in range(1, MAX_RETRIES + 1):
         try:
-            result = call()
-            if result.status_code == 200:
-                return result
-            elif result.status_code in [429, 502, 503, 504]:
-                if self.logger: self.logger.warning("UMAPI timeout...service unavailable (code %d on try %d)",result.status_code,num_attempts)
-                retry_wait = 0
-                if "Retry-After" in result.headers:
-                    advice = result.headers["Retry-After"]
-                    advised_time = parsedate_tz(advice)
-                    if advised_time is not None:
-                        # header contains date
-                        retry_wait = int(mktime_tz(advised_time) - time())
-                    else:
-                        # header contains delta seconds
-                        retry_wait = int(advice)
+            print(f'Calling {method} {url}\n{body}' )
+            r = requests.request(method, url, data=body, headers=h, timeout=TIMEOUT)
+            if r.status_code == 200:
+                return json.loads(r.text)
+            elif r.status_code in [429, 502, 503, 504]:
+                print(f'UMAPI timeout... (code {r.status_code} on try {num_attempt})')
                 if retry_wait <= 0:
-                    # use exponential back-off with random delay
-                    delay = randint(0, self.retry_random_delay)
-                    retry_wait = (int(pow(2, num_attempts - 1)) * self.retry_first_delay) + delay
-            elif 201 <= result.status_code < 400:
-                raise ClientError("Unexpected HTTP Status {:d}: {}".format(result.status_code, result.text), result)
-            elif 400 <= result.status_code < 500:
-                raise RequestError(result)
+                    delay = randint(0, RANDOM_MAX)
+                    retry_wait = (pow(2, num_attempt - 1) * FIRST_DELAY) + delay
+                if 'Retry-After' in r.headers.keys():
+                    retry_wait = int(r.headers['Retry-After']) + 1
             else:
-                raise ServerError(result)
-        except requests.Timeout:
-            if self.logger: self.logger.warning("UMAPI connection timeout...(%d seconds on try %d)", self.timeout, num_attempts)
-            retry_wait = 0
-            result = None
-        if num_attempts < self.retry_max_attempts:
+                print(f'Unexpected HTTP Status: {r.status_code}: {r.text}')
+                return
+        except Exception as e:
+            print(f'Exception encountered:\n {e}')
+            return
+        if num_attempt < MAX_RETRIES:
             if retry_wait > 0:
-                if self.logger: self.logger.warning("Next retry in %d seconds...", retry_wait)
+                print(f'Next retry in {retry_wait} seconds...')
                 sleep(retry_wait)
-            else:
-                if self.logger: self.logger.warning("Immediate retry...")
-    total_time = int(time() - start_time)
-    if self.logger: self.logger.error("UMAPI timeout...giving up after %d attempts (%d seconds).", self.retry_max_attempts, total_time)
-    raise UnavailableError(self.retry_max_attempts, total_time, result)
+    print(f'UMAPI timeout... giving up after {MAX_RETRIES} attempts.')
 ```
-The above function definition is taken from the [Connection.py](https://github.com/adobe-apiplatform/umapi-client.py/blob/master/umapi_client/connection.py#L397) class inside [UMAPI-Client](https://github.com/adobe-apiplatform/umapi-client.py).  
-
-
 
 ## Postman collection for UMAPI samples  
 
 ### Environment configuration  
 
- Download [this](https://github.com/adobe-apiplatform/umapi-documentation/blob/master/docs/en/samples/UMAPI%20SAMPLES.postman_collection.json) json file locally and import it to your Postman environment.  
+ Download [this](https://github.com/adobe-apiplatform/umapi-documentation/blob/master/docs/en/samples/UMAPI%20SAMPLES.postman_collection2.json) json file locally and import it to your Postman environment.  
  Click Collections menu in Postman and select the `UMAPI SAMPLES` to view its Variables menu in the main page area.  
  Fill in the `CURRENT VALUE` field with the associated values obtained from your [developer portal](https://developer.adobe.com)'s integration/project (at least the first 5 rows)  
- Before running any API in the list, you need to run `Auth - Obtain Access Token` first to have an active token generated for the session.  
+ Before running any API in the list, you need to run `OAuth S2S - Obtain Access Token` or `JWT Auth - Obtain Access Token` first to have an active token generated for the session.  
  
