@@ -14,7 +14,7 @@ To maintain the security of your applications and users, all requests to Adobe I
 
 To obtain the credentials you need to access the User Management service, create a **Project** using the [Adobe Developer Console](https://developer.adobe.com/).
 
-* Only members of the organization with SYSTEM ADMIN role can create the Integration for UMAPI. You can use the Admin Console to grant administrative privilege to users.
+* Only members of the organization with SYSTEM ADMIN role can create the Integration for UMAPI. You can use the Adobe Admin Console to grant the administrative privilege to users.
 * For JWT workflows, you will need a keypair (public certificate and private key). One can be generated from developer portal, during the Project creation phase.
 * Your integration provides an API key that uniquely identifies your client, and other credentials that you need to access the UM API.
 
