@@ -68,7 +68,7 @@ For DEPRECATED JWT workflows this modules need to be installed as well: _PyJWT_ 
 
 ### Setting Up the Environment
 
-Each sample file contains at the top some variables that need to be initialised based on the information generated at Project creation phase, or specific to the action needed (like sample account info, or existing account's email):
+Each sample file contains some variables at the top that need to be initialised based on the information generated at Project creation phase, or specific to the action needed (like sample account info, or existing account's email):
 ```
 ACCESS_TOKEN = ''
 CLIENT_ID = ''
