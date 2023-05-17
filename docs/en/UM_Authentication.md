@@ -23,7 +23,7 @@ To obtain the credentials needed to access the User Management service, create a
 Obtain an access token by calling the Adobe's IMS endpoint using your Client ID and Client Secret (from the OAuth Server-to-Server enabled project on developer portal), along with the grant type and scope parameters.
 
 Sample curl command:
-```
+```bash
 curl -L -X POST 'https://ims-na1.adobelogin.com/ims/token/v2?grant_type=client_credentials&client_id=CLIENT_ID&client_secret=CLIENT_SECRET&scope=openid,AdobeID,user_management_sdk'
 ```  
 
