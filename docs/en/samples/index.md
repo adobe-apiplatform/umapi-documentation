@@ -26,7 +26,7 @@ A Postman collection is also available at the bottom of the page.
 | [get_groups_and_profiles.py]({{ site.github_url }}/blob/master/samples/get_groups_and_profiles.py) | Retrieve information about user-groups and product profiles defined for your organization. |
 | [get_users_in_org.py]({{ site.github_url }}/blob/master/samples/get_users_in_org.py) | Retrieve information about all accounts in for your organization. |
 | [get_users_by_group.py]({{ site.github_url }}/blob/master/samples/get_users_by_group.py) | Retrieve members list of a specified group. |
-| [get_user_info.py]({{ site.github_url }}/blob/master/samples/get_user_info.py) | Retrieve details on the a specific account.|
+| [get_user_info.py]({{ site.github_url }}/blob/master/samples/get_user_info.py) | Retrieve details on a specific account.|
 | [remove_account.py]({{ site.github_url }}/blob/master/samples/RemoveFromOrg.py) | Soft or hard removal of an account from the Organization. |
 | [multi_action.py]({{ site.github_url }}/blob/master/samples/UserMultipleOperations.py) | Demo multi action request |
 | [source.csv]({{ site.github_url }}/blob/master/samples/UserMultipleOperations.py) | Sample csv file for the multi_action.py script. |
