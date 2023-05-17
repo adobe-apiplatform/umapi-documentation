@@ -16,6 +16,7 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 # DEALINGS IN THE SOFTWARE.
 
+# this script shows how to obtain the entire list of accounts of the Organization
 # https://adobe-apiplatform.github.io/umapi-documentation/en/api/getUsersWithPage.html
 # GET /v2/usermanagement/users/{orgId}/{page}
 
