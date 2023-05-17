@@ -16,6 +16,7 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 # DEALINGS IN THE SOFTWARE.
 
+# This sample script shows how to get all groups and profiles associated with the Org
 # https://adobe-apiplatform.github.io/umapi-documentation/en/api/group.html
 # GET /v2/usermanagement/groups/{orgId}/{page}
 
