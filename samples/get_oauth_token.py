@@ -16,6 +16,8 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 # DEALINGS IN THE SOFTWARE.
 
+# this sample script shows how to obtain an access token using the OAuth Server-to-Server workflow
+
 import json
 
 import requests
