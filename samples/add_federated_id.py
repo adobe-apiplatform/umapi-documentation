@@ -16,6 +16,7 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 # DEALINGS IN THE SOFTWARE.
 
+# This sample script shows how to add a FederatedID account in Adobe Admin Console
 # https://adobe-apiplatform.github.io/umapi-documentation/en/api/ActionsCmds.html
 # POST /v2/usermanagement/action/{orgId}
 
