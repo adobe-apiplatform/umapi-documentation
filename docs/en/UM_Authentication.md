@@ -41,7 +41,7 @@ Here's the simplified diagram of the OAuth Server-to-Server workflow:
   
 ## Using JWT credentials - DEPRECATED  
 
-**One-time Setup**  
+### One-time Setup  
 
 To obtain the credentials you need to access the User Management service, create a **Service Account Integration** using the [Adobe I/O Console](https://developer.adobe.com/).
 
