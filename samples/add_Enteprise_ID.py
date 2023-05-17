@@ -95,7 +95,7 @@ def make_call(method, url, body={}):
     print(f'UMAPI timeout... giving up after {MAX_RETRIES} attempts.')
         
 if __name__ == '__main__':
-    rez = add_enterprise_id(MAIL,FIRST,LAST,COUNTRY)
+    rez = add_enterprise_id(MAIL, FIRST, LAST, COUNTRY)
     print(rez)
 
 
