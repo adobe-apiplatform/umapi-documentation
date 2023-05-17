@@ -17,7 +17,7 @@ A Postman collection is also available at the bottom of the page.
 
 | Sample | Description |
 | :--- | :--------- |
-| [get_oauth_token.py]({{ site.github_url }}/blob/master/samples/get_oauth_token.py) | Shows how to obtain an access token using OAuth Server-to-Server credentials. |
+| [get_oauth_token.py]({{ site.github_url }}/blob/master/samples/get_oauth_token.py) | Shows how to obtain an access token using OAuth Server-to-Server (S2S) credentials. |
 | [get_jwt_token.py]({{ site.github_url }}/blob/master/samples/get_jwt_token.py) | Shows how to obtain an access token using a locally constructed JWT and exchanging it for an access token. |
 | [add_Adobe_ID.py]({{ site.github_url }}/blob/master/samples/add_Adobe_ID.py) | Creates an Adobe ID user. |
 | [add_Enteprise_ID.py]({{ site.github_url }}/blob/master/samples/add_Enteprise_ID.py) | Creates an Enterprise ID user. |
