@@ -16,6 +16,7 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 # DEALINGS IN THE SOFTWARE.
 
+# this script shows how to retrive account information for a given Admin Console account
 # https://adobe-apiplatform.github.io/umapi-documentation/en/api/getUser.html
 # GET /v2/usermanagement/organizations/{orgId}/users/{userString}
 
