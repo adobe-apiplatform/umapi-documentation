@@ -16,6 +16,7 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 # DEALINGS IN THE SOFTWARE.
 
+# This sample script shows how to add an EntepriseID account in Adobe Admin Console
 # https://adobe-apiplatform.github.io/umapi-documentation/en/api/ActionsCmds.html
 # POST /v2/usermanagement/action/{orgId}
 
@@ -28,7 +29,7 @@ import requests
 ACCESS_TOKEN = ''
 CLIENT_ID = ''
 ORG_ID = ''
-# insert sample EntepriseID account metadata
+# insert sample EntepriseID account metadata; for COUNTRY use the ISO 2 letter code
 MAIL,FIRST,LAST,COUNTRY = ('user@claimed-domain.com','first_name','last_name','US')
 # simulate call or make changes in Admin Console:
 IS_TEST = 'true'
