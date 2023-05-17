@@ -16,8 +16,8 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 # DEALINGS IN THE SOFTWARE.
 
+# This sample shows how to add an Adobe ID account in Adobe Admin Console
 # https://adobe-apiplatform.github.io/umapi-documentation/en/api/ActionsCmds.html
-# This sample shows how to add an Adobe ID account.
 # POST /v2/usermanagement/action/{orgId}
 
 import uuid
