@@ -95,7 +95,7 @@ headers = {
 
 #### Constructing a JSON command
 
-The body of the request is a list of JSON objects. You can add maximum 10 such objects in this list. Sample  for 
+The body of the request is a list of JSON objects. You can add maximum 10 such objects in this list. Sample for 
 
 ```python
 body = \
