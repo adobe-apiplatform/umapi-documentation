@@ -24,7 +24,7 @@ import uuid
 import json
 import requests
 
-# obtained via JWT or OAuth S2S workflow
+# obtained via OAuth S2S workflow
 ACCESS_TOKEN = ''
 CLIENT_ID = ''
 ORG_ID = ''
