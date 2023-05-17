@@ -16,7 +16,7 @@ News:
 <p>You should avoid any logic that expects fixed group names as these are liable to change without notice. We recommend using the Get Groups and Profiles API to fetch the latest group information.</p>
 <hr class="api-ref-rule">
 <p>Since May 6th, 2023, User Management API supports OAuth Server-to-Server (S2S) workflows; The JWT one is deprecated and will be removed on 1st of January 2025. Existing integrations based on this authorization scheme will continue to work as usual until this date. Please migrate your project to use OAuth S2S before 2025. 
-<p>For User Sync Tool users, please wait for the v2.9.0 release before mirgating to OAuth Server-to-Server.</p>
+<p>For User Sync Tool users, please wait for the v2.9.0 release before migrating to OAuth Server-to-Server.</p>
 <hr class="api-ref-rule">
 <p>On August 8th, 2022, Document Cloud product names will remove the "DC" suffix. For example, "Acrobat Pro DC" will be renamed “Acrobat Pro".</p>
 <p>As a result, any application directly accessing the User Management API which include logic <strong>dependent on the product name</strong> will need to be updated. If you have not included the product name in the code, then this will not impact your connection to the User Management API. If you use the User Sync Tool, you should see no impact.</p>
