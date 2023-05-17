@@ -16,6 +16,7 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 # DEALINGS IN THE SOFTWARE.
 
+# this script shows how to get all (direct or indirect) members of a given Admin Console group
 # https://adobe-apiplatform.github.io/umapi-documentation/en/api/getUsersByGroup.html
 # GET /v2/usermanagement/users/{orgId}/{page}/{groupName}
 
