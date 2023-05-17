@@ -16,6 +16,7 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 # DEALINGS IN THE SOFTWARE.
 
+# this script shows how to update an existing Adobe Admin Console account
 # https://adobe-apiplatform.github.io/umapi-documentation/en/api/ActionsCmds.html
 # POST /v2/usermanagement/action/{orgId}
 
