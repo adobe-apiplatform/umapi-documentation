@@ -17,6 +17,7 @@
 # DEALINGS IN THE SOFTWARE.
 
 # https://adobe-apiplatform.github.io/umapi-documentation/en/api/ActionsCmds.html
+# This sample shows how to add an Adobe ID account.
 # POST /v2/usermanagement/action/{orgId}
 
 import uuid
@@ -28,7 +29,7 @@ import requests
 ACCESS_TOKEN = ''
 CLIENT_ID = ''
 ORG_ID = ''
-# insert sample acct metadata to create
+# insert sample acct metadata to create; for COUNTRY use 2 letter ISO code
 MAIL,FIRST,LAST,COUNTRY = ('user@some-domain.com','first_name','last_name','US')
 # simulate call or make changes in Admin Console:
 IS_TEST = 'true'
