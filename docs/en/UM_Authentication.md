@@ -18,7 +18,7 @@ To obtain the credentials needed to access the User Management service, create a
 * Your integration provides an API key that uniquely identifies your client, and other credentials that you need to access the UM API.
 * See [User Management Walkthrough.](samples/index.md) for Python samples that demo the use of UMAPI.
 
-**Authorizing API calls**  
+### Authorizing API calls
 
 Obtain an access token by calling the Adobe's IMS endpoint using your Client ID and Client Secret (from the OAuth Server-to-Server enabled project on developer portal), along with with the grant type and scope parameters.
 
