@@ -35,7 +35,7 @@ The access token has 24 hours validity.
 
 For complete details on OAuth Server-to-Server, see [OAuth Server-to-Server credential implementation guide](https://developer.adobe.com/developer-console/docs/guides/authentication/ServerToServerAuthentication/implementation/).  
 
-Here's the simplified diagram of the OAuth Server-toServer workflow:
+Here's the simplified diagram of the OAuth Server-to-Server workflow:
 ![Diagram of Authentication workflow](oauthS2S.png)
   
   
