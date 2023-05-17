@@ -11,7 +11,7 @@ To maintain the security of your applications and users, all requests to Adobe I
 
 ## Using OAuth Server-to-Server credentials  
 
-**One-time Setup**  
+### One-time Setup  
 
 To obtain the credentials needed to access the User Management service, create a **Project** using the [Adobe Developer Console](https://developer.adobe.com/).
 * Only members of the organization with SYSTEM ADMIN role can create the Integration for UMAPI. You can use the Adobe Admin Console to grant the administrative privilege to users.
