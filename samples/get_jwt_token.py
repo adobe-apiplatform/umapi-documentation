@@ -16,6 +16,7 @@
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 # DEALINGS IN THE SOFTWARE.
 
+# This sample script shows how to obatin an access token using the deprecated JWT workflow
 
 import json
 from time import time
