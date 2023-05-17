@@ -51,7 +51,7 @@ To obtain the credentials you need to access the User Management service, create
 
 For complete details on JWT, see [Service Account (JWT) Authentication](https://developer.adobe.com/developer-console/docs/guides/authentication/JWT/).
 
-**Authorizing API calls**  
+### Authorizing API calls
 
 To establish a secure service-to-service API session, you will create a JSON Web Token (JWT) that encapsulates your client credentials, and sign the JWT with the private key for a public-key certificate associated with the integration. 
 
