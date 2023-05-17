@@ -29,7 +29,8 @@ import requests
 ACCESS_TOKEN = ''
 CLIENT_ID = ''
 ORG_ID = ''
-# for SSO where NameID is an attribute value of email format
+# for SSO where NameID is an attribute value of email format;
+# for COUNTRY use the ISO 2 letter code
 UPN,EMAIL,FIRST,LAST,COUNTRY=('email@domain.com',
                               'email@domain.com',
                               'first_name',
