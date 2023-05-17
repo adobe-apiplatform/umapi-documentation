@@ -7,7 +7,7 @@ lang: en
 layout: page
 ---
 
-To maintain the security of your applications and users, all requests to Adobe I/O APIs must be authenticated and authorized. Before you can access the User Management API, you will need to obtain a set of credentials by creating a new Integration (Project) in the Adobe Develper Console.
+To maintain the security of your applications and users, all requests to Adobe I/O APIs must be authenticated and authorized. Before you can access the User Management API, you will need to obtain a set of credentials by creating a new Integration (Project) in the Adobe Developer Console.
 
 ## Using OAuth Server-to-Server credentials  
 
