@@ -207,5 +207,5 @@ def make_call(method, url, body={}):
  Download [this](https://github.com/adobe-apiplatform/umapi-documentation/blob/master/docs/en/samples/UMAPI%20SAMPLES.postman_collection2.json) json file locally and import it to your Postman environment.  
  Click Collections menu in Postman and select the `UMAPI SAMPLES` to view its Variables menu in the main page area.  
  Fill in the `CURRENT VALUE` field with the associated values obtained from your [developer portal](https://developer.adobe.com)'s integration/project (at least the first 5 rows)  
- Before running any API in the list, you need to run `OAuth S2S - Obtain Access Token` or `JWT Auth - Obtain Access Token` first to have an active token generated for the session.  
+ Before running any API in the list, you need to run `OAuth S2S - Obtain Access Token` first to have an active token generated for the session.  
  
