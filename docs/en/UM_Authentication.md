@@ -16,7 +16,7 @@ To maintain the security of your applications and users, all requests to Adobe I
 To obtain the credentials needed to access the User Management service, create a **Project** using the [Adobe Developer Console](https://developer.adobe.com/).
 * Only members of the organization with SYSTEM ADMIN role can create the Integration for UMAPI. You can use the Adobe Admin Console to grant the administrative privilege to users.
 * Your integration provides an API key that uniquely identifies your client, and other credentials that you need to access the UM API.
-* See [User Management Walkthrough.](samples/index.md) for Python samples that demo the use of UMAPI
+* See [User Management Walkthrough.](samples/index.md) for Python samples that demo the use of UMAPI.
 
 **Authorizing API calls**  
 
