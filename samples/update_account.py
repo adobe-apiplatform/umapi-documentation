@@ -123,7 +123,7 @@ def make_call(method, url, body={}):
 if __name__ == '__main__':
     # current email as first argument followed by
     # any mix of username, email, firstname, lastname arguments
-    # requiring update
+    # that require an update
     rez = update_account(CURRENT_EMAIL, 
                          username=NEW_USERNAME, 
                          email=NEW_EMAIL)
