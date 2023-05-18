@@ -1,4 +1,4 @@
-""" This script shows how to retrive information about a given Admin Console account
+""" This script shows how to retrieve information about a given Admin Console account
 
 License: MIT License
 
