@@ -41,10 +41,10 @@ User Sync is a client of the User Management API; it uses the API to automatical
 
 ## <a name="prereq" class="api-ref-subtitle">Prerequisites</a>
 
-Before you can use the User Management API (directly or indirectly through User Sync), you must use the [Adobe I/O Console](https://console.adobe.io/) to create a **Service Account Integration**. The integration registers your application as a client of User Management API, and gives you the credentials you need to authorize calls to the API. If you plan to use the User Sync automation tool, you must create an integration to give the tool access to the API.
-
-* For complete details of how to integrate your application with the User Management service, see [Service Account Authentication](https://www.adobe.io/authentication/auth-methods.html#!AdobeDocs/adobeio-auth/master/JWT/JWT.md).
-* For information on how to authorize calls to the UM API, see [Authentication for API Access](UM_Authentication).
+Before you can use the User Management API (directly or indirectly through User Sync), you must use the [Adobe Developer Console](https://developer.adobe.com/) to create a **Project**. The integration registers your application as a client of User Management API, and gives you the credentials you need to authorize calls to the API. If you plan to use the User Sync automation tool, you must create an integration to give the tool access to the API.
+* For information on how to authorize calls to the User Management API, see [Authentication for API Access](UM_Authentication).  
+* For complete information on the OAuth Server-to-Server implementation see [OAuth Server-to-Server credential API Reference](https://developer.adobe.com/developer-console/docs/guides/authentication/ServerToServerAuthentication/IMS/)
+* For complete information on the deprecated JWT implementation, see [Service Account (JWT) Authentication](https://developer.adobe.com/developer-console/docs/guides/authentication/JWT/)
 
 ## What's Next?
 
