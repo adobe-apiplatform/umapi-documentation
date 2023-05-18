@@ -59,7 +59,7 @@ def multi_action(csv_file):
         index = 0
         done = False
         # can't send more than 10 actions in an API call,
-        # so splitting the task in bacthes of max 10 actions
+        # so splitting the task in batches of max 10 actions
         while not done:
             print(f'Sending batch {int(index/10) + 1}/{batches}')
             body = actions[index:index+10]
