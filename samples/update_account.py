@@ -68,7 +68,7 @@ def update_account(current_email, **kwargs):
 
 def format_select(current_email, kwargs_dict):
     """ 
-    helper function to build the body of the update POST call only this
+    helper function to build the body of the update POST call. Only this
     metadata can be updated: email, username, firstname, lastname
     """
     can_update = {'email': '',
