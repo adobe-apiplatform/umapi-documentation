@@ -1,36 +1,43 @@
-# Copyright (c) 2023 Adobe Inc.
+""" This script shows how to add an AdobeID account type in Adobe Admin Console
 
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this 
-# software and associated documentation files (the "Software"), to deal in the Software
-# without restriction, including without limitation the rights to use, copy, modify, 
-# merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
-# persons to whom the Software is furnished to do so, subject to the following conditions:
+License: MIT License
 
-# The above copyright notice and this permission notice shall be included in all copies or 
-# substantial portions of the Software.
+    Copyright (c) 2023 Adobe Inc.
 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-# INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
-# PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
-# FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-# DEALINGS IN THE SOFTWARE.
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
 
-# This sample shows how to add an Adobe ID account in Adobe Admin Console
-# https://adobe-apiplatform.github.io/umapi-documentation/en/api/ActionsCmds.html
-# POST /v2/usermanagement/action/{orgId}
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+
+Documentation:
+    https://adobe-apiplatform.github.io/umapi-documentation/en/api/ActionsCmds.html
+    POST /v2/usermanagement/action/{orgId}
+"""
 
 import uuid
 
 import json
 import requests
 
-# obtained via OAuth S2S workflow
+# access token obtained via OAuth S2S workflow
 ACCESS_TOKEN = ''
 CLIENT_ID = ''
 ORG_ID = ''
 # insert sample acct metadata to create; for COUNTRY use 2 letter ISO code
-MAIL,FIRST,LAST,COUNTRY = ('user@some-domain.com','first_name','last_name','US')
+MAIL, FIRST, LAST, COUNTRY = ('user@some-domain.com', 'first_name', 'last_name', 'US')
 # simulate call or make changes in Admin Console:
 IS_TEST = 'true'
 # default call management settings
@@ -59,8 +66,10 @@ def add_adobe_id(email, first, last, country):
     return r
 
 def make_call(method, url, body={}):
-    # call manager function with retry mechanism
-    # returns the API response
+    """
+    call manager function with retry mechanism which returns
+    the API response as a dict
+    """
     retry_wait = 0
     h = {'Accept' : 'application/json',
          'x-api-key' : CLIENT_ID,

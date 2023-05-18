@@ -1,34 +1,45 @@
-# Copyright (c) 2023 Adobe Inc.
+""" This script shows how to update an existing Adobe Admin Console account
 
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this 
-# software and associated documentation files (the "Software"), to deal in the Software
-# without restriction, including without limitation the rights to use, copy, modify, 
-# merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
-# persons to whom the Software is furnished to do so, subject to the following conditions:
+License: MIT License
 
-# The above copyright notice and this permission notice shall be included in all copies or 
-# substantial portions of the Software.
+    Copyright (c) 2023 Adobe Inc.
 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-# INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
-# PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
-# FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-# DEALINGS IN THE SOFTWARE.
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
 
-# this script shows how to update an existing Adobe Admin Console account
-# https://adobe-apiplatform.github.io/umapi-documentation/en/api/ActionsCmds.html
-# POST /v2/usermanagement/action/{orgId}
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+
+Documentation
+    https://adobe-apiplatform.github.io/umapi-documentation/en/api/ActionsCmds.html
+    POST /v2/usermanagement/action/{orgId}
+"""
 
 import uuid
 
 import json
 import requests
 
-# obtained via JWT or OAuth S2S workflow
+# access token obtained via OAuth S2S workflow
 ACCESS_TOKEN = ''
 CLIENT_ID = ''
 ORG_ID = ''
+# insert sample user data
+CURRENT_EMAIL = 'current_email@claimed-domain.com'
+NEW_EMAIL = 'new_email@claimed-domain.com'
+NEW_USERNAME = 'new_username@dclaimed-domain.com'
 # simulate call or make changes in Admin Console:
 IS_TEST = 'true'
 # default call management settings
@@ -40,6 +51,11 @@ FIRST_DELAY = 3
 
 
 def update_account(current_email, **kwargs):
+    """ 
+    First argument is always the current email of an existing account, followed
+    by at least one of these keyword arguments: email, username, firstname, lastname
+    for which the update is necessary
+    """
     url = UMAPI_URL + ORG_ID + '?testOnly=' + IS_TEST
     method = 'POST'
     body = format_select(current_email, kwargs)
@@ -50,24 +66,27 @@ def update_account(current_email, **kwargs):
         r = make_call(method, url, body)
         return r
 
-def format_select(current_email,kwargs_dict):
-    # helper function to build the body of the update POST call
-    # only the this metadata can be updated:
+def format_select(current_email, kwargs_dict):
+    """ 
+    helper function to build the body of the update POST call only this
+    metadata can be updated: email, username, firstname, lastname
+    """
     can_update = {'email': '',
                   'username': '',
                   'firstname': '',
                   'lastname': ''}
-    # making sure just supported tags get used
+    # making sure just supported metadata gets used
     will_update = {k:v for k,v in kwargs_dict.items() if k in can_update.keys()}
     j_format = [{'user': current_email,
                  'requestID': str(uuid.uuid1()),
-                 'do': [{'update': will_update }]
-                }]
+                 'do': [{'update': will_update }] }]
     return j_format
 
 def make_call(method, url, body={}):
-    # call manager function with retry mechanism
-    # returns the API response
+    """
+    call manager function with retry mechanism which returns
+    the API response as a dict
+    """
     retry_wait = 0
     h = {'Accept' : 'application/json',
          'x-api-key' : CLIENT_ID,
@@ -105,8 +124,8 @@ if __name__ == '__main__':
     # current email as first argument followed by
     # any mix of username, email, firstname, lastname arguments
     # requiring update
-    rez = update_account('current_email@claimed-domain.com', 
-                         username='new_username@dclaimed-domain.com', 
-                         email='new_email@claimed-domain.com')
+    rez = update_account(CURRENT_EMAIL, 
+                         username=NEW_USERNAME, 
+                         email=NEW_EMAIL)
     print(rez)
 

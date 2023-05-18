@@ -1,29 +1,37 @@
-# Copyright (c) 2023 Adobe Inc.
+""" This script shows how to get all (direct or indirect) members of a given 
+Adobe Admin Console group
 
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this 
-# software and associated documentation files (the "Software"), to deal in the Software
-# without restriction, including without limitation the rights to use, copy, modify, 
-# merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
-# persons to whom the Software is furnished to do so, subject to the following conditions:
+License: MIT License
 
-# The above copyright notice and this permission notice shall be included in all copies or 
-# substantial portions of the Software.
+    Copyright (c) 2023 Adobe Inc.
 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-# INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
-# PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
-# FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-# DEALINGS IN THE SOFTWARE.
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
 
-# this script shows how to get all (direct or indirect) members of a given Admin Console group
-# https://adobe-apiplatform.github.io/umapi-documentation/en/api/getUsersByGroup.html
-# GET /v2/usermanagement/users/{orgId}/{page}/{groupName}
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+
+Documentation:
+    https://adobe-apiplatform.github.io/umapi-documentation/en/api/getUsersByGroup.html
+    GET /v2/usermanagement/users/{orgId}/{page}/{groupName}
+"""
 
 import json
 import requests
 
-# obtained via JWT or OAuth S2S workflow
+# access token obtained via OAuth S2S workflow
 ACCESS_TOKEN = ''
 CLIENT_ID = ''
 ORG_ID = ''
@@ -40,6 +48,10 @@ FIRST_DELAY = 3
 
 
 def get_users_by_group(group_name):
+    """ The function contains logic to resolve the paginated response from the API
+    following the lastPage marker.
+    Returns a list of dict objects, each one representing one user
+    """
     page_index = 0
     url = UMAPI_URL + ORG_ID + '/' + str(page_index) + '/' + group_name + DIRECT
     method = 'GET'
@@ -58,8 +70,10 @@ def get_users_by_group(group_name):
     return users_list
 
 def make_call(method, url, body={}):
-    # call manager function with retry mechanism
-    # returns the API response
+    """
+    call manager function with retry mechanism which returns
+    the API response as a dict
+    """
     retry_wait = 0
     h = {'Accept' : 'application/json',
          'x-api-key' : CLIENT_ID,

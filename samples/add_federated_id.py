@@ -1,47 +1,54 @@
-# Copyright (c) 2023 Adobe Inc.
+""" This script shows how to add a FederatedID account type in Adobe Admin Console
 
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this 
-# software and associated documentation files (the "Software"), to deal in the Software
-# without restriction, including without limitation the rights to use, copy, modify, 
-# merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
-# persons to whom the Software is furnished to do so, subject to the following conditions:
+License: MIT License
 
-# The above copyright notice and this permission notice shall be included in all copies or 
-# substantial portions of the Software.
+    Copyright (c) 2023 Adobe Inc.
 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-# INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
-# PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
-# FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-# DEALINGS IN THE SOFTWARE.
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
 
-# This sample script shows how to add a FederatedID account in Adobe Admin Console
-# https://adobe-apiplatform.github.io/umapi-documentation/en/api/ActionsCmds.html
-# POST /v2/usermanagement/action/{orgId}
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+
+Documentation:
+    https://adobe-apiplatform.github.io/umapi-documentation/en/api/ActionsCmds.html
+    POST /v2/usermanagement/action/{orgId}
+"""
 
 import uuid
 
 import json
 import requests
 
-# obtained via JWT or OAuth S2S workflow
+# access token obtained via OAuth S2S workflow
 ACCESS_TOKEN = ''
 CLIENT_ID = ''
 ORG_ID = ''
-# for SSO where NameID is an attribute value of email format;
 # for COUNTRY use the ISO 2 letter code
-UPN,EMAIL,FIRST,LAST,COUNTRY=('email@domain.com',
-                              'email@domain.com',
-                              'first_name',
-                              'lastname',
-                              'US')
+# for SSO where NameID is an attribute value of email format;
+UPN, EMAIL, FIRST, LAST, COUNTRY=('email@claimed-domain.com',
+                                  'email@claimed-domain.com',
+                                  'first_name',
+                                  'lastname',
+                                  'US')
 # # for SSO where NameID is an attribute value of NON-email format, uncomment below
-# UPN,EMAIL,FIRST,LAST,COUNTRY=('some-username',
-#                               'email@domain.com',
-#                               'first_name',
-#                               'lastname',
-#                               'US')                   
+# UPN, EMAIL, FIRST, LAST, COUNTRY=('some-username',
+#                                   'email@claimed-domain.com',
+#                                   'first_name',
+#                                   'lastname',
+#                                   'US')                   
 # simulate call or make changes in Admin Console:
 IS_TEST = 'true'
 # default call management settings
@@ -61,7 +68,7 @@ def add_federated_id(sso_username, email, first, last, country):
     return r
 
 def format_select(sso_username, email, first, last, country):
-    # helper function to build the body of the create POST call
+    """ Helper function to build the body of the create POST call """
     domain = email[email.index('@') + 1:]
     j_format = {0: [{'user': sso_username,
                      'requestID': str(uuid.uuid1()),
@@ -92,8 +99,10 @@ def format_select(sso_username, email, first, last, country):
     return selection
 
 def make_call(method, url, body={}):
-    # call manager function with retry mechanism
-    # returns the API response
+    """
+    call manager function with retry mechanism which returns
+    the API response as a dict
+    """
     retry_wait = 0
     h = {'Accept' : 'application/json',
          'x-api-key' : CLIENT_ID,
@@ -128,6 +137,6 @@ def make_call(method, url, body={}):
     print(f'UMAPI timeout... giving up after {MAX_RETRIES} attempts.')
         
 if __name__ == '__main__':
-    rez = add_federated_id(UPN,EMAIL,FIRST,LAST,COUNTRY)
+    rez = add_federated_id(UPN, EMAIL, FIRST, LAST, COUNTRY)
     print(rez)
 
