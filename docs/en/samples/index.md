@@ -143,7 +143,7 @@ TIMEOUT = 120.0
 RANDOM_MAX = 5
 FIRST_DELAY = 3
 ```
-Finally, for convenience and for this demo, we print to the screen output for body of the request, headers used and URL plus the result of the API response as a dict.
+Finally, for convenience and for this demo, we print to the screen the output of the request body, headers and URL plus the result of the API response as a dict.
 
 ```python
 if __name__ == '__main__':
