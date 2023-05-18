@@ -71,7 +71,7 @@ def multi_action(csv_file):
 
 def prepare_body(source_file):
     """ Helper function to prepare call's body and create a list of 
-    actions to proecess.
+    actions to process.
     It's using source.csv file from /samples as input
     """
     actions = []
