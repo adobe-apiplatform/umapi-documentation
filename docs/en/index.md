@@ -11,6 +11,8 @@ Welcome to the documentation center for User Management APIs from Adobe.
 
 News:  
 <div class="isa_info">
+<p>From July 25th 2023, a new tags property will be returned as part of a user's response. Documentation in the impacted APIs has been updated. If you ignore unknown fields then you should expect no impact from this change.</p>
+<hr class="api-ref-rule">
 <p>On May 9th, 2023, the <code>productName</code> will be updated to include a new structure to help distinguish multiple products with the same name. An example of the structure is <code>&lt;Product Name&gt; (&lt;a list of keywords&gt;)</code>. For ETLA customers with a <a href="https://helpx.adobe.com/uk/enterprise/using/single-app.html">Single App plan</a> (the plan which enables you to choose any one app from a set of available Creative Cloud applications) you may be returned a structure like <code>Photoshop (&lt;keyword1,Single App,keyword2&gt;)</code> where keyword1 and keyword2 could be optional.</p><p>As a result, any application directly accessing the User Management API which includes logic <strong>dependent on fixed product names</strong> will need to be updated. If you have not included fixed product names in the code, then this will not impact your connection to the User Management API. If you use the User Sync Tool, you should see no impact.</p>
 <p>If you rely on the name of the “product admin group” (e.g., <code>_product_admin_&lt;product name&gt;</code>) you will also be impacted and have to update your scripts.</p>
 <p>You should avoid any logic that expects fixed group names as these are liable to change without notice. We recommend using the Get Groups and Profiles API to fetch the latest group information.</p>
