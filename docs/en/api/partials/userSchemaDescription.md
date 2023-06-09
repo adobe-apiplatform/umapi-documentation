@@ -11,5 +11,5 @@
 {% include_relative partials/statusDescription.md %}
 * __type:__ _string_, The user type, one of: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`. See [Identity Types](glossary.md#identity) for more information.
 * __username:__ _string_; The user's username (applicable for [Enterprise](glossary.md#enterpriseId) and [Federated](glossary.md#federatedId) users). For most [Adobe ID](glossary.md#adobeId) users, this value is the same as the email address.
-* __tags:__ _string[]; The list of user's tags, if applicable.
+* __tags:__ _string[]_; The list of user's tags, if applicable.
 * **adminRoles:** _string[]_; Deprecated. Administrative roles are reflected in group memberships, returned in the `groups` field.
