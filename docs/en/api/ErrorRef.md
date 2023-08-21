@@ -45,7 +45,12 @@ The possible error codes and messages are listed with their context and descript
 * **error.user.type_unknown**
     * (internal) Type of user could not be determined.
 
+* **error.user.type_not_available**
+    * create
+    * The requested user type to create is not available for this organization.
+
 * **error.user.not_found_or_ambiguous**
+    * update
     * (internal) More than one user matches ID.
 
 * **error.user.name.invalid**
@@ -77,8 +82,13 @@ The possible error codes and messages are listed with their context and descript
 * **error.user.id_missing**
     * User ID is missing where required.
 
-* **error.user.firstname_missing<br>error.user.lastname_missing**
-    * User first or last name is missing where required.
+* **error.user.firstname_missing**
+    * create
+    * User first name is missing where required.
+
+* **error.user.lastname_missing**
+    * create
+    * User last name is missing where required.
 
 * **error.user.name_in_use**
     * update
@@ -296,6 +306,10 @@ The possible error codes and messages are listed with their context and descript
     * add, remove
     * A list of groups or product profiles is empty or contains a null entry.
 
+* **error.group.invalid_name**
+    * Get all member users in a group](getUsersByGroup.md)
+    * The group name passed into [Get all member users in a group](getUsersByGroup.md) is invalid.
+
 * **error.option.illegal**
     * The "option" flag value in a user add or create call (addAdobeID, createEnterpriseID, createFederatedID) is not one of the defined values.
 
@@ -306,9 +320,9 @@ The possible error codes and messages are listed with their context and descript
     * add/create, remove, removeFromOrg, removeFromDomain, update
     * Attempt to perform operations on a user by domain trustee organization.
 
-* **error.resetpw.user_must_be_enterprise_type**
-    * resetPassword
-    * A user referenced in resetPassword is not an Enterprise ID. You cannot reset passwords for Adobe IDs or Federated IDs.
+* **error.update.no**
+    * update
+    * The new email address cannot be used. 
 
 * **error.update.domain.mismatch**
     * update
@@ -325,18 +339,6 @@ The possible error codes and messages are listed with their context and descript
 * **error.apikey.invalid**
     * any request
     * Organization's API key in headers not valid
-
-* **invites.pending.not_found**
-    * any pending-invites request
-    * No pending invites exist for the given email address or for the organization
-
-* **invites.pending.resend.error**
-    * request resend of pending invite
-    * A server-side error occurred when resending pending invites
-
-* **invites.pending.revoke.error**
-    * request revocation of pending invite
-    * A server-side error occurred when revoking pending invites
 
 * **error.internal.create_failed**
     * create
@@ -361,33 +363,9 @@ The possible error codes and messages are listed with their context and descript
     * any
     * Unknown error occurred.
 
-* **error.internal.notification.failed**
-    * add, remove, removeFromOrg
-    * Unknown error occurred trying to authorize a Digital Marketing Cloud product.
-
-* **error.internal.notification.failed.jem**
-    * add, remove, removeFromOrg
-    * Unknown error occurred trying to update product use for Creative Cloud or Document Cloud products.
-
-* **error.internal.notification.failed.dma**
-    * add, remove, removeFromOrg
-    * Unknown error occurred trying to update product use for Digital Marketing Cloud products.
-
 * **error.internal.everybody_group.not_found**
     * add, create
     * A user could not be added to this root group, which should always exist.
-
-* **error.internal.invite.email_template_misconfigured**
-    * add, createEnterpriseID
-    * The organization is misconfigured or an email template for an invitation could not be found.
-
-* **error.internal.reset_password_email**
-    * resetPassword
-    * The reset password email send failed.
-
-* **error.internal.no_email_for_user**
-    * resetPassword
-    * Unable to get email address for user to send reset password message. Try updating the email address for the user.
 
 * **plc.not_found**
     * access or update to a profile endpoint
@@ -398,13 +376,33 @@ The possible error codes and messages are listed with their context and descript
     * The admin user list for the product profile was not found.
 
 * **plc.admin.already_added<br>plc.add.admin.error<br>plc.remove.admin.error**
-    * add or remove admin user to profile
-    * The admin user already exists or doesn't exist in list
+    * add or remove admin user to profile.
+    * The admin user already exists or doesn't exist in list.
 
 * **error.productadmin.add.user.failed<br>error.productadmin.remove.admin.failed**
-    * update to admin user list for product
+    * update to admin user list for product.
     * The admin user list was not updated.
 
 * **<a name="adobeidno" class="api-ref-subtitle">error.update.adobeid.no</a>**
     * update action workflows
     * The operation in the command cannot be applied to an Adobe ID.
+
+* **error.throttled_by_external_service**
+    * any
+    * User Management API is being throttled by an external service.
+
+* **error.developer.add_user.failed**
+    * add
+    * Failed to add the user as a developer.
+
+* **error.developer.remove_user.failed**
+    * remove
+    * Failed to remove the developer role from the user.
+
+* **error.user.domain_enforcement**
+    * create
+    * The user cannot be added to the organization due to domain enforcement restrictions. See https://helpx.adobe.com/enterprise/using/restricting-domains.html for more information.
+
+* **error.usergroup.exceeds_maximum_member_count**
+    * add, remove
+    * The current user count for the group exceeds the recommended size. Please refer to our [requesting help page](../getsupport.html) if you would like to discuss this issue further.
