@@ -405,4 +405,4 @@ The possible error codes and messages are listed with their context and descript
 
 * **error.usergroup.exceeds_maximum_member_count**
     * add, remove
-    * The current user count for the group exceeds the recommended size. Please refer to our [requesting help page](getsupport.html) if you would like to discuss this issue further.
+    * The current user count for the group exceeds the recommended size. Please refer to our [requesting help page](getSupport.html) if you would like to discuss this issue further.
