@@ -54,3 +54,7 @@ Before you can use the User Management API (directly or indirectly through User 
 * Get complete reference details for all API calls: [User Management API Reference](RefOverview.md)
 * See a sample Python script and examples of representative requests: [Examples and Samples](samples/index.md)
 
+## Need Help?
+
+If you require further assistance for using the User Management API then please follow the instructions for Creative Cloud for Enterprise support outlined [here](https://helpx.adobe.com/uk/contact/enterprise-support.html). This will result in a support ticket being opened and assigned to our Developer Support Team.
+
