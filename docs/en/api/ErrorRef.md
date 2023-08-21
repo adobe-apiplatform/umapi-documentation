@@ -401,8 +401,8 @@ The possible error codes and messages are listed with their context and descript
 
 * **error.user.domain_enforcement**
     * create
-    * The user cannot be added to the organization due to domain enforcement restrictions. See https://helpx.adobe.com/enterprise/using/restricting-domains.html for more information.
+    * The user cannot be added to the organization due to domain enforcement restrictions. See [Restricting Domains](https://helpx.adobe.com/enterprise/using/restricting-domains.html) for more information.
 
 * **error.usergroup.exceeds_maximum_member_count**
     * add, remove
-    * The current user count for the group exceeds the recommended size. Please refer to our [requesting help page](../getsupport.html) if you would like to discuss this issue further.
+    * The current user count for the group exceeds the recommended size. Please refer to our [requesting help page](getsupport.html) if you would like to discuss this issue further.

@@ -7,8 +7,6 @@ nav_level: 1
 lang: en
 ---
 
-# Requesting Help
-
 If you require further assistance for using the User Management API then please follow the instructions for Creative Cloud for Enterprise support outlined [here](https://helpx.adobe.com/uk/contact/enterprise-support.html). This will result in a support ticket being opened and assigned to our Developer Support Team.
 
 
