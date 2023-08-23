@@ -402,11 +402,11 @@ Note that the response always reports a successful result for this action, even 
 }
 ```
 
-* __deleteAccount:__ _boolean_; If true then if the account is owned by the organization, the account is also deleted. Note that [Adobe IDs](glossary.md#adobeId) are never deleted because they are owned by the user, not the organization. The default value is false.  
+* __deleteAccount:__ _boolean_; If true then if the account is owned by the organization, the account is also deleted. Please see section below for full details on impact. Note that [Adobe IDs](glossary.md#adobeId) are never deleted because they are owned by the user, not the organization. The default value is false.  
 
 Corresponding Admin Console actions:  
 * `"deleteAccount": false` = removing the user from the __Users__ menu
-* `"deleteAccount": true` = removing the user from the __Directory users__ menu; implies loss of account metadata and associated cloud assets  
+* `"deleteAccount": true` = removing the user from the __Users__ menu AND the __Directory users__ menu. Removing users from a directory will permanently delete them and their assets. Use this feature with caution as the user and the assets cannot be recovered afterwards. Full information on removing users from a directory can be found [here](https://helpx.adobe.com/enterprise/using/manage-directory-users.html).  
 
 Sample JSON body for email based login:   
 
