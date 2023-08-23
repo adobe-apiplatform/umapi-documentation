@@ -402,7 +402,7 @@ Note that the response always reports a successful result for this action, even 
 }
 ```
 
-* __deleteAccount:__ _boolean_; If true then if the account is owned by the organization, the account is also deleted. Please see section below for full details on impact. Note that [Adobe IDs](glossary.md#adobeId) are never deleted because they are owned by the user, not the organization. The default value is false.  
+* __deleteAccount:__ _boolean_; If true then if the account is owned by the organization, the account and any of their assets are also deleted. Note that [Adobe IDs](glossary.md#adobeId) are never deleted because they are owned by the user, not the organization. The default value is false.  
 
 Corresponding Admin Console actions:  
 * `"deleteAccount": false` = removing the user from the __Users__ menu
