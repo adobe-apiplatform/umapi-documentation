@@ -9,7 +9,7 @@ lang: en
 
 # <a name="getUsersWithPage" class="api-ref-title">Get All Users in Organization</a>
 
-**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+**DEPRECATED:** These APIs have been deprecated. Please use [Get Users in Organization](getUsersWithPage.md)
 
 <hr class="api-ref-rule">
 

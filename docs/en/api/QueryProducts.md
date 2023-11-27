@@ -8,7 +8,7 @@ title: Product Access APIs
 ---
 # <a name="productApis" class="api-ref-title">Product Access APIs</a>
 
-**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+**DEPRECATED:** These APIs have been deprecated. Please use [Get User Groups and Product Profiles](group.md).
 
 <hr class="api-ref-rule">
 

@@ -8,7 +8,7 @@ lang: en
 ---
 # <a name="getProfile" class="api-ref-title">Get Product Profile</a>
 
-**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+**DEPRECATED:** These APIs have been deprecated. Please use [Get Users by Group API](getUsersByGroup.md) for fetching information for a single product profile.
 
 <hr class="api-ref-rule">
 ```

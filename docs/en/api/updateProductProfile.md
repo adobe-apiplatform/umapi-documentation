@@ -8,7 +8,7 @@ lang: en
 ---
 # <a name="updateProfile" class="api-ref-title">Update Product Profile</a>
 
-**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+**DEPRECATED:** These APIs have been deprecated. Please refer to the [User Management Action API](ActionsRef.md) for details on the supported approach to assign and manage membership and administrative rights within your Organization.
 
 <hr class="api-ref-rule">
 

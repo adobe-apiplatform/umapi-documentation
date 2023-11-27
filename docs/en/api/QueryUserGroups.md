@@ -8,7 +8,7 @@ title: Get User Group Users
 ---
 # <a name="queryUserGroups" class="api-ref-title">Get User-group Users</a>
 
-**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+**DEPRECATED:** These APIs have been deprecated. Please use [Get Users by Group API](getUsersByGroup.md) for fetching information for a single group.
 
 <hr class="api-ref-rule">
 
