@@ -9,7 +9,7 @@ lang: en
 
 # <a name="getUserGroup" class="api-ref-title">Get User Group</a>
 
-**DEPRECATED:** These APIs have been deprecated. An exact date for removal will be confirmed before the end of 2017 but you should look to update your scripts as soon as possible.
+**DEPRECATED:** These APIs have been deprecated. Please use [Get Users by Group API](getUsersByGroup.md) for fetching information for a single group.
 
 <hr class="api-ref-rule">
 
