@@ -11,6 +11,10 @@ Welcome to the documentation center for User Management APIs from Adobe.
 
 News:  
 <div class="isa_info">
+<p>From Jan 16th 2024, a new query parameter <code>excludeGroups</code> will be available in <a href="api/getUsersByGroup.html">Get Users by Group</a> to exclude the return of other group membership information for each user.</p>
+<p>Further information and examples can be found within the API documentation.</p>
+<p>This does not impact existing clients.</p>
+<hr class="api-ref-rule">
 <p>From July 25th 2023, a new tags property will be returned as part of a user's response in the following APIs:</p>
 	<ul>
 		<li><a href="api/getUser.html">Get User Information</a></li>
