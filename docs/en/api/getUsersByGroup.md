@@ -36,6 +36,7 @@ __Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttlin
 | X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
 | directOnly | query | false | {% include_relative partials/directOnlyDescription.md %} |
 | status | query | false | For product profiles only, return only active or inactive members. Pass `active` to list users that have been provisioned for the product and have an active license. Pass `inactive` to list users who have been added to the product profile but do not have an _active_ license. When not provided, lists all member users regardless of their entitlement status.|
+| excludeGroups | query | false | Default value is `false`. When `true` is passed the response will exclude the `groups` array from being returned for each individual user. See [example](#getUsersWithNoGroupsExample). |
 {:.bordertablestyle}
 
 ## <a name="responses" class="api-ref-subtitle">Responses</a>
@@ -108,6 +109,46 @@ A successful request returns a response body with the requested user data in JSO
                 "Document Cloud 1",
                 "Creative Cloud 1"
             ],
+            "username": "bob",
+            "domain": "example.com",
+            "country": "US",
+            "type": "federatedID"
+        }
+        ...
+      ]
+}
+```
+
+<a name="getUsersWithNoGroupsExample" class="api-ref-subtitle">Response returning three members of the Document Cloud 1 group. The `groups` array for each user has been excluded in the response as the query parameter `excludeGroups=true` was included:</a>
+
+```json
+{
+    "lastPage": false,
+    "result": "success",
+    "groupName": "Document Cloud 1",
+    "users": [
+        {
+            "email": "john@example.com",
+            "status": "active",
+            "username": "john",
+            "domain": "example.com",
+            "country": "US",
+            "type": "federatedID",
+            "tags": [
+                "edu_student"
+            ]
+        },
+        {
+            "email": "jane@example.com",
+            "status": "active",
+            "username": "jane",
+            "domain": "example.com",
+            "country": "US",
+            "type": "federatedID"
+        },
+        {
+            "email": "bob@example.com",
+            "status": "active",
             "username": "bob",
             "domain": "example.com",
             "country": "US",
