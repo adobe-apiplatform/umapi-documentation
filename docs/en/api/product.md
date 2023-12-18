@@ -8,7 +8,7 @@ lang: en
 ---
 # <a name="productInfoApis" class="api-ref-title">Product Information APIs</a>
 
-**DEPRECATED:** These APIs have been deprecated. Please refer to [Get User Groups and Product Profiles](group.md) instead.
+**DEPRECATED:** These APIs have been deprecated and are unsupported. Please refer to [Get User Groups and Product Profiles](group.md) instead.
 
 <hr class="api-ref-rule">
 
