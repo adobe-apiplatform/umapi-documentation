@@ -9,7 +9,13 @@ lang: en
 
 # Deprecated APIs
 
-The following APIs have been deprecated. These APIs will continue to function but could be removed at some point in the future.  Their usage is strongly discouraged.  Alternatives are noted below.
+The following APIs have been deprecated. These APIs will continue to function but could be removed at some point in the future with appropriate notice. Their usage is strongly discouraged. Alternatives are noted below.
+
+**For the avoidance of doubt, all APIs provided by UMAPI, even those marked as deprecated will continue to be supported for the foreseeable future.**
+
+If it becomes apparent that any API, deprecated or otherwise, needs to be retired from service or needs updated with a breaking change, Adobe will provide at least 6 (six) months notice of the change, via UMAPI documentation (this site) and via Developer Console.
+
+Developer support will also work to make customers aware of the upcoming changes during their regular engagement.
 
 | Deprecated | Current |
 | :--- | :------ |
