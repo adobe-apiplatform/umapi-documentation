@@ -9,8 +9,14 @@ lang: en
 
 Welcome to the documentation center for User Management APIs from Adobe.  
 
-News:  
+<h2>News</h2>
 <div class="isa_info">
+<p>July 22, 2024: To provide peace of mind for API integrations, all APIs provided by UMAPI, even those marked as deprecated will continue to be supported for the foreseeable future.</p>
+<p>If it becomes apparent that any API, deprecated or otherwise, needs to be retired from service or needs updated with a breaking change, Adobe will provide at least 6 (six) months notice of the change, via UMAPI documentation (this site) and via Developer Console banners.</p>
+<p>We will also endavour to provide 4 weeks notice of any new fields that are being added to responses in order to give time to prepare. As ever, guidance is to ignore any unrecognised or unknown fields in the UMAPI response. Unless it is documented, it should not be relied upon.</p>
+<p>Developer support will also work to make customers aware of the upcoming removal of APIs during their regular engagement process.
+</p>
+<hr class="api-ref-rule">
 <p>From Jan 16th 2024, a new query parameter <code>excludeGroups</code> will be available in <a href="api/getUsersByGroup.html">Get Users by Group</a> to exclude the return of other group membership information for each user.</p>
 <p>Further information and examples can be found within the API documentation.</p>
 <p>This does not impact existing clients.</p>
