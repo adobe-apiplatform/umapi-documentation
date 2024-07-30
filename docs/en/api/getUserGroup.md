@@ -62,7 +62,8 @@ The response body contains the specified user-group in JSON format including the
   "adminGroupId": "42073423",
   "adminGroupName": "39127441USERGROUP_ADMIN_GROUP_NAME_SUFFIX",
   "userCount": 2,
-  "adminCount": "1"
+  "adminCount": "1",
+  "isReadOnly": false
 }
 ```
 
@@ -85,6 +86,9 @@ The group type which will always be `USER_GROUP`.
 __userCount:__ _integer_  
 The number of users in the group.
 
+__isReadOnly:__ _boolean_
+Indicates if it is possible to directly add and remove users from the group. Groups shared from another organization will return true otherwise it will return false or not be present if not applicable.
+
 #### Schema Model
 
 ```json
@@ -95,7 +99,8 @@ The number of users in the group.
     "groupId": integer,
     "name": "string",
     "type": "string",
-    "userCount": integer
+    "userCount": integer,
+    "isReadOnly": boolean
   }
 ```
 
