@@ -411,7 +411,7 @@ The possible error codes and messages are listed with their context and descript
     * Attempting to modify a readonly group e.g. update the group name
 * **error.usergroup.readonly.add_user_not_allowed**
     * add
-    * Attempting to add a user membership of a readonly group
+    * Attempting to add a user membership to a readonly group
 * **error.usergroup.readonly.remove_user_not_allowed**
     * remove
-    * Attempting to remove a user membership of a readonly group
+    * Attempting to remove a user membership from a readonly group

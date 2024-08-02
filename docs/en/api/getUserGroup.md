@@ -87,7 +87,7 @@ __userCount:__ _integer_
 The number of users in the group.
 
 __isReadOnly:__ _boolean_
-Indicates if it is possible to directly add and remove users from the group. Groups shared from another organization will return true otherwise it will return false or not be present if not applicable. See full discussion at [Share User Groups](https://www.adobe.com/go/user_group_share)
+Indicates if it is possible to directly add and remove users from the group. Groups shared from another organization will return true otherwise it will return false or not be present if not applicable. Further information is available at [Share User Groups](https://www.adobe.com/go/user_group_share)
 
 #### Schema Model
 
