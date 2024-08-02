@@ -75,7 +75,7 @@ When you remove a user from the group, that user loses the associated entitlemen
 * When you add a product profile, all of the member users gain the associated entitlements.
 When you remove a product profile, all of the users in the user group lose the associated entitlements (unless they have individual access). Please note that you cannot use the add command if the user-group has more than 200,000 users.
 
-* When a group has isReadOnly set to true, you cannot add or remove users from the group however you can add or remove product profiles.
+* When a group has `isReadOnly` set to true, you cannot add or remove users from the group however you can add or remove product profiles.
 
 >NOTE: Use the [`group`](group.md) resource to retrieve information about defined groups.
 
