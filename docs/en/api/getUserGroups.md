@@ -75,7 +75,8 @@ Response with 3 user-groups including a user-group with administrators.
     "groupId": 44815360,
     "name": "UserGroup12",
     "type": "USER_GROUP",
-    "userCount": 1
+    "userCount": 1,
+    "isReadOnly": true
   },
   {
     "groupId": 44382376,
@@ -105,6 +106,9 @@ The group type will always be `USER_GROUP`.
 
 __userCount:__ _long_  
 The number of users in the group. {% include_relative partials/mayNotBePresent.md %}
+
+__isReadOnly:__ _boolean_
+Indicates if it is possible to directly add and remove users from the group. Further information is available at [Share User Groups](https://www.adobe.com/go/user_group_share)
 
 #### Schema Model
 
