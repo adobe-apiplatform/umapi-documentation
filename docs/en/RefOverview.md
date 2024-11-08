@@ -35,6 +35,8 @@ Address all user-management requests to the UM API server:
 https://usermanagement.adobe.io/v2/usermanagement/...
 ```
 
+<strong>NOTE:</strong> In responses, as per the [HTTP specification](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers), HTTP header names are case insensitive. For example, <code>x-current-page</code> is identical to <code>X-Current-Page</code>.
+
 ************
 
 ### Summary of Actions on Users
