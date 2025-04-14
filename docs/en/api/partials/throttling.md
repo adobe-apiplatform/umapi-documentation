@@ -5,7 +5,10 @@ To protect the availability of the Adobe back-end user identity systems, the Use
 
 When the client or global access limit is reached, further calls fail with HTTP error status **429 Too Many Requests**. The **Retry-After** header is included in the 429 response, and provides the minimum amount of time that the client should wait until retrying. See [RFC 7231](https://tools.ietf.org/html/rfc7231#section-7.1.3) for full information.
 
-The User Management API recommends limiting your syncs to two hourly intervals and consider scheduling your sync for a time that works best for you, taking into account other timezones and clients. This will help to prevent how often your client is throttled.
+**Important:** The page index 0 (first page) of GET All Users / GET All Groups from Organisation API call is throttled separately. Calling it too often will trigger the frequency throttling  with high delay timeouts (>2000 sec). All subsequent API calls will be blocked during this time.
+The recommended frequency is calling GET all users in the Organisation, page index 0, at most once every two hours.
+
+For User Sync Tool instances the running frequency should be set to no more than once every two hours.
 
 The following sample shows a 429 response with the Retry-After header detailing the number of seconds to wait before retry:
 
