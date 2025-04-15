@@ -119,6 +119,8 @@ A successful request returns a response body with the requested user data in JSO
 }
 ```
 
+:warning: As of October 16, 2025, the `tags` array will no longer be returned.
+
 <a name="getUsersWithNoGroupsExample" class="api-ref-subtitle">Response returning three members of the Document Cloud 1 group. The `groups` array for each user has been excluded in the response as the query parameter `excludeGroups=true` was included:</a>
 
 ```json
@@ -158,6 +160,8 @@ A successful request returns a response body with the requested user data in JSO
       ]
 }
 ```
+
+:warning: As of October 16, 2025, the `tags` array will no longer be returned.
 
 <a name="getUsersExampleLastPage" class="api-ref-subtitle">Response to request for the last page:
 
@@ -227,6 +231,8 @@ __users:__  Contains a list of _User_ objects. Properties that are not populated
   ]
 }
 ```
+
+:warning: As of October 16, 2025, the `tags` array will no longer be returned.
 
 {% include_relative partials/badRequest.md anchor="400getUsersByGroup" %}
 

@@ -72,6 +72,9 @@ The response body contains the requested user data in JSON format including any 
   }
 }
 ```
+
+:warning: As of October 16, 2025, the `tags` array will no longer be returned.
+
 <a name="getUserGroupsExample" class="api-ref-subtitle">[Enterprise](glossary.md#enterpriseId) User with membership</a> in two user-groups but no administrative roles. If the fields are not populated (`firstname` and`lastname` in this example), they are excluded from the response.
 ```json
 {
@@ -147,6 +150,8 @@ __user:__  A _user_ object containing relevant properties. Properties that are n
   }
 }
 ```
+
+:warning: As of October 16, 2025, the `tags` array will no longer be returned.
 
 {% include_relative partials/badRequest.md anchor="400getUser" %}
 
