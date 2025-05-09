@@ -11,7 +11,15 @@ Welcome to the documentation center for User Management APIs from Adobe.
 
 <h2>News</h2>
 <div class="isa_info">
-<p>April 15, 2025: As of 16 October, 2025, UMAPI will no longer return "tags" information as documented for the following APIs:</p>
+<p><strong>May 9, 2025</strong>: With the introduction of Single App Edition 4, we've been made aware that some customers have both Single App and Single App Edition 4. To help distinguish groups for each Single App using the same infix structure introduced in May 2023, the `productName` field for the profile will be adjusted to return the "parent" product name, as in the below examples:</p>
+<ul>
+	<li>If the parent product is <em>Single App - Enterprise</em>, you will see <code>Photoshop (&lt;keyword1,Single App - Enterprise,keyword2&gt;)</code></li>
+	<li>If the parent product is <em>Single App - Edition 4</em>, you will see <code>Photoshop (&lt;keyword1,Single App - Edition 4,keyword2&gt;)</code></li>
+</ul>
+<p>If you rely on the name of the "product admin group", you will also see a change here.</p>
+<p>This change will come into effect on <em><strong>June 10, 2025</strong></em>.</p>
+<hr class="api-ref-rule">
+<p><strong>April 15, 2025</strong>: As of <em><strong>October 16, 2025</strong></em>, UMAPI will no longer return "tags" information as documented for the following APIs:</p>
 	<ul>
 		<li><a href="api/getUser.html">Get User Information</a></li>
 		<li><a href="api/getUsersWithPage.html">Get Users in Organization</a></li>
@@ -19,7 +27,7 @@ Welcome to the documentation center for User Management APIs from Adobe.
 	</ul>
 <p>Note that this data is likely to become stale over the coming months as the attribute is deprecated internally. If you are currently using this information, please get in touch with the developer support team to let us know your use case. Note that as this change is due to the data being retired from the Adobe platform, UMAPI will not be able to offer extensions to this time frame.</p>
 <hr class="api-ref-rule">
-<p>July 22, 2024: To provide peace of mind for API integrations, all APIs provided by UMAPI, even those marked as deprecated will continue to be supported for the foreseeable future.</p>
+<p><strong>July 22, 2024</strong>: To provide peace of mind for API integrations, all APIs provided by UMAPI, even those marked as deprecated will continue to be supported for the foreseeable future.</p>
 <p>If it becomes apparent that any API, deprecated or otherwise, needs to be retired from service or needs updated with a breaking change, Adobe will provide at least 6 (six) months notice of the change, via UMAPI documentation (this site) and via Developer Console banners.</p>
 <p>We will also endeavour to provide 4 weeks notice of any new fields that are being added to responses in order to give time to prepare. As ever, guidance is to ignore any unrecognised or unknown fields in the UMAPI response. Unless it is documented, it should not be relied upon.</p>
 <p>Developer support will also work to make customers aware of the upcoming removal of APIs during their regular engagement process.
