@@ -11,6 +11,19 @@ Welcome to the documentation center for User Management APIs from Adobe.
 
 <h2>News</h2>
 <div class="isa_info">
+<p><strong>May 22, 2025</strong>: With the introduction of the <a href="https://helpx.adobe.com/uk/enterprise/using/admin-roles.html#enterprise">Contract Admin role</a> in 2024, we've been made aware that some customers are not receiving a <code>type</code> value from the <a href="https://adobe-apiplatform.github.io/umapi-documentation/en/api/group.html">Get User Groups and Product Profiles</a> API. To help with consistency, we'll ensure that this scenario results in a type of <code>CONTRACT_ADMIN_GROUP</code> and will enhance the response with a <code>contractName</code> field as below:</p>
+<pre>
+    {
+      "groupId": 555555555,
+      "groupName": "BCDEFA3F5A9DB8F0345B_CONTRACT_GROUP",
+      "adminGroupName": "_admin_BCDEFA3F5A9DB8F0345B_CONTRACT_GROUP",
+      "type": "CONTRACT_ADMIN_GROUP",
+      "contractName": "ETLA - BCDEFA3F5A9DB8F0345B",
+      "memberCount": 1
+    }
+</pre>
+<p>This change will come into effect on <em><strong>June 3, 2025</strong></em>.</p>
+<hr class="api-ref-rule">
 <p><strong>May 9, 2025</strong>: With the introduction of Single App Edition 4, we've been made aware that some customers have both Single App and Single App Edition 4. To help distinguish groups for each Single App using the same infix structure introduced in May 2023, the `productName` field for the profile will be adjusted to return the "parent" product name, as in the below examples:</p>
 <ul>
 	<li>If the parent product is <em>Single App - Enterprise</em>, you will see <code>Photoshop (&lt;keyword1,Single App - Enterprise,keyword2&gt;)</code></li>
