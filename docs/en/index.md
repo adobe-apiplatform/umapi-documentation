@@ -9,8 +9,43 @@ lang: en
 
 Welcome to the documentation center for User Management APIs from Adobe.  
 
-News:  
+<h2>News</h2>
 <div class="isa_info">
+<p><strong>May 22, 2025</strong>: With the introduction of the <a href="https://helpx.adobe.com/uk/enterprise/using/admin-roles.html#enterprise">Contract Admin role</a> in 2024, we've been made aware that some customers are not receiving a <code>type</code> value from the <a href="https://adobe-apiplatform.github.io/umapi-documentation/en/api/group.html">Get User Groups and Product Profiles</a> API. To help with consistency, we'll ensure that this scenario results in a type of <code>CONTRACT_ADMIN_GROUP</code> and will enhance the response with a <code>contractName</code> field as below:</p>
+<pre>
+    {
+      "groupId": 555555555,
+      "groupName": "BCDEFA3F5A9DB8F0345B_CONTRACT_GROUP",
+      "adminGroupName": "_admin_BCDEFA3F5A9DB8F0345B_CONTRACT_GROUP",
+      "type": "CONTRACT_ADMIN_GROUP",
+      "contractName": "ETLA - BCDEFA3F5A9DB8F0345B",
+      "memberCount": 1
+    }
+</pre>
+<p>This change will come into effect on <em><strong>June 3, 2025</strong></em>.</p>
+<hr class="api-ref-rule">
+<p><strong>May 9, 2025</strong>: With the introduction of Single App Edition 4, we've been made aware that some customers have both Single App and Single App Edition 4. To help distinguish groups for each Single App using the same infix structure introduced in May 2023, the `productName` field for the profile will be adjusted to return the "parent" product name, as in the below examples:</p>
+<ul>
+	<li>If the parent product is <em>Single App - Enterprise</em>, you will see <code>Photoshop (&lt;keyword1,Single App - Enterprise,keyword2&gt;)</code></li>
+	<li>If the parent product is <em>Single App - Edition 4</em>, you will see <code>Photoshop (&lt;keyword1,Single App - Edition 4,keyword2&gt;)</code></li>
+</ul>
+<p>If you rely on the name of the "product admin group", you will also see a change here.</p>
+<p>This change will come into effect on <em><strong>June 10, 2025</strong></em>.</p>
+<hr class="api-ref-rule">
+<p><strong>April 15, 2025</strong>: As of <em><strong>October 16, 2025</strong></em>, UMAPI will no longer return "tags" information as documented for the following APIs:</p>
+	<ul>
+		<li><a href="api/getUser.html">Get User Information</a></li>
+		<li><a href="api/getUsersWithPage.html">Get Users in Organization</a></li>
+		<li><a href="api/getUsersByGroup.html">Get Users by Group</a></li>
+	</ul>
+<p>Note that this data is likely to become stale over the coming months as the attribute is deprecated internally. If you are currently using this information, please get in touch with the developer support team to let us know your use case. Note that as this change is due to the data being retired from the Adobe platform, UMAPI will not be able to offer extensions to this time frame.</p>
+<hr class="api-ref-rule">
+<p><strong>July 22, 2024</strong>: To provide peace of mind for API integrations, all APIs provided by UMAPI, even those marked as deprecated will continue to be supported for the foreseeable future.</p>
+<p>If it becomes apparent that any API, deprecated or otherwise, needs to be retired from service or needs updated with a breaking change, Adobe will provide at least 6 (six) months notice of the change, via UMAPI documentation (this site) and via Developer Console banners.</p>
+<p>We will also endeavour to provide 4 weeks notice of any new fields that are being added to responses in order to give time to prepare. As ever, guidance is to ignore any unrecognised or unknown fields in the UMAPI response. Unless it is documented, it should not be relied upon.</p>
+<p>Developer support will also work to make customers aware of the upcoming removal of APIs during their regular engagement process.
+</p>
+<hr class="api-ref-rule">
 <p>From Jan 16th 2024, a new query parameter <code>excludeGroups</code> will be available in <a href="api/getUsersByGroup.html">Get Users by Group</a> to exclude the return of other group membership information for each user.</p>
 <p>Further information and examples can be found within the API documentation.</p>
 <p>This does not impact existing clients.</p>
@@ -27,7 +62,7 @@ News:
 <p>If you rely on the name of the “product admin group” (e.g., <code>_product_admin_&lt;product name&gt;</code>) you will also be impacted and have to update your scripts.</p>
 <p>You should avoid any logic that expects fixed group names as these are liable to change without notice. We recommend using the Get Groups and Profiles API to fetch the latest group information.</p>
 <hr class="api-ref-rule">
-<p>Since May 6th, 2023, User Management API supports OAuth Server-to-Server (S2S) workflows; The JWT one is deprecated and will be removed on 1st of January 2025. Existing integrations based on this authorization scheme will continue to work as usual until this date. Please migrate your project to use OAuth S2S before 2025. 
+<p>Since May 6th, 2023, User Management API supports OAuth Server-to-Server (S2S) workflows; The JWT one is deprecated and will stop working from the 27th of January 2025. Existing integrations based on this authorization scheme will continue to work as usual until this date. Please migrate your project to use OAuth S2S before 2025. 
 <p>For User Sync Tool users, please wait for the v2.9.0 release before migrating to OAuth Server-to-Server.</p>
 <hr class="api-ref-rule">
 <p>On August 8th, 2022, Document Cloud product names will remove the "DC" suffix. For example, "Acrobat Pro DC" will be renamed “Acrobat Pro".</p>
