@@ -13,7 +13,7 @@ Welcome to the documentation center for User Management APIs from Adobe.
 <div class="isa_info">
 <p><strong>July 23, 2025</strong>: We've been made aware that some customers are receiving group names with a mysterious suffix, such as <code>provisioning</code>. Since these groups or profiles with these names don't exist in Admin Console (they were a historic construct from a previous iteration of the Adobe platform), we will ensure that we fully filter out these mystery group names. APIs that return lists of group names will be changed to return <strong>only</strong> user group and product profile names that really exist in the org.</p>
 <p>As a best practice, it is recommended to avoid any logic that expects fixed names.</p>
-<p>This change will come into effect on <em><strong><s>August 26</s>September 23, 2025</strong></em>.</p>
+<p>This change will come into effect on <em><strong><s>August 26</s> <s>September 23, 2025</s> October 28, 2025</strong></em>.</p>
 <hr class="api-ref-rule">
 <p><strong>May 22, 2025</strong>: With the introduction of the <a href="https://helpx.adobe.com/uk/enterprise/using/admin-roles.html#enterprise">Contract Admin role</a> in 2024, we've been made aware that some customers are not receiving a <code>type</code> value from the <a href="https://adobe-apiplatform.github.io/umapi-documentation/en/api/group.html">Get User Groups and Product Profiles</a> API. To help with consistency, we'll ensure that this scenario results in a type of <code>CONTRACT_ADMIN_GROUP</code> and will enhance the response with a <code>contractName</code> field as below:</p>
 <pre>
