@@ -15,5 +15,4 @@
   * "removed": The user account is being removed. 
 * __type:__ _string_, The user type, one of: `{ "adobeID", "enterpriseID", "federatedID", "unknown" }`. See [Identity Types](glossary.md#identity) for more information.
 * __username:__ _string_; The user's username (applicable for [Enterprise](glossary.md#enterpriseId) and [Federated](glossary.md#federatedId) users). For most [Adobe ID](glossary.md#adobeId) users, this value is the same as the email address.
-* __tags:__ _string[]_; Returns a list of the tags applied to a user e.g. `["edu_student", "edu_staff"]`. This will not be returned if the user has no tags.
 * **adminRoles:** _string[]_; Deprecated. Administrative roles are reflected in group memberships, returned in the `groups` field.

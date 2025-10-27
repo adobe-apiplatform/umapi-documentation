@@ -11,6 +11,14 @@ Welcome to the documentation center for User Management APIs from Adobe.
 
 <h2>News</h2>
 <div class="isa_info">
+<p><strong>October 27, 2025</strong>: As previously notified, UMAPI no longer returns "tags" information for the following APIs:</p>
+	<ul>
+		<li><a href="api/getUser.html">Get User Information</a></li>
+		<li><a href="api/getUsersWithPage.html">Get Users in Organization</a></li>
+		<li><a href="api/getUsersByGroup.html">Get Users by Group</a></li>
+	</ul>
+<p>All references to this field have been removed from the relevant documentation.</p>
+<hr class="api-ref-rule">
 <p><strong>July 23, 2025</strong>: We've been made aware that some customers are receiving group names with a mysterious suffix, such as <code>provisioning</code>. Since these groups or profiles with these names don't exist in Admin Console (they were a historic construct from a previous iteration of the Adobe platform), we will ensure that we fully filter out these mystery group names. APIs that return lists of group names will be changed to return <strong>only</strong> user group and product profile names that really exist in the org.</p>
 <p>As a best practice, it is recommended to avoid any logic that expects fixed names.</p>
 <p>This change will come into effect on <em><strong><s>August 26</s> <s>September 23, 2025</s> October 28, 2025</strong></em>.</p>
