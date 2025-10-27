@@ -72,10 +72,7 @@ A successful request returns a response body with the requested user data in JSO
             "username": "psmith",
             "domain": "example.com",
             "country": "US",
-            "type": "federatedID",
-            "tags": [
-                "edu_student"
-            ]
+            "type": "federatedID"
         },
         {
             "email": "jane@example.com",
