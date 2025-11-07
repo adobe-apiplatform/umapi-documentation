@@ -9,10 +9,11 @@ lang: en
 
 {% include_relative partials/umIntro.md %}
 
-The User Management API allows you to manage a large number of identities programmatically, rather than individually through a user interface. You can create programs that obtain account management data stored in another identity tool that you might already be using, such as Microsoft Active Directory, and can use that data in calls to the Adobe User Management API. You can call the API directly to perform creation, management, and removal of user accounts. You can also generate reports, or drive other processes that track which users have access to which Adobe products.
+The User Management API (UMAPI) allows you to manage a large number of identities programmatically, rather than individually through a user interface. You can create programs that obtain account management data stored in another identity tool that you might already be using, such as Microsoft Active Directory, and can use that data in calls to the API. You can call the API directly to perform creation, management, and removal of user accounts. You can also generate reports, or drive other processes that track which users have access to which Adobe products.
 
-You can use the API directly to create applications and scripts to manage your organization's Adobe user accounts and product entitlements. In addition to direct programmatic access through the API, Adobe offers system administrators a ready-made user-management automation tool, [User Sync](#usersync), which is built on top of the UM API.
+You can use the API directly to create applications and scripts to manage your organization's Adobe user accounts and product entitlements. In addition to direct programmatic access through the API, Adobe offers system administrators a ready-made user-management automation tool, [User Sync](#usersync), which is built on top of UMAPI.
 
+Note, however, that you cannot use UMAPI to add or remove users if you are using the [Azure/Entra](https://helpx.adobe.com/enterprise/using/add-azure-sync.html) or [Google](https://helpx.adobe.com/enterprise/using/setup-sso-google.html) automated sync processes in Admin Console.
 
 ## User Management Tasks
 
