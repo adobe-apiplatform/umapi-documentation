@@ -379,7 +379,7 @@ Add or remove membership in administrative groups to control administrative righ
  * Support Administrators: `_support_admin` 
  * Deployment Administrators: `_deployment_admin` 
 
- Please note that you cannot assign or remove the administrative role `_org_admin`, `_compartment_admin` or `_compartment_admin` using UMAPI.
+ Please note that you cannot assign or remove the administrative role `_org_admin`, `_compartment_admin` or `_compartment_viewer` using UMAPI.
 
 In addition, there are administrative groups for each user group and product profile. 
   * An administrative group for a product is named with the prefix `_product_admin_` and the product name. For example, `_product_admin_Photoshop`. You should avoid any logic that expects fixed group names as these are liable to change without notice.  
