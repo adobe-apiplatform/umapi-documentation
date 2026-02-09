@@ -24,10 +24,10 @@ __Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttlin
 | Name | Type | Req? | Description |
 | :---- | :--- | :---: | :------ |
 | orgId | path | true | {% include_relative partials/orgIdDescription.md %} |
-| userString | path | true | For [AdobeID](glossary.md#adobeId), [Enterprise](glossary.md#enterpriseId) and _[email-federated](glossary.md#federatedId)_ users this should be the full email address including domain. In all cases the parameter is case-insensitive. [Identity Types](glossary.md#identity) explains the different account types available. |
+| userString | path | true | For [AdobeID](glossary.html#adobeId), [Enterprise](glossary.html#enterpriseId) and _[email-federated](glossary.html#federatedId)_ users this should be the full email address including domain. In all cases the parameter is case-insensitive. [Identity Types](glossary.html#identity) explains the different account types available. |
 | X-Api-Key | header | true | {% include_relative partials/apiKeyDescription.md %} |
 | Authorization | header | true | {% include_relative partials/authorizationDescription.md %} |
-| domain | query | false | Optional parameter but highly recommended including for all user types. For [AdobeID](glossary.md#adobeId) users this would be `AdobeID`. For [Enterprise](glossary.md#enterpriseId) and _[email-federated](glossary.md#federatedId)_ users the domain will either match the email domain or, in the case of multi-domain federations, have any other domain for that directory. |
+| domain | query | false | Optional parameter but highly recommended including for all user types. For [AdobeID](glossary.html#adobeId) users this would be `AdobeID`. For [Enterprise](glossary.html#enterpriseId) and _[email-federated](glossary.html#federatedId)_ users the domain will either match the email domain or, in the case of multi-domain federations, have any other domain for that directory. |
 | content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
 | X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
 {:.bordertablestyle}
@@ -47,7 +47,7 @@ __Content-Type:__ _application/json_
 ### <a name="200getUser" class="api-ref-subtitle">200 OK</a>
 The response body contains the requested user data in JSON format including any of the user's group membership and admin roles. Fields can be missing if values were never supplied or are not applicable for a particular account type.
 
-[Identity Types](glossary.md#identity) explains the different account types available.
+[Identity Types](glossary.html#identity) explains the different account types available.
 
 ### Examples
 <a name="getUserAdminRolesExample" class="api-ref-subtitle">Response for an Adobe ID user with System Administrator role:</a>
@@ -70,7 +70,7 @@ The response body contains the requested user data in JSON format including any 
 }
 ```
 
-<a name="getUserGroupsExample" class="api-ref-subtitle">[Enterprise](glossary.md#enterpriseId) User with membership</a> in two user-groups but no administrative roles. If the fields are not populated (`firstname` and`lastname` in this example), they are excluded from the response.
+<a name="getUserGroupsExample" class="api-ref-subtitle">[Enterprise](glossary.html#enterpriseId) User with membership</a> in two user-groups but no administrative roles. If the fields are not populated (`firstname` and`lastname` in this example), they are excluded from the response.
 ```json
 {
   "result": "success",
@@ -88,7 +88,7 @@ The response body contains the requested user data in JSON format including any 
   }
 }
 ```
-[Federated](glossary.md#federatedId) User with no memberships or administrative roles:
+[Federated](glossary.html#federatedId) User with no memberships or administrative roles:
 ```json
 {
   "result": "success",
@@ -152,19 +152,19 @@ __user:__  A _user_ object containing relevant properties. Properties that are n
 {% include_relative partials/notFound.md object="user" anchor="404getUser" %}
 
 ## <a name="exampleRequests" class="api-ref-subtitle">Example Requests</a>
-Searching by email for [AdobeID](glossary.md#adobeId), [Enterprise](glossary.md#enterpriseId) or [email-federated](glossary.md#federatedId) users:
+Searching by email for [AdobeID](glossary.html#adobeId), [Enterprise](glossary.html#enterpriseId) or [email-federated](glossary.html#federatedId) users:
 ```
 curl -X GET https://usermanagement.adobe.io/v2/usermanagement/organizations/12345@AdobeOrg/users/jdoe@example.com \
   --header 'Authorization: Bearer ey...' \
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
 ```
-Searching for [AdobeID](glossary.md#adobeId) user with domain:
+Searching for [AdobeID](glossary.html#adobeId) user with domain:
 ```
  curl -X GET https://usermanagement.adobe.io/v2/usermanagement/organizations/12345@AdobeOrg/users/jdoe@example.com?domain=AdobeID \
   --header 'Authorization: Bearer ey...' \
   --header 'X-Api-Key: 88ce03094fe74f4d91c2538217d007fe'
 ```
- Searching for [Enterprise](glossary.md#enterpriseId) or [email-federated](glossary.md#federatedId) users with domain parameter included:
+ Searching for [Enterprise](glossary.html#enterpriseId) or [email-federated](glossary.html#federatedId) users with domain parameter included:
 ```
  curl -X GET https://usermanagement.adobe.io/v2/usermanagement/organizations/12345@AdobeOrg/users/jdoe@example.com?domain=example.com \
   --header 'Authorization: Bearer ey...' \

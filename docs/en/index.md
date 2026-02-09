@@ -11,8 +11,9 @@ Welcome to the documentation center for User Management APIs from Adobe.
 
 <h2>News</h2>
 <div class="isa_info">
+<p><strong>Feb 6, 2026</strong>: The fix from Feb 3 to correctly resolve user type as `unknown` when the account shows as "Not available" in Admin Console has been reverted due to an issue impacting User Sync Tool customers. A new date for this fix will be announced in the near future.</p>
 <hr class="api-ref-rule">
-<p><strong>Feb 3, 2026</strong>: Deployment scheduled to fix the wrong identity type showing for imapcted Business IDs that lost their auth account through permanent removal in the main (domain owning) Organisation. The previous type was showing "adobeID" and now it shows "unknown".
+<p><strong>Feb 3, 2026</strong>: Deployment scheduled to fix the wrong identity type showing for impacted Business IDs that lost their auth account through permanent removal in the main (domain owning) Organisation. The previous type was showing "adobeID" and now it shows "unknown".
 If an extraction of users in the Admin Console is made, then the resulting csv will show the impacted accounts on the <i>Identity type</i> column the question mark sign, instead of one of the known identity types: Adobe ID, Federated ID, Enterprise ID.
 <hr class="api-ref-rule">
 <p><strong>October 27, 2025</strong>: As previously notified, UMAPI no longer returns "tags" information for the following APIs:</p>
