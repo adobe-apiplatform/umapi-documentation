@@ -30,6 +30,7 @@ __Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttlin
 | domain | query | false | Optional parameter but highly recommended including for all user types. For [AdobeID](glossary.html#adobeId) users this would be `AdobeID`. For [Enterprise](glossary.html#enterpriseId) and _[email-federated](glossary.html#federatedId)_ users the domain will either match the email domain or, in the case of multi-domain federations, have any other domain for that directory. |
 | content-type | header | false | {% include_relative partials/contentTypeDescription.md %} |
 | X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
+| X-UMAPI-Usertype-Unknown | header | false | Set this to `true` if you need the `type` field to return `unknown` |
 {:.bordertablestyle}
 
 ## <a name="responses" class="api-ref-subtitle">Responses</a>
