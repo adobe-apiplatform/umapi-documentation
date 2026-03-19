@@ -11,6 +11,8 @@ Welcome to the documentation center for User Management APIs from Adobe.
 
 <h2>News</h2>
 <div class="isa_info">
+<p><strong>Mar 16, 2026</strong>: If you need to resolve a user type to `unknown` rather than one of `Adobe ID`, `Federated ID`, `Enterprise ID`, you can now pass in a header value `X-UMAPI-Usertype-Unknown: true`. This will then ensure that for those users who show as "Not available" can be correctly distinguished, without changing the current expectations of clients.</p>
+<hr class="api-ref-rule">
 <p><strong>Feb 6, 2026</strong>: The fix from Feb 3 to correctly resolve user type as `unknown` when the account shows as "Not available" in Admin Console has been reverted due to an issue impacting User Sync Tool customers. A new date for this fix will be announced in the near future.</p>
 <hr class="api-ref-rule">
 <p><strong>Feb 3, 2026</strong>: Deployment scheduled to fix the wrong identity type showing for impacted Business IDs that lost their auth account through permanent removal in the main (domain owning) Organisation. The previous type was showing "adobeID" and now it shows "unknown".

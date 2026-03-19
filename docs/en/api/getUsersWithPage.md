@@ -34,6 +34,7 @@ __Throttle Limits__: Maximum 25 requests per minute per a client. See [Throttlin
 | X-Request-Id | header | false | {% include_relative partials/requestIdDescription.md %} |
 | domain | query | false | Retrieves users from a domain linked to an organization through the Trusted Domain relationship. |
 | directOnly | query | false | {% include_relative partials/directOnlyDescription.md %} |
+| X-UMAPI-Usertype-Unknown | header | false | Set this to `true` if you need the user `type` field to return `unknown` |
 {:.bordertablestyle}
 
 ## <a name="responses" class="api-ref-subtitle">Responses</a>
