@@ -30,6 +30,9 @@ Documentation:
 import json
 import requests
 
+from random import randint
+from time import sleep
+
 # access token obtained via OAuth S2S workflow
 ACCESS_TOKEN = ''
 CLIENT_ID = ''
